@@ -1,8 +1,5 @@
 node_modules
-dist
+# Keep environment variables out of version control
 .env
-.prisma
-npm-debug.log*
-.DS_Store
-.idea
-.vscode
+
+/generated/prisma

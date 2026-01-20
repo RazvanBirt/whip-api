@@ -1,14 +1,102 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider   = "prisma-client"
+  output     = "../src/generated/prisma"
+  engineType = "client"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model CarModel {
+  id         Int     @id @default(autoincrement())
+  make       String
+  modelName  String
+  generation String?
+  yearStart  Int?
+  yearEnd    Int?
+  bodyStyle  String?
+
+  // Relations
+  modelEngines ModelEngine[]
+
+  @@unique([make, modelName, generation, yearStart])
+}
+
+model EngineConfiguration {
+  id               Int     @id @default(autoincrement())
+  code             String? // e.g. engine code like "2ZR-FE"
+  fuelType         String // e.g. "Petrol", "Diesel", "Hybrid", "EV"
+  displacementCc   Int? // in cubic centimeters
+  cylinders        Int?
+  aspiration       String? // e.g. "NA", "Turbo"
+  powerHp          Int?
+  torqueNm         Int?
+  transmissionType String? // e.g. "Manual", "Automatic"
+  drivetrain       String? // e.g. "FWD", "RWD", "AWD"
+
+  // Relations
+  modelEngines ModelEngine[]
+}
+
+model ModelEngine {
+  id                    Int     @id @default(autoincrement())
+  carModelId            Int
+  engineConfigurationId Int
+  trimName              String?
+  yearStart             Int?
+  yearEnd               Int?
+
+  // Relations
+  carModel            CarModel            @relation(fields: [carModelId], references: [id], onDelete: Cascade)
+  engineConfiguration EngineConfiguration @relation(fields: [engineConfigurationId], references: [id], onDelete: Restrict)
+  userCars            UserCar[]
+
+  @@unique([carModelId, engineConfigurationId, trimName, yearStart])
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  displayName  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  cars     UserCar[]
+  settings UserSetting[]
+}
+
+model UserCar {
+  id            Int @id @default(autoincrement())
+  userId        Int
+  modelEngineId Int
+
+  nickname     String?
+  year         Int?
+  vin          String?
+  licensePlate String?
+  color        String?
+  mileageKm    Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  modelEngine ModelEngine @relation(fields: [modelEngineId], references: [id], onDelete: Restrict)
+}
+
+model UserSetting {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  settingKey   String
+  settingValue Json? // use Json to allow flexible structure
+  updatedAt    DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, settingKey])
 }
