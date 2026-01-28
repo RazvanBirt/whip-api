@@ -12,15 +12,15 @@
  */
 
 import * as runtime from "@prisma/client/runtime/client"
-import type * as Prisma from "./prismaNamespace.js"
+import type * as Prisma from "./prismaNamespace"
 
 
 const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
-  "clientVersion": "7.1.0",
-  "engineVersion": "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba",
+  "clientVersion": "7.3.0",
+  "engineVersion": "9d6ad21cbbceab97458517b147a6a09ff43aa735",
   "activeProvider": "postgresql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel CarModel {\n  id         Int     @id @default(autoincrement())\n  make       String\n  modelName  String\n  generation String?\n  yearStart  Int?\n  yearEnd    Int?\n  bodyStyle  String?\n\n  // Relations\n  modelEngines ModelEngine[]\n\n  @@unique([make, modelName, generation, yearStart])\n}\n\nmodel EngineConfiguration {\n  id               Int     @id @default(autoincrement())\n  code             String? // e.g. engine code like \"2ZR-FE\"\n  fuelType         String // e.g. \"Petrol\", \"Diesel\", \"Hybrid\", \"EV\"\n  displacementCc   Int? // in cubic centimeters\n  cylinders        Int?\n  aspiration       String? // e.g. \"NA\", \"Turbo\"\n  powerHp          Int?\n  torqueNm         Int?\n  transmissionType String? // e.g. \"Manual\", \"Automatic\"\n  drivetrain       String? // e.g. \"FWD\", \"RWD\", \"AWD\"\n\n  // Relations\n  modelEngines ModelEngine[]\n}\n\nmodel ModelEngine {\n  id                    Int     @id @default(autoincrement())\n  carModelId            Int\n  engineConfigurationId Int\n  trimName              String?\n  yearStart             Int?\n  yearEnd               Int?\n\n  // Relations\n  carModel            CarModel            @relation(fields: [carModelId], references: [id], onDelete: Cascade)\n  engineConfiguration EngineConfiguration @relation(fields: [engineConfigurationId], references: [id], onDelete: Restrict)\n  userCars            UserCar[]\n\n  @@unique([carModelId, engineConfigurationId, trimName, yearStart])\n}\n\nmodel User {\n  id           Int      @id @default(autoincrement())\n  email        String   @unique\n  passwordHash String\n  displayName  String?\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n\n  // Relations\n  cars     UserCar[]\n  settings UserSetting[]\n}\n\nmodel UserCar {\n  id            Int @id @default(autoincrement())\n  userId        Int\n  modelEngineId Int\n\n  nickname     String?\n  year         Int?\n  vin          String?\n  licensePlate String?\n  color        String?\n  mileageKm    Int?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)\n  modelEngine ModelEngine @relation(fields: [modelEngineId], references: [id], onDelete: Restrict)\n}\n\nmodel UserSetting {\n  id           Int      @id @default(autoincrement())\n  userId       Int\n  settingKey   String\n  settingValue Json? // use Json to allow flexible structure\n  updatedAt    DateTime @default(now())\n\n  // Relations\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, settingKey])\n}\n",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../generated/prisma-client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel CarModel {\n  id         Int     @id @default(autoincrement())\n  make       String\n  modelName  String\n  generation String?\n  yearStart  Int?\n  yearEnd    Int?\n  bodyStyle  String?\n\n  // Relations\n  modelEngines ModelEngine[]\n\n  @@unique([make, modelName, generation, yearStart])\n}\n\nmodel EngineConfiguration {\n  id               Int     @id @default(autoincrement())\n  code             String? // e.g. engine code like \"2ZR-FE\"\n  fuelType         String // e.g. \"Petrol\", \"Diesel\", \"Hybrid\", \"EV\"\n  displacementCc   Int? // in cubic centimeters\n  cylinders        Int?\n  aspiration       String? // e.g. \"NA\", \"Turbo\"\n  powerHp          Int?\n  torqueNm         Int?\n  transmissionType String? // e.g. \"Manual\", \"Automatic\"\n  drivetrain       String? // e.g. \"FWD\", \"RWD\", \"AWD\"\n\n  // Relations\n  modelEngines ModelEngine[]\n}\n\nmodel ModelEngine {\n  id                    Int     @id @default(autoincrement())\n  carModelId            Int\n  engineConfigurationId Int\n  trimName              String?\n  yearStart             Int?\n  yearEnd               Int?\n\n  // Relations\n  carModel            CarModel            @relation(fields: [carModelId], references: [id], onDelete: Cascade)\n  engineConfiguration EngineConfiguration @relation(fields: [engineConfigurationId], references: [id], onDelete: Restrict)\n  userCars            UserCar[]\n\n  @@unique([carModelId, engineConfigurationId, trimName, yearStart])\n}\n\nmodel User {\n  id           Int      @id @default(autoincrement())\n  email        String   @unique\n  passwordHash String\n  displayName  String?\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n\n  // Relations\n  cars     UserCar[]\n  settings UserSetting[]\n}\n\nmodel UserCar {\n  id            Int @id @default(autoincrement())\n  userId        Int\n  modelEngineId Int\n\n  nickname     String?\n  year         Int?\n  vin          String?\n  licensePlate String?\n  color        String?\n  mileageKm    Int?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Relations\n  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)\n  modelEngine ModelEngine @relation(fields: [modelEngineId], references: [id], onDelete: Restrict)\n}\n\nmodel UserSetting {\n  id           Int      @id @default(autoincrement())\n  userId       Int\n  settingKey   String\n  settingValue Json? // use Json to allow flexible structure\n  updatedAt    DateTime @default(now())\n\n  // Relations\n  user User @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, settingKey])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -37,12 +37,14 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.js"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.js")
     return await decodeBase64AsWasm(wasm)
-  }
+  },
+
+  importName: "./query_compiler_fast_bg.js"
 }
 
 

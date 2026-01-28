@@ -1,8 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import { PrismaClient } from '../../generated/prisma/client';
-
 import { prisma } from '../../config/prisma';
 const SECRET = process.env.JWT_SECRET ?? '';
 

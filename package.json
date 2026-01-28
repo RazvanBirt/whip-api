@@ -5,8 +5,8 @@
   "scripts": {
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint . --ext .ts,.js --fix",
-    "start": "node src/app.ts",
-    "dev": "nodemon",
+    "start": "node -r ts-node/register/transpile-only src/app.ts",
+    "dev": "nodemon --watch src --ext ts --exec \"node -r ts-node/register/transpile-only\" src/app.ts",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
