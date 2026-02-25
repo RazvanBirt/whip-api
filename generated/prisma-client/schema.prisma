@@ -8,25 +8,26 @@ datasource db {
 }
 
 // =========================
-// CORE CATALOG
+// CORE CATALOG (Clio-style)
 // Make -> Model -> Generation -> Phase -> BodyVariant -> Version -> VersionConfig -> SpecSheet
 // =========================
 
 model Make {
   id        String  @id @default(uuid()) @db.Uuid
-  name      String  @unique
-  country   String
+  name      String
+  country   String?
   imageURL  String?
   imagePath String?
 
   models Model[]
 
+  @@unique([name])
 }
 
 model Model {
   id     String @id @default(uuid()) @db.Uuid
   makeId String @db.Uuid
-  name   String @unique
+  name   String
 
   make Make @relation(fields: [makeId], references: [id], onDelete: Cascade)
 
@@ -40,7 +41,7 @@ model Generation {
   id        String @id @default(uuid()) @db.Uuid
   modelId   String @db.Uuid
   name      String // e.g. "Clio 3"
-  startYear Int
+  startYear Int?
   endYear   Int? // null = present
 
   model Model @relation(fields: [modelId], references: [id], onDelete: Cascade)
@@ -82,7 +83,7 @@ model BodyVariant {
   // More specific than BodyType:
   // e.g. "3 Doors", "5 Doors", "Grand Tour", "Sport Tourer"
   name        String
-  doors       Int
+  doors       Int?
   wheelbaseMm Int?
   notes       String?
 
@@ -121,7 +122,8 @@ model VersionConfig {
   id        String @id @default(uuid()) @db.Uuid
   versionId String @db.Uuid
 
-  year Int
+  // Some sites have specs per year; keep optional.
+  year Int?
 
   // Configuration links to your catalog tables
   engineId       String? @db.Uuid
@@ -200,8 +202,8 @@ model Engine {
 
 model Transmission {
   id    String  @id @default(uuid()) @db.Uuid
-  type  String  @unique
-  gears Int
+  type  String?
+  gears Int?
 
   versionConfigs VersionConfig[]
   userCars       UserCar[]
@@ -211,7 +213,7 @@ model Transmission {
 
 model Drivetrain {
   id          String  @id @default(uuid()) @db.Uuid
-  type        String  @unique
+  type        String?
   description String?
 
   versionConfigs VersionConfig[]

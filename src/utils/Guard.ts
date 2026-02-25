@@ -15,4 +15,10 @@ export class Guard {
         }
         return { succeeded: true };
     }
+
+    static againstNullOrWhiteSpace(value: any, name: string): GuardResult {
+        if (value === null || value === undefined) return { succeeded: false, argumentName: name };
+        if (typeof value === "string" && value.trim().length === 0) return { succeeded: false, argumentName: name };
+        return { succeeded: true };
+    }
 }

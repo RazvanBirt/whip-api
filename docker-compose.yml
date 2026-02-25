@@ -1,17 +1,18 @@
-version: '3.8'
+version: "3.9"
 
 services:
   postgres:
     image: postgres
+    container_name: whip-postgres
     restart: always
-    environment:
-      POSTGRES_DB: whip
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    environment:
+      POSTGRES_USER: whipuser
+      POSTGRES_PASSWORD: whipuser_password
+      POSTGRES_DB: whip_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data:
