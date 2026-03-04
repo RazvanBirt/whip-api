@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-const ACCESS_SECRET = process.env.JWT_SECRET ?? "";
+const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET ?? "";
 
 export type AuthedRequest = Request & { user?: { id: string; email: string } };
 
 //TODO: put this file into middlewares folder
 export function requireAuth(req: AuthedRequest, res: Response, next: NextFunction) {
   try {
+    console.log("Authorization header:", req.headers.authorization);
     const header = req.headers.authorization;
     if (!header?.startsWith("Bearer ")) {
       res.status(401).json({ error: "Missing Authorization header" });

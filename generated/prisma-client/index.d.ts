@@ -2888,7 +2888,7 @@ export namespace Prisma {
   export type MakeGroupByOutputType = {
     id: string
     name: string
-    country: string | null
+    country: string
     imageURL: string | null
     imagePath: string | null
     _count: MakeCountAggregateOutputType | null
@@ -2960,7 +2960,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
-      country: string | null
+      country: string
       imageURL: string | null
       imagePath: string | null
     }, ExtArgs["result"]["make"]>
@@ -5057,7 +5057,7 @@ export namespace Prisma {
     id: string
     modelId: string
     name: string
-    startYear: number | null
+    startYear: number
     endYear: number | null
     _count: GenerationCountAggregateOutputType | null
     _avg: GenerationAvgAggregateOutputType | null
@@ -5143,7 +5143,7 @@ export namespace Prisma {
       id: string
       modelId: string
       name: string
-      startYear: number | null
+      startYear: number
       endYear: number | null
     }, ExtArgs["result"]["generation"]>
     composites: {}
@@ -8381,7 +8381,7 @@ export namespace Prisma {
     generationId: string
     bodyTypeId: string
     name: string
-    doors: number | null
+    doors: number
     wheelbaseMm: number | null
     notes: string | null
     _count: BodyVariantCountAggregateOutputType | null
@@ -8481,7 +8481,7 @@ export namespace Prisma {
       generationId: string
       bodyTypeId: string
       name: string
-      doors: number | null
+      doors: number
       wheelbaseMm: number | null
       notes: string | null
     }, ExtArgs["result"]["bodyVariant"]>
@@ -10695,7 +10695,7 @@ export namespace Prisma {
   export type VersionConfigGroupByOutputType = {
     id: string
     versionId: string
-    year: number | null
+    year: number
     engineId: string | null
     transmissionId: string | null
     drivetrainId: string | null
@@ -10807,7 +10807,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       versionId: string
-      year: number | null
+      year: number
       engineId: string | null
       transmissionId: string | null
       drivetrainId: string | null
@@ -14437,8 +14437,8 @@ export namespace Prisma {
 
   export type TransmissionGroupByOutputType = {
     id: string
-    type: string | null
-    gears: number | null
+    type: string
+    gears: number
     _count: TransmissionCountAggregateOutputType | null
     _avg: TransmissionAvgAggregateOutputType | null
     _sum: TransmissionSumAggregateOutputType | null
@@ -14504,8 +14504,8 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      type: string | null
-      gears: number | null
+      type: string
+      gears: number
     }, ExtArgs["result"]["transmission"]>
     composites: {}
   }
@@ -15152,7 +15152,7 @@ export namespace Prisma {
     /**
      * The data needed to create a Transmission.
      */
-    data?: XOR<TransmissionCreateInput, TransmissionUncheckedCreateInput>
+    data: XOR<TransmissionCreateInput, TransmissionUncheckedCreateInput>
   }
 
   /**
@@ -15511,7 +15511,7 @@ export namespace Prisma {
 
   export type DrivetrainGroupByOutputType = {
     id: string
-    type: string | null
+    type: string
     description: string | null
     _count: DrivetrainCountAggregateOutputType | null
     _min: DrivetrainMinAggregateOutputType | null
@@ -15576,7 +15576,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      type: string | null
+      type: string
       description: string | null
     }, ExtArgs["result"]["drivetrain"]>
     composites: {}
@@ -16224,7 +16224,7 @@ export namespace Prisma {
     /**
      * The data needed to create a Drivetrain.
      */
-    data?: XOR<DrivetrainCreateInput, DrivetrainUncheckedCreateInput>
+    data: XOR<DrivetrainCreateInput, DrivetrainUncheckedCreateInput>
   }
 
   /**
@@ -22458,7 +22458,7 @@ export namespace Prisma {
     NOT?: MakeWhereInput | MakeWhereInput[]
     id?: UuidFilter<"Make"> | string
     name?: StringFilter<"Make"> | string
-    country?: StringNullableFilter<"Make"> | string | null
+    country?: StringFilter<"Make"> | string
     imageURL?: StringNullableFilter<"Make"> | string | null
     imagePath?: StringNullableFilter<"Make"> | string | null
     models?: ModelListRelationFilter
@@ -22467,7 +22467,7 @@ export namespace Prisma {
   export type MakeOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    country?: SortOrderInput | SortOrder
+    country?: SortOrder
     imageURL?: SortOrderInput | SortOrder
     imagePath?: SortOrderInput | SortOrder
     models?: ModelOrderByRelationAggregateInput
@@ -22479,7 +22479,7 @@ export namespace Prisma {
     AND?: MakeWhereInput | MakeWhereInput[]
     OR?: MakeWhereInput[]
     NOT?: MakeWhereInput | MakeWhereInput[]
-    country?: StringNullableFilter<"Make"> | string | null
+    country?: StringFilter<"Make"> | string
     imageURL?: StringNullableFilter<"Make"> | string | null
     imagePath?: StringNullableFilter<"Make"> | string | null
     models?: ModelListRelationFilter
@@ -22488,7 +22488,7 @@ export namespace Prisma {
   export type MakeOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    country?: SortOrderInput | SortOrder
+    country?: SortOrder
     imageURL?: SortOrderInput | SortOrder
     imagePath?: SortOrderInput | SortOrder
     _count?: MakeCountOrderByAggregateInput
@@ -22502,7 +22502,7 @@ export namespace Prisma {
     NOT?: MakeScalarWhereWithAggregatesInput | MakeScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Make"> | string
     name?: StringWithAggregatesFilter<"Make"> | string
-    country?: StringNullableWithAggregatesFilter<"Make"> | string | null
+    country?: StringWithAggregatesFilter<"Make"> | string
     imageURL?: StringNullableWithAggregatesFilter<"Make"> | string | null
     imagePath?: StringNullableWithAggregatesFilter<"Make"> | string | null
   }
@@ -22528,15 +22528,15 @@ export namespace Prisma {
 
   export type ModelWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     makeId_name?: ModelMakeIdNameCompoundUniqueInput
     AND?: ModelWhereInput | ModelWhereInput[]
     OR?: ModelWhereInput[]
     NOT?: ModelWhereInput | ModelWhereInput[]
     makeId?: UuidFilter<"Model"> | string
-    name?: StringFilter<"Model"> | string
     make?: XOR<MakeScalarRelationFilter, MakeWhereInput>
     generations?: GenerationListRelationFilter
-  }, "id" | "makeId_name">
+  }, "id" | "name" | "makeId_name">
 
   export type ModelOrderByWithAggregationInput = {
     id?: SortOrder
@@ -22563,7 +22563,7 @@ export namespace Prisma {
     id?: UuidFilter<"Generation"> | string
     modelId?: UuidFilter<"Generation"> | string
     name?: StringFilter<"Generation"> | string
-    startYear?: IntNullableFilter<"Generation"> | number | null
+    startYear?: IntFilter<"Generation"> | number
     endYear?: IntNullableFilter<"Generation"> | number | null
     model?: XOR<ModelScalarRelationFilter, ModelWhereInput>
     phases?: PhaseListRelationFilter
@@ -22574,7 +22574,7 @@ export namespace Prisma {
     id?: SortOrder
     modelId?: SortOrder
     name?: SortOrder
-    startYear?: SortOrderInput | SortOrder
+    startYear?: SortOrder
     endYear?: SortOrderInput | SortOrder
     model?: ModelOrderByWithRelationInput
     phases?: PhaseOrderByRelationAggregateInput
@@ -22589,7 +22589,7 @@ export namespace Prisma {
     NOT?: GenerationWhereInput | GenerationWhereInput[]
     modelId?: UuidFilter<"Generation"> | string
     name?: StringFilter<"Generation"> | string
-    startYear?: IntNullableFilter<"Generation"> | number | null
+    startYear?: IntFilter<"Generation"> | number
     endYear?: IntNullableFilter<"Generation"> | number | null
     model?: XOR<ModelScalarRelationFilter, ModelWhereInput>
     phases?: PhaseListRelationFilter
@@ -22600,7 +22600,7 @@ export namespace Prisma {
     id?: SortOrder
     modelId?: SortOrder
     name?: SortOrder
-    startYear?: SortOrderInput | SortOrder
+    startYear?: SortOrder
     endYear?: SortOrderInput | SortOrder
     _count?: GenerationCountOrderByAggregateInput
     _avg?: GenerationAvgOrderByAggregateInput
@@ -22616,7 +22616,7 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"Generation"> | string
     modelId?: UuidWithAggregatesFilter<"Generation"> | string
     name?: StringWithAggregatesFilter<"Generation"> | string
-    startYear?: IntNullableWithAggregatesFilter<"Generation"> | number | null
+    startYear?: IntWithAggregatesFilter<"Generation"> | number
     endYear?: IntNullableWithAggregatesFilter<"Generation"> | number | null
   }
 
@@ -22729,7 +22729,7 @@ export namespace Prisma {
     generationId?: UuidFilter<"BodyVariant"> | string
     bodyTypeId?: UuidFilter<"BodyVariant"> | string
     name?: StringFilter<"BodyVariant"> | string
-    doors?: IntNullableFilter<"BodyVariant"> | number | null
+    doors?: IntFilter<"BodyVariant"> | number
     wheelbaseMm?: IntNullableFilter<"BodyVariant"> | number | null
     notes?: StringNullableFilter<"BodyVariant"> | string | null
     generation?: XOR<GenerationScalarRelationFilter, GenerationWhereInput>
@@ -22742,7 +22742,7 @@ export namespace Prisma {
     generationId?: SortOrder
     bodyTypeId?: SortOrder
     name?: SortOrder
-    doors?: SortOrderInput | SortOrder
+    doors?: SortOrder
     wheelbaseMm?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     generation?: GenerationOrderByWithRelationInput
@@ -22759,7 +22759,7 @@ export namespace Prisma {
     generationId?: UuidFilter<"BodyVariant"> | string
     bodyTypeId?: UuidFilter<"BodyVariant"> | string
     name?: StringFilter<"BodyVariant"> | string
-    doors?: IntNullableFilter<"BodyVariant"> | number | null
+    doors?: IntFilter<"BodyVariant"> | number
     wheelbaseMm?: IntNullableFilter<"BodyVariant"> | number | null
     notes?: StringNullableFilter<"BodyVariant"> | string | null
     generation?: XOR<GenerationScalarRelationFilter, GenerationWhereInput>
@@ -22772,7 +22772,7 @@ export namespace Prisma {
     generationId?: SortOrder
     bodyTypeId?: SortOrder
     name?: SortOrder
-    doors?: SortOrderInput | SortOrder
+    doors?: SortOrder
     wheelbaseMm?: SortOrderInput | SortOrder
     notes?: SortOrderInput | SortOrder
     _count?: BodyVariantCountOrderByAggregateInput
@@ -22790,7 +22790,7 @@ export namespace Prisma {
     generationId?: UuidWithAggregatesFilter<"BodyVariant"> | string
     bodyTypeId?: UuidWithAggregatesFilter<"BodyVariant"> | string
     name?: StringWithAggregatesFilter<"BodyVariant"> | string
-    doors?: IntNullableWithAggregatesFilter<"BodyVariant"> | number | null
+    doors?: IntWithAggregatesFilter<"BodyVariant"> | number
     wheelbaseMm?: IntNullableWithAggregatesFilter<"BodyVariant"> | number | null
     notes?: StringNullableWithAggregatesFilter<"BodyVariant"> | string | null
   }
@@ -22870,7 +22870,7 @@ export namespace Prisma {
     NOT?: VersionConfigWhereInput | VersionConfigWhereInput[]
     id?: UuidFilter<"VersionConfig"> | string
     versionId?: UuidFilter<"VersionConfig"> | string
-    year?: IntNullableFilter<"VersionConfig"> | number | null
+    year?: IntFilter<"VersionConfig"> | number
     engineId?: UuidNullableFilter<"VersionConfig"> | string | null
     transmissionId?: UuidNullableFilter<"VersionConfig"> | string | null
     drivetrainId?: UuidNullableFilter<"VersionConfig"> | string | null
@@ -22885,7 +22885,7 @@ export namespace Prisma {
   export type VersionConfigOrderByWithRelationInput = {
     id?: SortOrder
     versionId?: SortOrder
-    year?: SortOrderInput | SortOrder
+    year?: SortOrder
     engineId?: SortOrderInput | SortOrder
     transmissionId?: SortOrderInput | SortOrder
     drivetrainId?: SortOrderInput | SortOrder
@@ -22904,7 +22904,7 @@ export namespace Prisma {
     OR?: VersionConfigWhereInput[]
     NOT?: VersionConfigWhereInput | VersionConfigWhereInput[]
     versionId?: UuidFilter<"VersionConfig"> | string
-    year?: IntNullableFilter<"VersionConfig"> | number | null
+    year?: IntFilter<"VersionConfig"> | number
     engineId?: UuidNullableFilter<"VersionConfig"> | string | null
     transmissionId?: UuidNullableFilter<"VersionConfig"> | string | null
     drivetrainId?: UuidNullableFilter<"VersionConfig"> | string | null
@@ -22919,7 +22919,7 @@ export namespace Prisma {
   export type VersionConfigOrderByWithAggregationInput = {
     id?: SortOrder
     versionId?: SortOrder
-    year?: SortOrderInput | SortOrder
+    year?: SortOrder
     engineId?: SortOrderInput | SortOrder
     transmissionId?: SortOrderInput | SortOrder
     drivetrainId?: SortOrderInput | SortOrder
@@ -22936,7 +22936,7 @@ export namespace Prisma {
     NOT?: VersionConfigScalarWhereWithAggregatesInput | VersionConfigScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"VersionConfig"> | string
     versionId?: UuidWithAggregatesFilter<"VersionConfig"> | string
-    year?: IntNullableWithAggregatesFilter<"VersionConfig"> | number | null
+    year?: IntWithAggregatesFilter<"VersionConfig"> | number
     engineId?: UuidNullableWithAggregatesFilter<"VersionConfig"> | string | null
     transmissionId?: UuidNullableWithAggregatesFilter<"VersionConfig"> | string | null
     drivetrainId?: UuidNullableWithAggregatesFilter<"VersionConfig"> | string | null
@@ -23154,36 +23154,36 @@ export namespace Prisma {
     OR?: TransmissionWhereInput[]
     NOT?: TransmissionWhereInput | TransmissionWhereInput[]
     id?: UuidFilter<"Transmission"> | string
-    type?: StringNullableFilter<"Transmission"> | string | null
-    gears?: IntNullableFilter<"Transmission"> | number | null
+    type?: StringFilter<"Transmission"> | string
+    gears?: IntFilter<"Transmission"> | number
     versionConfigs?: VersionConfigListRelationFilter
     userCars?: UserCarListRelationFilter
   }
 
   export type TransmissionOrderByWithRelationInput = {
     id?: SortOrder
-    type?: SortOrderInput | SortOrder
-    gears?: SortOrderInput | SortOrder
+    type?: SortOrder
+    gears?: SortOrder
     versionConfigs?: VersionConfigOrderByRelationAggregateInput
     userCars?: UserCarOrderByRelationAggregateInput
   }
 
   export type TransmissionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    type?: string
     type_gears?: TransmissionTypeGearsCompoundUniqueInput
     AND?: TransmissionWhereInput | TransmissionWhereInput[]
     OR?: TransmissionWhereInput[]
     NOT?: TransmissionWhereInput | TransmissionWhereInput[]
-    type?: StringNullableFilter<"Transmission"> | string | null
-    gears?: IntNullableFilter<"Transmission"> | number | null
+    gears?: IntFilter<"Transmission"> | number
     versionConfigs?: VersionConfigListRelationFilter
     userCars?: UserCarListRelationFilter
-  }, "id" | "type_gears">
+  }, "id" | "type" | "type_gears">
 
   export type TransmissionOrderByWithAggregationInput = {
     id?: SortOrder
-    type?: SortOrderInput | SortOrder
-    gears?: SortOrderInput | SortOrder
+    type?: SortOrder
+    gears?: SortOrder
     _count?: TransmissionCountOrderByAggregateInput
     _avg?: TransmissionAvgOrderByAggregateInput
     _max?: TransmissionMaxOrderByAggregateInput
@@ -23196,8 +23196,8 @@ export namespace Prisma {
     OR?: TransmissionScalarWhereWithAggregatesInput[]
     NOT?: TransmissionScalarWhereWithAggregatesInput | TransmissionScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Transmission"> | string
-    type?: StringNullableWithAggregatesFilter<"Transmission"> | string | null
-    gears?: IntNullableWithAggregatesFilter<"Transmission"> | number | null
+    type?: StringWithAggregatesFilter<"Transmission"> | string
+    gears?: IntWithAggregatesFilter<"Transmission"> | number
   }
 
   export type DrivetrainWhereInput = {
@@ -23205,7 +23205,7 @@ export namespace Prisma {
     OR?: DrivetrainWhereInput[]
     NOT?: DrivetrainWhereInput | DrivetrainWhereInput[]
     id?: UuidFilter<"Drivetrain"> | string
-    type?: StringNullableFilter<"Drivetrain"> | string | null
+    type?: StringFilter<"Drivetrain"> | string
     description?: StringNullableFilter<"Drivetrain"> | string | null
     versionConfigs?: VersionConfigListRelationFilter
     userCars?: UserCarListRelationFilter
@@ -23213,7 +23213,7 @@ export namespace Prisma {
 
   export type DrivetrainOrderByWithRelationInput = {
     id?: SortOrder
-    type?: SortOrderInput | SortOrder
+    type?: SortOrder
     description?: SortOrderInput | SortOrder
     versionConfigs?: VersionConfigOrderByRelationAggregateInput
     userCars?: UserCarOrderByRelationAggregateInput
@@ -23221,19 +23221,19 @@ export namespace Prisma {
 
   export type DrivetrainWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    type?: string
     type_description?: DrivetrainTypeDescriptionCompoundUniqueInput
     AND?: DrivetrainWhereInput | DrivetrainWhereInput[]
     OR?: DrivetrainWhereInput[]
     NOT?: DrivetrainWhereInput | DrivetrainWhereInput[]
-    type?: StringNullableFilter<"Drivetrain"> | string | null
     description?: StringNullableFilter<"Drivetrain"> | string | null
     versionConfigs?: VersionConfigListRelationFilter
     userCars?: UserCarListRelationFilter
-  }, "id" | "type_description">
+  }, "id" | "type" | "type_description">
 
   export type DrivetrainOrderByWithAggregationInput = {
     id?: SortOrder
-    type?: SortOrderInput | SortOrder
+    type?: SortOrder
     description?: SortOrderInput | SortOrder
     _count?: DrivetrainCountOrderByAggregateInput
     _max?: DrivetrainMaxOrderByAggregateInput
@@ -23245,7 +23245,7 @@ export namespace Prisma {
     OR?: DrivetrainScalarWhereWithAggregatesInput[]
     NOT?: DrivetrainScalarWhereWithAggregatesInput | DrivetrainScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Drivetrain"> | string
-    type?: StringNullableWithAggregatesFilter<"Drivetrain"> | string | null
+    type?: StringWithAggregatesFilter<"Drivetrain"> | string
     description?: StringNullableWithAggregatesFilter<"Drivetrain"> | string | null
   }
 
@@ -23606,7 +23606,7 @@ export namespace Prisma {
   export type MakeCreateInput = {
     id?: string
     name: string
-    country?: string | null
+    country: string
     imageURL?: string | null
     imagePath?: string | null
     models?: ModelCreateNestedManyWithoutMakeInput
@@ -23615,7 +23615,7 @@ export namespace Prisma {
   export type MakeUncheckedCreateInput = {
     id?: string
     name: string
-    country?: string | null
+    country: string
     imageURL?: string | null
     imagePath?: string | null
     models?: ModelUncheckedCreateNestedManyWithoutMakeInput
@@ -23624,7 +23624,7 @@ export namespace Prisma {
   export type MakeUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    country?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
     imageURL?: NullableStringFieldUpdateOperationsInput | string | null
     imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     models?: ModelUpdateManyWithoutMakeNestedInput
@@ -23633,7 +23633,7 @@ export namespace Prisma {
   export type MakeUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    country?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
     imageURL?: NullableStringFieldUpdateOperationsInput | string | null
     imagePath?: NullableStringFieldUpdateOperationsInput | string | null
     models?: ModelUncheckedUpdateManyWithoutMakeNestedInput
@@ -23642,7 +23642,7 @@ export namespace Prisma {
   export type MakeCreateManyInput = {
     id?: string
     name: string
-    country?: string | null
+    country: string
     imageURL?: string | null
     imagePath?: string | null
   }
@@ -23650,7 +23650,7 @@ export namespace Prisma {
   export type MakeUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    country?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
     imageURL?: NullableStringFieldUpdateOperationsInput | string | null
     imagePath?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -23658,7 +23658,7 @@ export namespace Prisma {
   export type MakeUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    country?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
     imageURL?: NullableStringFieldUpdateOperationsInput | string | null
     imagePath?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -23711,7 +23711,7 @@ export namespace Prisma {
   export type GenerationCreateInput = {
     id?: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
     model: ModelCreateNestedOneWithoutGenerationsInput
     phases?: PhaseCreateNestedManyWithoutGenerationInput
@@ -23722,7 +23722,7 @@ export namespace Prisma {
     id?: string
     modelId: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
     phases?: PhaseUncheckedCreateNestedManyWithoutGenerationInput
     bodyVariants?: BodyVariantUncheckedCreateNestedManyWithoutGenerationInput
@@ -23731,7 +23731,7 @@ export namespace Prisma {
   export type GenerationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
     model?: ModelUpdateOneRequiredWithoutGenerationsNestedInput
     phases?: PhaseUpdateManyWithoutGenerationNestedInput
@@ -23742,7 +23742,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     modelId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
     phases?: PhaseUncheckedUpdateManyWithoutGenerationNestedInput
     bodyVariants?: BodyVariantUncheckedUpdateManyWithoutGenerationNestedInput
@@ -23752,14 +23752,14 @@ export namespace Prisma {
     id?: string
     modelId: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
   }
 
   export type GenerationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -23767,7 +23767,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     modelId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -23872,7 +23872,7 @@ export namespace Prisma {
   export type BodyVariantCreateInput = {
     id?: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
     generation: GenerationCreateNestedOneWithoutBodyVariantsInput
@@ -23885,7 +23885,7 @@ export namespace Prisma {
     generationId: string
     bodyTypeId: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
     versions?: VersionUncheckedCreateNestedManyWithoutBodyVariantInput
@@ -23894,7 +23894,7 @@ export namespace Prisma {
   export type BodyVariantUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     generation?: GenerationUpdateOneRequiredWithoutBodyVariantsNestedInput
@@ -23907,7 +23907,7 @@ export namespace Prisma {
     generationId?: StringFieldUpdateOperationsInput | string
     bodyTypeId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     versions?: VersionUncheckedUpdateManyWithoutBodyVariantNestedInput
@@ -23918,7 +23918,7 @@ export namespace Prisma {
     generationId: string
     bodyTypeId: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
   }
@@ -23926,7 +23926,7 @@ export namespace Prisma {
   export type BodyVariantUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -23936,7 +23936,7 @@ export namespace Prisma {
     generationId?: StringFieldUpdateOperationsInput | string
     bodyTypeId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -24008,7 +24008,7 @@ export namespace Prisma {
 
   export type VersionConfigCreateInput = {
     id?: string
-    year?: number | null
+    year: number
     version: VersionCreateNestedOneWithoutConfigsInput
     engine?: EngineCreateNestedOneWithoutVersionConfigsInput
     transmission?: TransmissionCreateNestedOneWithoutVersionConfigsInput
@@ -24020,7 +24020,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedCreateInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     engineId?: string | null
     transmissionId?: string | null
     drivetrainId?: string | null
@@ -24030,7 +24030,7 @@ export namespace Prisma {
 
   export type VersionConfigUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     version?: VersionUpdateOneRequiredWithoutConfigsNestedInput
     engine?: EngineUpdateOneWithoutVersionConfigsNestedInput
     transmission?: TransmissionUpdateOneWithoutVersionConfigsNestedInput
@@ -24042,7 +24042,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24053,7 +24053,7 @@ export namespace Prisma {
   export type VersionConfigCreateManyInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     engineId?: string | null
     transmissionId?: string | null
     drivetrainId?: string | null
@@ -24061,13 +24061,13 @@ export namespace Prisma {
 
   export type VersionConfigUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
   }
 
   export type VersionConfigUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24320,57 +24320,57 @@ export namespace Prisma {
 
   export type TransmissionCreateInput = {
     id?: string
-    type?: string | null
-    gears?: number | null
+    type: string
+    gears: number
     versionConfigs?: VersionConfigCreateNestedManyWithoutTransmissionInput
     userCars?: UserCarCreateNestedManyWithoutTransmissionInput
   }
 
   export type TransmissionUncheckedCreateInput = {
     id?: string
-    type?: string | null
-    gears?: number | null
+    type: string
+    gears: number
     versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutTransmissionInput
     userCars?: UserCarUncheckedCreateNestedManyWithoutTransmissionInput
   }
 
   export type TransmissionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    gears?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: StringFieldUpdateOperationsInput | string
+    gears?: IntFieldUpdateOperationsInput | number
     versionConfigs?: VersionConfigUpdateManyWithoutTransmissionNestedInput
     userCars?: UserCarUpdateManyWithoutTransmissionNestedInput
   }
 
   export type TransmissionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    gears?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: StringFieldUpdateOperationsInput | string
+    gears?: IntFieldUpdateOperationsInput | number
     versionConfigs?: VersionConfigUncheckedUpdateManyWithoutTransmissionNestedInput
     userCars?: UserCarUncheckedUpdateManyWithoutTransmissionNestedInput
   }
 
   export type TransmissionCreateManyInput = {
     id?: string
-    type?: string | null
-    gears?: number | null
+    type: string
+    gears: number
   }
 
   export type TransmissionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    gears?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: StringFieldUpdateOperationsInput | string
+    gears?: IntFieldUpdateOperationsInput | number
   }
 
   export type TransmissionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    gears?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: StringFieldUpdateOperationsInput | string
+    gears?: IntFieldUpdateOperationsInput | number
   }
 
   export type DrivetrainCreateInput = {
     id?: string
-    type?: string | null
+    type: string
     description?: string | null
     versionConfigs?: VersionConfigCreateNestedManyWithoutDrivetrainInput
     userCars?: UserCarCreateNestedManyWithoutDrivetrainInput
@@ -24378,7 +24378,7 @@ export namespace Prisma {
 
   export type DrivetrainUncheckedCreateInput = {
     id?: string
-    type?: string | null
+    type: string
     description?: string | null
     versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutDrivetrainInput
     userCars?: UserCarUncheckedCreateNestedManyWithoutDrivetrainInput
@@ -24386,7 +24386,7 @@ export namespace Prisma {
 
   export type DrivetrainUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     versionConfigs?: VersionConfigUpdateManyWithoutDrivetrainNestedInput
     userCars?: UserCarUpdateManyWithoutDrivetrainNestedInput
@@ -24394,7 +24394,7 @@ export namespace Prisma {
 
   export type DrivetrainUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     versionConfigs?: VersionConfigUncheckedUpdateManyWithoutDrivetrainNestedInput
     userCars?: UserCarUncheckedUpdateManyWithoutDrivetrainNestedInput
@@ -24402,19 +24402,19 @@ export namespace Prisma {
 
   export type DrivetrainCreateManyInput = {
     id?: string
-    type?: string | null
+    type: string
     description?: string | null
   }
 
   export type DrivetrainUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DrivetrainUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -24953,6 +24953,17 @@ export namespace Prisma {
     name?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -25026,6 +25037,22 @@ export namespace Prisma {
   export type GenerationSumOrderByAggregateInput = {
     startYear?: SortOrder
     endYear?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26004,6 +26031,14 @@ export namespace Prisma {
     connectOrCreate?: BodyVariantCreateOrConnectWithoutGenerationInput | BodyVariantCreateOrConnectWithoutGenerationInput[]
     createMany?: BodyVariantCreateManyGenerationInputEnvelope
     connect?: BodyVariantWhereUniqueInput | BodyVariantWhereUniqueInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -27131,6 +27166,33 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -27322,7 +27384,7 @@ export namespace Prisma {
   export type MakeCreateWithoutModelsInput = {
     id?: string
     name: string
-    country?: string | null
+    country: string
     imageURL?: string | null
     imagePath?: string | null
   }
@@ -27330,7 +27392,7 @@ export namespace Prisma {
   export type MakeUncheckedCreateWithoutModelsInput = {
     id?: string
     name: string
-    country?: string | null
+    country: string
     imageURL?: string | null
     imagePath?: string | null
   }
@@ -27343,7 +27405,7 @@ export namespace Prisma {
   export type GenerationCreateWithoutModelInput = {
     id?: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
     phases?: PhaseCreateNestedManyWithoutGenerationInput
     bodyVariants?: BodyVariantCreateNestedManyWithoutGenerationInput
@@ -27352,7 +27414,7 @@ export namespace Prisma {
   export type GenerationUncheckedCreateWithoutModelInput = {
     id?: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
     phases?: PhaseUncheckedCreateNestedManyWithoutGenerationInput
     bodyVariants?: BodyVariantUncheckedCreateNestedManyWithoutGenerationInput
@@ -27382,7 +27444,7 @@ export namespace Prisma {
   export type MakeUpdateWithoutModelsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    country?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
     imageURL?: NullableStringFieldUpdateOperationsInput | string | null
     imagePath?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -27390,7 +27452,7 @@ export namespace Prisma {
   export type MakeUncheckedUpdateWithoutModelsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    country?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
     imageURL?: NullableStringFieldUpdateOperationsInput | string | null
     imagePath?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -27418,7 +27480,7 @@ export namespace Prisma {
     id?: UuidFilter<"Generation"> | string
     modelId?: UuidFilter<"Generation"> | string
     name?: StringFilter<"Generation"> | string
-    startYear?: IntNullableFilter<"Generation"> | number | null
+    startYear?: IntFilter<"Generation"> | number
     endYear?: IntNullableFilter<"Generation"> | number | null
   }
 
@@ -27468,7 +27530,7 @@ export namespace Prisma {
   export type BodyVariantCreateWithoutGenerationInput = {
     id?: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
     bodyType: BodyTypeCreateNestedOneWithoutBodyVariantsInput
@@ -27479,7 +27541,7 @@ export namespace Prisma {
     id?: string
     bodyTypeId: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
     versions?: VersionUncheckedCreateNestedManyWithoutBodyVariantInput
@@ -27569,7 +27631,7 @@ export namespace Prisma {
     generationId?: UuidFilter<"BodyVariant"> | string
     bodyTypeId?: UuidFilter<"BodyVariant"> | string
     name?: StringFilter<"BodyVariant"> | string
-    doors?: IntNullableFilter<"BodyVariant"> | number | null
+    doors?: IntFilter<"BodyVariant"> | number
     wheelbaseMm?: IntNullableFilter<"BodyVariant"> | number | null
     notes?: StringNullableFilter<"BodyVariant"> | string | null
   }
@@ -27577,7 +27639,7 @@ export namespace Prisma {
   export type GenerationCreateWithoutPhasesInput = {
     id?: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
     model: ModelCreateNestedOneWithoutGenerationsInput
     bodyVariants?: BodyVariantCreateNestedManyWithoutGenerationInput
@@ -27587,7 +27649,7 @@ export namespace Prisma {
     id?: string
     modelId: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
     bodyVariants?: BodyVariantUncheckedCreateNestedManyWithoutGenerationInput
   }
@@ -27639,7 +27701,7 @@ export namespace Prisma {
   export type GenerationUpdateWithoutPhasesInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
     model?: ModelUpdateOneRequiredWithoutGenerationsNestedInput
     bodyVariants?: BodyVariantUpdateManyWithoutGenerationNestedInput
@@ -27649,7 +27711,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     modelId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
     bodyVariants?: BodyVariantUncheckedUpdateManyWithoutGenerationNestedInput
   }
@@ -27685,7 +27747,7 @@ export namespace Prisma {
   export type BodyVariantCreateWithoutBodyTypeInput = {
     id?: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
     generation: GenerationCreateNestedOneWithoutBodyVariantsInput
@@ -27696,7 +27758,7 @@ export namespace Prisma {
     id?: string
     generationId: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
     versions?: VersionUncheckedCreateNestedManyWithoutBodyVariantInput
@@ -27731,7 +27793,7 @@ export namespace Prisma {
   export type GenerationCreateWithoutBodyVariantsInput = {
     id?: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
     model: ModelCreateNestedOneWithoutGenerationsInput
     phases?: PhaseCreateNestedManyWithoutGenerationInput
@@ -27741,7 +27803,7 @@ export namespace Prisma {
     id?: string
     modelId: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
     phases?: PhaseUncheckedCreateNestedManyWithoutGenerationInput
   }
@@ -27808,7 +27870,7 @@ export namespace Prisma {
   export type GenerationUpdateWithoutBodyVariantsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
     model?: ModelUpdateOneRequiredWithoutGenerationsNestedInput
     phases?: PhaseUpdateManyWithoutGenerationNestedInput
@@ -27818,7 +27880,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     modelId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
     phases?: PhaseUncheckedUpdateManyWithoutGenerationNestedInput
   }
@@ -27863,7 +27925,7 @@ export namespace Prisma {
   export type BodyVariantCreateWithoutVersionsInput = {
     id?: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
     generation: GenerationCreateNestedOneWithoutBodyVariantsInput
@@ -27875,7 +27937,7 @@ export namespace Prisma {
     generationId: string
     bodyTypeId: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
   }
@@ -27908,7 +27970,7 @@ export namespace Prisma {
 
   export type VersionConfigCreateWithoutVersionInput = {
     id?: string
-    year?: number | null
+    year: number
     engine?: EngineCreateNestedOneWithoutVersionConfigsInput
     transmission?: TransmissionCreateNestedOneWithoutVersionConfigsInput
     drivetrain?: DrivetrainCreateNestedOneWithoutVersionConfigsInput
@@ -27918,7 +27980,7 @@ export namespace Prisma {
 
   export type VersionConfigUncheckedCreateWithoutVersionInput = {
     id?: string
-    year?: number | null
+    year: number
     engineId?: string | null
     transmissionId?: string | null
     drivetrainId?: string | null
@@ -27950,7 +28012,7 @@ export namespace Prisma {
   export type BodyVariantUpdateWithoutVersionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     generation?: GenerationUpdateOneRequiredWithoutBodyVariantsNestedInput
@@ -27962,7 +28024,7 @@ export namespace Prisma {
     generationId?: StringFieldUpdateOperationsInput | string
     bodyTypeId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -28016,7 +28078,7 @@ export namespace Prisma {
     NOT?: VersionConfigScalarWhereInput | VersionConfigScalarWhereInput[]
     id?: UuidFilter<"VersionConfig"> | string
     versionId?: UuidFilter<"VersionConfig"> | string
-    year?: IntNullableFilter<"VersionConfig"> | number | null
+    year?: IntFilter<"VersionConfig"> | number
     engineId?: UuidNullableFilter<"VersionConfig"> | string | null
     transmissionId?: UuidNullableFilter<"VersionConfig"> | string | null
     drivetrainId?: UuidNullableFilter<"VersionConfig"> | string | null
@@ -28084,15 +28146,15 @@ export namespace Prisma {
 
   export type TransmissionCreateWithoutVersionConfigsInput = {
     id?: string
-    type?: string | null
-    gears?: number | null
+    type: string
+    gears: number
     userCars?: UserCarCreateNestedManyWithoutTransmissionInput
   }
 
   export type TransmissionUncheckedCreateWithoutVersionConfigsInput = {
     id?: string
-    type?: string | null
-    gears?: number | null
+    type: string
+    gears: number
     userCars?: UserCarUncheckedCreateNestedManyWithoutTransmissionInput
   }
 
@@ -28103,14 +28165,14 @@ export namespace Prisma {
 
   export type DrivetrainCreateWithoutVersionConfigsInput = {
     id?: string
-    type?: string | null
+    type: string
     description?: string | null
     userCars?: UserCarCreateNestedManyWithoutDrivetrainInput
   }
 
   export type DrivetrainUncheckedCreateWithoutVersionConfigsInput = {
     id?: string
-    type?: string | null
+    type: string
     description?: string | null
     userCars?: UserCarUncheckedCreateNestedManyWithoutDrivetrainInput
   }
@@ -28286,15 +28348,15 @@ export namespace Prisma {
 
   export type TransmissionUpdateWithoutVersionConfigsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    gears?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: StringFieldUpdateOperationsInput | string
+    gears?: IntFieldUpdateOperationsInput | number
     userCars?: UserCarUpdateManyWithoutTransmissionNestedInput
   }
 
   export type TransmissionUncheckedUpdateWithoutVersionConfigsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    gears?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: StringFieldUpdateOperationsInput | string
+    gears?: IntFieldUpdateOperationsInput | number
     userCars?: UserCarUncheckedUpdateManyWithoutTransmissionNestedInput
   }
 
@@ -28311,14 +28373,14 @@ export namespace Prisma {
 
   export type DrivetrainUpdateWithoutVersionConfigsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     userCars?: UserCarUpdateManyWithoutDrivetrainNestedInput
   }
 
   export type DrivetrainUncheckedUpdateWithoutVersionConfigsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     userCars?: UserCarUncheckedUpdateManyWithoutDrivetrainNestedInput
   }
@@ -28407,7 +28469,7 @@ export namespace Prisma {
 
   export type VersionConfigCreateWithoutSpecInput = {
     id?: string
-    year?: number | null
+    year: number
     version: VersionCreateNestedOneWithoutConfigsInput
     engine?: EngineCreateNestedOneWithoutVersionConfigsInput
     transmission?: TransmissionCreateNestedOneWithoutVersionConfigsInput
@@ -28418,7 +28480,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedCreateWithoutSpecInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     engineId?: string | null
     transmissionId?: string | null
     drivetrainId?: string | null
@@ -28443,7 +28505,7 @@ export namespace Prisma {
 
   export type VersionConfigUpdateWithoutSpecInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     version?: VersionUpdateOneRequiredWithoutConfigsNestedInput
     engine?: EngineUpdateOneWithoutVersionConfigsNestedInput
     transmission?: TransmissionUpdateOneWithoutVersionConfigsNestedInput
@@ -28454,7 +28516,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedUpdateWithoutSpecInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28463,7 +28525,7 @@ export namespace Prisma {
 
   export type VersionConfigCreateWithoutEngineInput = {
     id?: string
-    year?: number | null
+    year: number
     version: VersionCreateNestedOneWithoutConfigsInput
     transmission?: TransmissionCreateNestedOneWithoutVersionConfigsInput
     drivetrain?: DrivetrainCreateNestedOneWithoutVersionConfigsInput
@@ -28474,7 +28536,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedCreateWithoutEngineInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     transmissionId?: string | null
     drivetrainId?: string | null
     spec?: SpecSheetUncheckedCreateNestedOneWithoutVersionConfigInput
@@ -28565,7 +28627,7 @@ export namespace Prisma {
 
   export type VersionConfigCreateWithoutTransmissionInput = {
     id?: string
-    year?: number | null
+    year: number
     version: VersionCreateNestedOneWithoutConfigsInput
     engine?: EngineCreateNestedOneWithoutVersionConfigsInput
     drivetrain?: DrivetrainCreateNestedOneWithoutVersionConfigsInput
@@ -28576,7 +28638,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedCreateWithoutTransmissionInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     engineId?: string | null
     drivetrainId?: string | null
     spec?: SpecSheetUncheckedCreateNestedOneWithoutVersionConfigInput
@@ -28667,7 +28729,7 @@ export namespace Prisma {
 
   export type VersionConfigCreateWithoutDrivetrainInput = {
     id?: string
-    year?: number | null
+    year: number
     version: VersionCreateNestedOneWithoutConfigsInput
     engine?: EngineCreateNestedOneWithoutVersionConfigsInput
     transmission?: TransmissionCreateNestedOneWithoutVersionConfigsInput
@@ -28678,7 +28740,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedCreateWithoutDrivetrainInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     engineId?: string | null
     transmissionId?: string | null
     spec?: SpecSheetUncheckedCreateNestedOneWithoutVersionConfigInput
@@ -29141,7 +29203,7 @@ export namespace Prisma {
 
   export type VersionConfigCreateWithoutUserCarsInput = {
     id?: string
-    year?: number | null
+    year: number
     version: VersionCreateNestedOneWithoutConfigsInput
     engine?: EngineCreateNestedOneWithoutVersionConfigsInput
     transmission?: TransmissionCreateNestedOneWithoutVersionConfigsInput
@@ -29152,7 +29214,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedCreateWithoutUserCarsInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     engineId?: string | null
     transmissionId?: string | null
     drivetrainId?: string | null
@@ -29203,15 +29265,15 @@ export namespace Prisma {
 
   export type TransmissionCreateWithoutUserCarsInput = {
     id?: string
-    type?: string | null
-    gears?: number | null
+    type: string
+    gears: number
     versionConfigs?: VersionConfigCreateNestedManyWithoutTransmissionInput
   }
 
   export type TransmissionUncheckedCreateWithoutUserCarsInput = {
     id?: string
-    type?: string | null
-    gears?: number | null
+    type: string
+    gears: number
     versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutTransmissionInput
   }
 
@@ -29222,14 +29284,14 @@ export namespace Prisma {
 
   export type DrivetrainCreateWithoutUserCarsInput = {
     id?: string
-    type?: string | null
+    type: string
     description?: string | null
     versionConfigs?: VersionConfigCreateNestedManyWithoutDrivetrainInput
   }
 
   export type DrivetrainUncheckedCreateWithoutUserCarsInput = {
     id?: string
-    type?: string | null
+    type: string
     description?: string | null
     versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutDrivetrainInput
   }
@@ -29287,7 +29349,7 @@ export namespace Prisma {
 
   export type VersionConfigUpdateWithoutUserCarsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     version?: VersionUpdateOneRequiredWithoutConfigsNestedInput
     engine?: EngineUpdateOneWithoutVersionConfigsNestedInput
     transmission?: TransmissionUpdateOneWithoutVersionConfigsNestedInput
@@ -29298,7 +29360,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedUpdateWithoutUserCarsInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29361,15 +29423,15 @@ export namespace Prisma {
 
   export type TransmissionUpdateWithoutUserCarsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    gears?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: StringFieldUpdateOperationsInput | string
+    gears?: IntFieldUpdateOperationsInput | number
     versionConfigs?: VersionConfigUpdateManyWithoutTransmissionNestedInput
   }
 
   export type TransmissionUncheckedUpdateWithoutUserCarsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
-    gears?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: StringFieldUpdateOperationsInput | string
+    gears?: IntFieldUpdateOperationsInput | number
     versionConfigs?: VersionConfigUncheckedUpdateManyWithoutTransmissionNestedInput
   }
 
@@ -29386,14 +29448,14 @@ export namespace Prisma {
 
   export type DrivetrainUpdateWithoutUserCarsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     versionConfigs?: VersionConfigUpdateManyWithoutDrivetrainNestedInput
   }
 
   export type DrivetrainUncheckedUpdateWithoutUserCarsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     versionConfigs?: VersionConfigUncheckedUpdateManyWithoutDrivetrainNestedInput
   }
@@ -29487,14 +29549,14 @@ export namespace Prisma {
   export type GenerationCreateManyModelInput = {
     id?: string
     name: string
-    startYear?: number | null
+    startYear: number
     endYear?: number | null
   }
 
   export type GenerationUpdateWithoutModelInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
     phases?: PhaseUpdateManyWithoutGenerationNestedInput
     bodyVariants?: BodyVariantUpdateManyWithoutGenerationNestedInput
@@ -29503,7 +29565,7 @@ export namespace Prisma {
   export type GenerationUncheckedUpdateWithoutModelInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
     phases?: PhaseUncheckedUpdateManyWithoutGenerationNestedInput
     bodyVariants?: BodyVariantUncheckedUpdateManyWithoutGenerationNestedInput
@@ -29512,7 +29574,7 @@ export namespace Prisma {
   export type GenerationUncheckedUpdateManyWithoutModelInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    startYear?: NullableIntFieldUpdateOperationsInput | number | null
+    startYear?: IntFieldUpdateOperationsInput | number
     endYear?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -29527,7 +29589,7 @@ export namespace Prisma {
     id?: string
     bodyTypeId: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
   }
@@ -29558,7 +29620,7 @@ export namespace Prisma {
   export type BodyVariantUpdateWithoutGenerationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     bodyType?: BodyTypeUpdateOneRequiredWithoutBodyVariantsNestedInput
@@ -29569,7 +29631,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     bodyTypeId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     versions?: VersionUncheckedUpdateManyWithoutBodyVariantNestedInput
@@ -29579,7 +29641,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     bodyTypeId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -29622,7 +29684,7 @@ export namespace Prisma {
     id?: string
     generationId: string
     name: string
-    doors?: number | null
+    doors: number
     wheelbaseMm?: number | null
     notes?: string | null
   }
@@ -29630,7 +29692,7 @@ export namespace Prisma {
   export type BodyVariantUpdateWithoutBodyTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     generation?: GenerationUpdateOneRequiredWithoutBodyVariantsNestedInput
@@ -29641,7 +29703,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     generationId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     versions?: VersionUncheckedUpdateManyWithoutBodyVariantNestedInput
@@ -29651,7 +29713,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     generationId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    doors?: NullableIntFieldUpdateOperationsInput | number | null
+    doors?: IntFieldUpdateOperationsInput | number
     wheelbaseMm?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -29692,7 +29754,7 @@ export namespace Prisma {
 
   export type VersionConfigCreateManyVersionInput = {
     id?: string
-    year?: number | null
+    year: number
     engineId?: string | null
     transmissionId?: string | null
     drivetrainId?: string | null
@@ -29700,7 +29762,7 @@ export namespace Prisma {
 
   export type VersionConfigUpdateWithoutVersionInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engine?: EngineUpdateOneWithoutVersionConfigsNestedInput
     transmission?: TransmissionUpdateOneWithoutVersionConfigsNestedInput
     drivetrain?: DrivetrainUpdateOneWithoutVersionConfigsNestedInput
@@ -29710,7 +29772,7 @@ export namespace Prisma {
 
   export type VersionConfigUncheckedUpdateWithoutVersionInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29720,7 +29782,7 @@ export namespace Prisma {
 
   export type VersionConfigUncheckedUpdateManyWithoutVersionInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29789,7 +29851,7 @@ export namespace Prisma {
   export type VersionConfigCreateManyEngineInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     transmissionId?: string | null
     drivetrainId?: string | null
   }
@@ -29811,7 +29873,7 @@ export namespace Prisma {
 
   export type VersionConfigUpdateWithoutEngineInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     version?: VersionUpdateOneRequiredWithoutConfigsNestedInput
     transmission?: TransmissionUpdateOneWithoutVersionConfigsNestedInput
     drivetrain?: DrivetrainUpdateOneWithoutVersionConfigsNestedInput
@@ -29822,7 +29884,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedUpdateWithoutEngineInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
     spec?: SpecSheetUncheckedUpdateOneWithoutVersionConfigNestedInput
@@ -29832,7 +29894,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedUpdateManyWithoutEngineInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -29885,7 +29947,7 @@ export namespace Prisma {
   export type VersionConfigCreateManyTransmissionInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     engineId?: string | null
     drivetrainId?: string | null
   }
@@ -29907,7 +29969,7 @@ export namespace Prisma {
 
   export type VersionConfigUpdateWithoutTransmissionInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     version?: VersionUpdateOneRequiredWithoutConfigsNestedInput
     engine?: EngineUpdateOneWithoutVersionConfigsNestedInput
     drivetrain?: DrivetrainUpdateOneWithoutVersionConfigsNestedInput
@@ -29918,7 +29980,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedUpdateWithoutTransmissionInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
     spec?: SpecSheetUncheckedUpdateOneWithoutVersionConfigNestedInput
@@ -29928,7 +29990,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedUpdateManyWithoutTransmissionInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -29981,7 +30043,7 @@ export namespace Prisma {
   export type VersionConfigCreateManyDrivetrainInput = {
     id?: string
     versionId: string
-    year?: number | null
+    year: number
     engineId?: string | null
     transmissionId?: string | null
   }
@@ -30003,7 +30065,7 @@ export namespace Prisma {
 
   export type VersionConfigUpdateWithoutDrivetrainInput = {
     id?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     version?: VersionUpdateOneRequiredWithoutConfigsNestedInput
     engine?: EngineUpdateOneWithoutVersionConfigsNestedInput
     transmission?: TransmissionUpdateOneWithoutVersionConfigsNestedInput
@@ -30014,7 +30076,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedUpdateWithoutDrivetrainInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     spec?: SpecSheetUncheckedUpdateOneWithoutVersionConfigNestedInput
@@ -30024,7 +30086,7 @@ export namespace Prisma {
   export type VersionConfigUncheckedUpdateManyWithoutDrivetrainInput = {
     id?: StringFieldUpdateOperationsInput | string
     versionId?: StringFieldUpdateOperationsInput | string
-    year?: NullableIntFieldUpdateOperationsInput | number | null
+    year?: IntFieldUpdateOperationsInput | number
     engineId?: NullableStringFieldUpdateOperationsInput | string | null
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
