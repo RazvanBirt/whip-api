@@ -1,16 +1,22 @@
+// API_PREFIX="/api" BASE_URL="http://localhost:3000" node --loader ts-node/esm scripts/seed-via-api.ts
+
 /**
  * Curated “realistic” seed script (via API) — NO randomness.
  *
- * - Seeds makes (protected)
- * - Seeds transmissions/drivetrains (public) safely (GET first, POST only missing)
- * - Seeds engines (public) from a curated list
- * - Upserts a curated catalog pack (makes -> models -> generations -> body variants -> trims -> configs)
- * - Reuses transmission/drivetrain IDs so unique constraints won't be violated
+ * Fixed for cleaned Prisma schema:
+ * - Model.name is no longer globally unique
+ * - Transmission uniqueness is type + gears
+ * - Drivetrain table uses simple drivetrain types: FWD/RWD/AWD/4WD
+ * - Catalog drivetrain aliases like AWD_quattro / AWD_xDrive normalize to AWD
+ * - Safer API response unwrapping
  *
- * Run (Node 18+):
+ * Run:
+ *   API_PREFIX="/api" BASE_URL="http://localhost:4000" node --loader ts-node/esm scripts/seed-via-api.ts
+ *
+ * If your API still runs on 3000:
  *   API_PREFIX="/api" BASE_URL="http://localhost:3000" node --loader ts-node/esm scripts/seed-via-api.ts
  *
- * Optional env (auth only):
+ * Optional env:
  *   SEED_EMAIL="seed@local.dev"
  *   SEED_PASSWORD="SeedPassword123!"
  *   SEED_USERNAME="Seeder"
@@ -20,6 +26,16 @@ type Json = Record<string, any>;
 
 const BASE_URL = process.env.BASE_URL ?? "http://localhost:3000";
 const API_PREFIX = process.env.API_PREFIX ?? "/api";
+
+/**
+ * Keep this true while your backend still has routes like:
+ * /api/makes/makes
+ * /api/transmissions/transmissions
+ * /api/models/catalog/models/full
+ *
+ * Change to false after cleaning your route mounting.
+ */
+const LEGACY_DOUBLE_MOUNT = process.env.LEGACY_DOUBLE_MOUNT !== "false";
 
 function url(path: string) {
   const pfx = API_PREFIX.endsWith("/") ? API_PREFIX.slice(0, -1) : API_PREFIX;
@@ -38,6 +54,7 @@ async function http(method: string, path: string, body?: any, token?: string) {
   });
 
   const text = await res.text();
+
   let data: any = null;
   try {
     data = text ? JSON.parse(text) : null;
@@ -46,9 +63,35 @@ async function http(method: string, path: string, body?: any, token?: string) {
   }
 
   if (!res.ok) {
-    throw new Error(`${method} ${path} -> ${res.status}\n${JSON.stringify(data, null, 2)}`);
+    throw new Error(
+      `${method} ${path} -> ${res.status}\n${JSON.stringify(data, null, 2)}`
+    );
   }
+
   return data;
+}
+
+function unwrapArray<T>(res: any, keys: string[]): T[] {
+  if (Array.isArray(res)) return res;
+
+  for (const key of keys) {
+    if (Array.isArray(res?.[key])) return res[key];
+    if (Array.isArray(res?.data?.[key])) return res.data[key];
+  }
+
+  if (Array.isArray(res?.data)) return res.data;
+
+  return [];
+}
+
+function unwrapToken(res: any) {
+  return (
+    res?.data?.accessToken ??
+    res?.accessToken ??
+    res?.token ??
+    res?.data?.token ??
+    null
+  );
 }
 
 /** best-effort create; logs and continues on error */
@@ -70,15 +113,32 @@ async function ensureAuth(): Promise<string> {
   const userName = process.env.SEED_USERNAME ?? "Seeder";
 
   try {
-    const reg = await http("POST", "/auth/register", { UserName: userName, Email: email, Password: password });
-    const token = reg?.data?.accessToken ?? reg?.accessToken ?? reg?.token ?? reg?.data?.token;
-    if (!token) throw new Error("No accessToken returned from /auth/register");
+    const reg = await http("POST", "/auth/register", {
+      UserName: userName,
+      Email: email,
+      Password: password,
+    });
+
+    const token = unwrapToken(reg);
+
+    if (!token) {
+      throw new Error("No accessToken returned from /auth/register");
+    }
+
     console.log("✅ registered seed user");
     return token;
   } catch {
-    const login = await http("POST", "/auth/login", { Email: email, Password: password });
-    const token = login?.data?.accessToken ?? login?.accessToken ?? login?.token ?? login?.data?.token;
-    if (!token) throw new Error("No accessToken returned from /auth/login");
+    const login = await http("POST", "/auth/login", {
+      Email: email,
+      Password: password,
+    });
+
+    const token = unwrapToken(login);
+
+    if (!token) {
+      throw new Error("No accessToken returned from /auth/login");
+    }
+
     console.log("✅ logged in seed user");
     return token;
   }
@@ -87,6 +147,7 @@ async function ensureAuth(): Promise<string> {
 function clamp(n: number, lo: number, hi: number) {
   return Math.max(lo, Math.min(hi, n));
 }
+
 function round1(n: number) {
   return Math.round(n * 10) / 10;
 }
@@ -95,69 +156,155 @@ function uniq<T>(arr: T[]) {
   return Array.from(new Set(arr));
 }
 
-// -------------------- Your endpoints (double-mount behavior) --------------------
+// -------------------- Endpoints --------------------
 
-const endpoints = {
-  makesCreate: "/makes/makes",
-  enginesCreate: "/engines/engines",
-  transmissionsCreate: "/transmissions/transmissions",
-  transmissionsGetAll: "/transmissions/transmissions",
-  drivetrainsCreate: "/drivetrains/drivetrains",
-  drivetrainsGetAll: "/drivetrains/drivetrains",
-  upsertFullModel: "/models/catalog/models/full",
+const endpoints = LEGACY_DOUBLE_MOUNT
+  ? {
+    makesCreate: "/makes/makes",
+    enginesCreate: "/engines/engines",
+    transmissionsCreate: "/transmissions/transmissions",
+    transmissionsGetAll: "/transmissions/transmissions",
+    drivetrainsCreate: "/drivetrains/drivetrains",
+    drivetrainsGetAll: "/drivetrains/drivetrains",
+    upsertFullModel: "/models/catalog/models/full",
+  }
+  : {
+    makesCreate: "/makes",
+    enginesCreate: "/engines",
+    transmissionsCreate: "/transmissions",
+    transmissionsGetAll: "/transmissions",
+    drivetrainsCreate: "/drivetrains",
+    drivetrainsGetAll: "/drivetrains",
+    upsertFullModel: "/models/catalog/full",
+  };
+
+type Transmission = {
+  id: string;
+  type: string | null;
+  gears: number | null;
 };
 
-type Transmission = { id: string; type: string | null; gears: number | null };
-type Drivetrain = { id: string; type: string | null; description: string | null };
+type Drivetrain = {
+  id: string;
+  type: string | null;
+  description: string | null;
+};
+
+function transmissionKey(type: string, gears: number | null | undefined) {
+  return `${type}::${gears ?? 0}`;
+}
+
+function normalizeDrivetrainType(type: string) {
+  switch (type) {
+    case "AWD_quattro":
+    case "AWD_xDrive":
+    case "AWD_4Matic":
+    case "AWD_Haldex":
+    case "AWD_Performance":
+      return "AWD";
+
+    case "RWD_Performance":
+      return "RWD";
+
+    default:
+      return type;
+  }
+}
+
+function getTransmissionGears(type: string) {
+  const found = TRANSMISSIONS.find((t) => t.type === type);
+
+  if (!found) {
+    throw new Error(`Unknown transmission type in seed data: ${type}`);
+  }
+
+  return found.gears;
+}
 
 async function fetchTransmissions(): Promise<Transmission[]> {
   const res = await http("GET", endpoints.transmissionsGetAll);
-  return Array.isArray(res?.transmissions) ? res.transmissions : [];
+  return unwrapArray<Transmission>(res, ["transmissions"]);
 }
 
 async function fetchDrivetrains(): Promise<Drivetrain[]> {
   const res = await http("GET", endpoints.drivetrainsGetAll);
-  return Array.isArray(res?.drivetrains) ? res.drivetrains : [];
+  return unwrapArray<Drivetrain>(res, ["drivetrains"]);
 }
 
 async function buildTransmissionMap(): Promise<Map<string, string>> {
   const list = await fetchTransmissions();
   const m = new Map<string, string>();
-  for (const t of list) if (t?.type && t?.id) m.set(t.type, t.id);
+
+  for (const t of list) {
+    if (!t?.type || !t?.id) continue;
+    m.set(transmissionKey(t.type, t.gears), t.id);
+  }
+
   return m;
 }
 
 async function buildDrivetrainMap(): Promise<Map<string, string>> {
   const list = await fetchDrivetrains();
   const m = new Map<string, string>();
-  for (const d of list) if (d?.type && d?.id) m.set(d.type, d.id);
+
+  for (const d of list) {
+    if (!d?.type || !d?.id) continue;
+    m.set(d.type, d.id);
+  }
+
   return m;
 }
 
 /** safer than createMany: GET first, POST missing one-by-one */
 async function ensureTransmissions(desired: { type: string; gears: number }[]) {
   const existing = await fetchTransmissions();
-  const seen = new Set(existing.map((t) => t.type).filter(Boolean) as string[]);
+
+  const seen = new Set(
+    existing
+      .filter((t) => t.type && t.id)
+      .map((t) => transmissionKey(t.type as string, t.gears))
+  );
+
   for (const t of desired) {
-    if (seen.has(t.type)) continue;
+    const key = transmissionKey(t.type, t.gears);
+
+    if (seen.has(key)) continue;
+
     try {
-      await http("POST", endpoints.transmissionsCreate, { type: t.type, gears: t.gears });
-      console.log(`✅ seeded transmission ${t.type}`);
-      seen.add(t.type);
+      await http("POST", endpoints.transmissionsCreate, {
+        type: t.type,
+        gears: t.gears,
+      });
+
+      console.log(`✅ seeded transmission ${t.type} ${t.gears}`);
+      seen.add(key);
     } catch (e: any) {
-      console.warn(`⚠️ transmission ${t.type} create failed (continuing)`);
+      console.warn(
+        `⚠️ transmission ${t.type} ${t.gears} create failed (continuing)`
+      );
       console.warn(String(e?.message ?? e));
     }
   }
 }
 
-async function ensureDrivetrains(desired: { type: string; description: string }[]) {
+async function ensureDrivetrains(
+  desired: { type: string; description: string }[]
+) {
   const existing = await fetchDrivetrains();
-  const seen = new Set(existing.map((d) => d.type).filter(Boolean) as string[]);
+
+  const seen = new Set(
+    existing.map((d) => d.type).filter(Boolean) as string[]
+  );
+
   for (const d of desired) {
     if (seen.has(d.type)) continue;
+
     try {
-      await http("POST", endpoints.drivetrainsCreate, { type: d.type, description: d.description });
+      await http("POST", endpoints.drivetrainsCreate, {
+        type: d.type,
+        description: d.description,
+      });
+
       console.log(`✅ seeded drivetrain ${d.type}`);
       seen.add(d.type);
     } catch (e: any) {
@@ -169,7 +316,11 @@ async function ensureDrivetrains(desired: { type: string; description: string }[
 
 // -------------------- Catalog seeds --------------------
 
-type MakeSeed = { name: string; country: string; code: string };
+type MakeSeed = {
+  name: string;
+  country: string;
+  code: string;
+};
 
 const MAKES: MakeSeed[] = [
   { name: "Volkswagen", country: "Germany", code: "VW" },
@@ -202,19 +353,17 @@ const TRANSMISSIONS = [
   { type: "PDK7", gears: 7 },
 ];
 
+/**
+ * Cleaned drivetrain catalog.
+ *
+ * Your catalog data can still say AWD_quattro, AWD_xDrive, AWD_4Matic, etc.
+ * Those are normalized to AWD before lookup.
+ */
 const DRIVETRAINS = [
   { type: "FWD", description: "Front-wheel drive" },
   { type: "RWD", description: "Rear-wheel drive" },
   { type: "AWD", description: "All-wheel drive" },
   { type: "4WD", description: "Selectable four-wheel drive" },
-
-  { type: "AWD_quattro", description: "Audi quattro-style AWD" },
-  { type: "AWD_xDrive", description: "BMW xDrive-style AWD" },
-  { type: "AWD_4Matic", description: "Mercedes 4MATIC-style AWD" },
-  { type: "AWD_Haldex", description: "On-demand AWD (Haldex-style)" },
-
-  { type: "RWD_Performance", description: "Performance RWD" },
-  { type: "AWD_Performance", description: "Performance AWD" },
 ];
 
 type EngineSeed = {
@@ -232,7 +381,9 @@ function enginePayload(e: EngineSeed) {
   return {
     code: e.code,
     configuration: e.configuration,
-    displacementLiters: e.displacementCc ? +(e.displacementCc / 1000).toFixed(3) : null,
+    displacementLiters: e.displacementCc
+      ? +(e.displacementCc / 1000).toFixed(3)
+      : null,
     displacementCc: e.displacementCc,
     cylinders: e.cylinders,
     fuelType: e.fuelType,
@@ -244,74 +395,448 @@ function enginePayload(e: EngineSeed) {
   };
 }
 
-/**
- * Curated engine pool (make-scoped codes).
- * These are “public-knowledge plausible” families; not market-perfect.
- */
 const ENGINES: EngineSeed[] = [
   // VW
-  { code: "VW_EA111_1.4_TSI", configuration: "I4", displacementCc: 1390, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 122, torqueNm: 200 },
-  { code: "VW_EA211_1.5_TSI", configuration: "I4", displacementCc: 1498, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 150, torqueNm: 250 },
-  { code: "VW_EA888_2.0_TSI", configuration: "I4", displacementCc: 1984, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 245, torqueNm: 370 },
-  { code: "VW_EA288_2.0_TDI", configuration: "I4", displacementCc: 1968, cylinders: 4, fuelType: "Diesel", aspiration: "Turbo", powerPs: 150, torqueNm: 340 },
-  { code: "VW_PHEV_1.4_TSI", configuration: "I4", displacementCc: 1395, cylinders: 4, fuelType: "Hybrid", aspiration: "Turbo", powerPs: 204, torqueNm: 350 },
+  {
+    code: "VW_EA111_1.4_TSI",
+    configuration: "I4",
+    displacementCc: 1390,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 122,
+    torqueNm: 200,
+  },
+  {
+    code: "VW_EA211_1.5_TSI",
+    configuration: "I4",
+    displacementCc: 1498,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 150,
+    torqueNm: 250,
+  },
+  {
+    code: "VW_EA888_2.0_TSI",
+    configuration: "I4",
+    displacementCc: 1984,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 245,
+    torqueNm: 370,
+  },
+  {
+    code: "VW_EA288_2.0_TDI",
+    configuration: "I4",
+    displacementCc: 1968,
+    cylinders: 4,
+    fuelType: "Diesel",
+    aspiration: "Turbo",
+    powerPs: 150,
+    torqueNm: 340,
+  },
+  {
+    code: "VW_PHEV_1.4_TSI",
+    configuration: "I4",
+    displacementCc: 1395,
+    cylinders: 4,
+    fuelType: "Hybrid",
+    aspiration: "Turbo",
+    powerPs: 204,
+    torqueNm: 350,
+  },
 
   // Audi
-  { code: "AUDI_1.4_TFSI", configuration: "I4", displacementCc: 1395, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 150, torqueNm: 250 },
-  { code: "AUDI_2.0_TFSI", configuration: "I4", displacementCc: 1984, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 252, torqueNm: 370 },
-  { code: "AUDI_2.0_TDI", configuration: "I4", displacementCc: 1968, cylinders: 4, fuelType: "Diesel", aspiration: "Turbo", powerPs: 190, torqueNm: 400 },
-  { code: "AUDI_3.0_TFSI", configuration: "V6", displacementCc: 2995, cylinders: 6, fuelType: "Petrol", aspiration: "Turbo", powerPs: 340, torqueNm: 500 },
+  {
+    code: "AUDI_1.4_TFSI",
+    configuration: "I4",
+    displacementCc: 1395,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 150,
+    torqueNm: 250,
+  },
+  {
+    code: "AUDI_2.0_TFSI",
+    configuration: "I4",
+    displacementCc: 1984,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 252,
+    torqueNm: 370,
+  },
+  {
+    code: "AUDI_2.0_TDI",
+    configuration: "I4",
+    displacementCc: 1968,
+    cylinders: 4,
+    fuelType: "Diesel",
+    aspiration: "Turbo",
+    powerPs: 190,
+    torqueNm: 400,
+  },
+  {
+    code: "AUDI_3.0_TFSI",
+    configuration: "V6",
+    displacementCc: 2995,
+    cylinders: 6,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 340,
+    torqueNm: 500,
+  },
 
   // BMW
-  { code: "BMW_N46_2.0", configuration: "I4", displacementCc: 1995, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 150, torqueNm: 200 },
-  { code: "BMW_B48_2.0T", configuration: "I4", displacementCc: 1998, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 184, torqueNm: 300 },
-  { code: "BMW_B58_3.0T", configuration: "I6", displacementCc: 2998, cylinders: 6, fuelType: "Petrol", aspiration: "Turbo", powerPs: 340, torqueNm: 500 },
-  { code: "BMW_B47_2.0D", configuration: "I4", displacementCc: 1995, cylinders: 4, fuelType: "Diesel", aspiration: "Turbo", powerPs: 190, torqueNm: 400 },
+  {
+    code: "BMW_N46_2.0",
+    configuration: "I4",
+    displacementCc: 1995,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 150,
+    torqueNm: 200,
+  },
+  {
+    code: "BMW_B48_2.0T",
+    configuration: "I4",
+    displacementCc: 1998,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 184,
+    torqueNm: 300,
+  },
+  {
+    code: "BMW_B58_3.0T",
+    configuration: "I6",
+    displacementCc: 2998,
+    cylinders: 6,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 340,
+    torqueNm: 500,
+  },
+  {
+    code: "BMW_B47_2.0D",
+    configuration: "I4",
+    displacementCc: 1995,
+    cylinders: 4,
+    fuelType: "Diesel",
+    aspiration: "Turbo",
+    powerPs: 190,
+    torqueNm: 400,
+  },
 
   // Mercedes
-  { code: "MB_M274_2.0T", configuration: "I4", displacementCc: 1991, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 184, torqueNm: 300 },
-  { code: "MB_M256_3.0T", configuration: "I6", displacementCc: 2999, cylinders: 6, fuelType: "Petrol", aspiration: "Turbo", powerPs: 367, torqueNm: 500 },
-  { code: "MB_OM651_2.1D", configuration: "I4", displacementCc: 2143, cylinders: 4, fuelType: "Diesel", aspiration: "Turbo", powerPs: 170, torqueNm: 400 },
-  { code: "MB_OM654_2.0D", configuration: "I4", displacementCc: 1950, cylinders: 4, fuelType: "Diesel", aspiration: "Turbo", powerPs: 194, torqueNm: 400 },
+  {
+    code: "MB_M274_2.0T",
+    configuration: "I4",
+    displacementCc: 1991,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 184,
+    torqueNm: 300,
+  },
+  {
+    code: "MB_M256_3.0T",
+    configuration: "I6",
+    displacementCc: 2999,
+    cylinders: 6,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 367,
+    torqueNm: 500,
+  },
+  {
+    code: "MB_OM651_2.1D",
+    configuration: "I4",
+    displacementCc: 2143,
+    cylinders: 4,
+    fuelType: "Diesel",
+    aspiration: "Turbo",
+    powerPs: 170,
+    torqueNm: 400,
+  },
+  {
+    code: "MB_OM654_2.0D",
+    configuration: "I4",
+    displacementCc: 1950,
+    cylinders: 4,
+    fuelType: "Diesel",
+    aspiration: "Turbo",
+    powerPs: 194,
+    torqueNm: 400,
+  },
 
   // Porsche
-  { code: "POR_2.0T", configuration: "I4", displacementCc: 1988, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 300, torqueNm: 380 },
-  { code: "POR_3.0TT", configuration: "V6", displacementCc: 2981, cylinders: 6, fuelType: "Petrol", aspiration: "Turbo", powerPs: 385, torqueNm: 450 },
-  { code: "POR_4.0NA", configuration: "H6", displacementCc: 3996, cylinders: 6, fuelType: "Petrol", aspiration: "NA", powerPs: 510, torqueNm: 470 },
+  {
+    code: "POR_2.0T",
+    configuration: "I4",
+    displacementCc: 1988,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 300,
+    torqueNm: 380,
+  },
+  {
+    code: "POR_3.0TT",
+    configuration: "V6",
+    displacementCc: 2981,
+    cylinders: 6,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 385,
+    torqueNm: 450,
+  },
+  {
+    code: "POR_4.0NA",
+    configuration: "H6",
+    displacementCc: 3996,
+    cylinders: 6,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 510,
+    torqueNm: 470,
+  },
 
   // Toyota
-  { code: "TOY_1.8", configuration: "I4", displacementCc: 1798, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 140, torqueNm: 175 },
-  { code: "TOY_2.0", configuration: "I4", displacementCc: 1987, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 170, torqueNm: 203 },
-  { code: "TOY_HYBRID_1.8", configuration: "I4", displacementCc: 1798, cylinders: 4, fuelType: "Hybrid", aspiration: "NA", powerPs: 122, torqueNm: 200 },
-  { code: "TOY_HYBRID_2.5", configuration: "I4", displacementCc: 2487, cylinders: 4, fuelType: "Hybrid", aspiration: "NA", powerPs: 218, torqueNm: 300 },
+  {
+    code: "TOY_1.8",
+    configuration: "I4",
+    displacementCc: 1798,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 140,
+    torqueNm: 175,
+  },
+  {
+    code: "TOY_2.0",
+    configuration: "I4",
+    displacementCc: 1987,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 170,
+    torqueNm: 203,
+  },
+  {
+    code: "TOY_HYBRID_1.8",
+    configuration: "I4",
+    displacementCc: 1798,
+    cylinders: 4,
+    fuelType: "Hybrid",
+    aspiration: "NA",
+    powerPs: 122,
+    torqueNm: 200,
+  },
+  {
+    code: "TOY_HYBRID_2.5",
+    configuration: "I4",
+    displacementCc: 2487,
+    cylinders: 4,
+    fuelType: "Hybrid",
+    aspiration: "NA",
+    powerPs: 218,
+    torqueNm: 300,
+  },
 
   // Honda
-  { code: "HON_R18_1.8", configuration: "I4", displacementCc: 1799, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 140, torqueNm: 174 },
-  { code: "HON_L15_1.5T", configuration: "I4", displacementCc: 1498, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 182, torqueNm: 240 },
-  { code: "HON_K20_2.0", configuration: "I4", displacementCc: 1998, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 155, torqueNm: 190 },
-  { code: "HON_HYBRID_2.0", configuration: "I4", displacementCc: 1993, cylinders: 4, fuelType: "Hybrid", aspiration: "NA", powerPs: 184, torqueNm: 315 },
+  {
+    code: "HON_R18_1.8",
+    configuration: "I4",
+    displacementCc: 1799,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 140,
+    torqueNm: 174,
+  },
+  {
+    code: "HON_L15_1.5T",
+    configuration: "I4",
+    displacementCc: 1498,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 182,
+    torqueNm: 240,
+  },
+  {
+    code: "HON_K20_2.0",
+    configuration: "I4",
+    displacementCc: 1998,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 155,
+    torqueNm: 190,
+  },
+  {
+    code: "HON_HYBRID_2.0",
+    configuration: "I4",
+    displacementCc: 1993,
+    cylinders: 4,
+    fuelType: "Hybrid",
+    aspiration: "NA",
+    powerPs: 184,
+    torqueNm: 315,
+  },
 
   // Mazda
-  { code: "MAZ_MZR_2.0", configuration: "I4", displacementCc: 1999, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 160, torqueNm: 188 },
-  { code: "MAZ_SKYACTIV_2.0G", configuration: "I4", displacementCc: 1998, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 165, torqueNm: 213 },
-  { code: "MAZ_SKYACTIV_2.5G", configuration: "I4", displacementCc: 2488, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 190, torqueNm: 252 },
-  { code: "MAZ_SKYACTIV_2.2D", configuration: "I4", displacementCc: 2191, cylinders: 4, fuelType: "Diesel", aspiration: "Turbo", powerPs: 175, torqueNm: 420 },
+  {
+    code: "MAZ_MZR_2.0",
+    configuration: "I4",
+    displacementCc: 1999,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 160,
+    torqueNm: 188,
+  },
+  {
+    code: "MAZ_SKYACTIV_2.0G",
+    configuration: "I4",
+    displacementCc: 1998,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 165,
+    torqueNm: 213,
+  },
+  {
+    code: "MAZ_SKYACTIV_2.5G",
+    configuration: "I4",
+    displacementCc: 2488,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 190,
+    torqueNm: 252,
+  },
+  {
+    code: "MAZ_SKYACTIV_2.2D",
+    configuration: "I4",
+    displacementCc: 2191,
+    cylinders: 4,
+    fuelType: "Diesel",
+    aspiration: "Turbo",
+    powerPs: 175,
+    torqueNm: 420,
+  },
 
   // Ford
-  { code: "FOR_DURATEC_1.6", configuration: "I4", displacementCc: 1596, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 120, torqueNm: 159 },
-  { code: "FOR_1.0_ECOBOOST", configuration: "I3", displacementCc: 999, cylinders: 3, fuelType: "Petrol", aspiration: "Turbo", powerPs: 125, torqueNm: 200 },
-  { code: "FOR_2.0_TDCI", configuration: "I4", displacementCc: 1997, cylinders: 4, fuelType: "Diesel", aspiration: "Turbo", powerPs: 163, torqueNm: 340 },
-  { code: "FOR_2.3_ECOBOOST", configuration: "I4", displacementCc: 2261, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 290, torqueNm: 440 },
-  { code: "FOR_DURATEC_1.4_16V", configuration: "I4", displacementCc: 1388, cylinders: 4, fuelType: "Petrol", aspiration: "NA", powerPs: 80, torqueNm: 124 },
+  {
+    code: "FOR_DURATEC_1.6",
+    configuration: "I4",
+    displacementCc: 1596,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 120,
+    torqueNm: 159,
+  },
+  {
+    code: "FOR_1.0_ECOBOOST",
+    configuration: "I3",
+    displacementCc: 999,
+    cylinders: 3,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 125,
+    torqueNm: 200,
+  },
+  {
+    code: "FOR_2.0_TDCI",
+    configuration: "I4",
+    displacementCc: 1997,
+    cylinders: 4,
+    fuelType: "Diesel",
+    aspiration: "Turbo",
+    powerPs: 163,
+    torqueNm: 340,
+  },
+  {
+    code: "FOR_2.3_ECOBOOST",
+    configuration: "I4",
+    displacementCc: 2261,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 290,
+    torqueNm: 440,
+  },
+  {
+    code: "FOR_DURATEC_1.4_16V",
+    configuration: "I4",
+    displacementCc: 1388,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "NA",
+    powerPs: 80,
+    torqueNm: 124,
+  },
 
   // Volvo
-  { code: "VOL_D4_2.0D", configuration: "I4", displacementCc: 1969, cylinders: 4, fuelType: "Diesel", aspiration: "Turbo", powerPs: 190, torqueNm: 400 },
-  { code: "VOL_T5_2.0T", configuration: "I4", displacementCc: 1969, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 250, torqueNm: 350 },
-  { code: "VOL_T6_2.0T", configuration: "I4", displacementCc: 1969, cylinders: 4, fuelType: "Petrol", aspiration: "Turbo", powerPs: 310, torqueNm: 400 },
-  { code: "VOL_RECHARGE_PHEV", configuration: "I4", displacementCc: 1969, cylinders: 4, fuelType: "Hybrid", aspiration: "Turbo", powerPs: 340, torqueNm: 590 },
+  {
+    code: "VOL_D4_2.0D",
+    configuration: "I4",
+    displacementCc: 1969,
+    cylinders: 4,
+    fuelType: "Diesel",
+    aspiration: "Turbo",
+    powerPs: 190,
+    torqueNm: 400,
+  },
+  {
+    code: "VOL_T5_2.0T",
+    configuration: "I4",
+    displacementCc: 1969,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 250,
+    torqueNm: 350,
+  },
+  {
+    code: "VOL_T6_2.0T",
+    configuration: "I4",
+    displacementCc: 1969,
+    cylinders: 4,
+    fuelType: "Petrol",
+    aspiration: "Turbo",
+    powerPs: 310,
+    torqueNm: 400,
+  },
+  {
+    code: "VOL_RECHARGE_PHEV",
+    configuration: "I4",
+    displacementCc: 1969,
+    cylinders: 4,
+    fuelType: "Hybrid",
+    aspiration: "Turbo",
+    powerPs: 340,
+    torqueNm: 590,
+  },
 
   // Renault
-  { code: "REN_K9K_1.5_DCI", configuration: "I4", displacementCc: 1461, cylinders: 4, fuelType: "Diesel", aspiration: "Turbo", powerPs: 90, torqueNm: 220 },
+  {
+    code: "REN_K9K_1.5_DCI",
+    configuration: "I4",
+    displacementCc: 1461,
+    cylinders: 4,
+    fuelType: "Diesel",
+    aspiration: "Turbo",
+    powerPs: 90,
+    torqueNm: 220,
+  },
 ];
 
 type ConfigSeed = {
@@ -358,6 +883,7 @@ type ModelSeedTree = {
 /** helper to create phases for a gen */
 function makePhases(start: number, end: number) {
   const mid = Math.min(start + Math.floor((end - start) / 2), end);
+
   return [
     { name: "Pre-facelift", startYear: start, endYear: mid },
     { name: "Facelift", startYear: Math.min(mid + 1, end), endYear: end },
@@ -405,8 +931,14 @@ function yearConfigs(params: {
 }
 
 /**
- * Curated pack (~40 models). Each model has 1–3 gens, correct-ish body type + engines/trims.
- * This is the “hardcoded dataset”.
+ * IMPORTANT:
+ *
+ * Paste your existing huge CATALOG array here.
+ *
+ * You do NOT need to manually replace AWD_quattro, AWD_xDrive, AWD_4Matic,
+ * AWD_Haldex, AWD_Performance, or RWD_Performance inside your catalog.
+ *
+ * This fixed script normalizes those values automatically.
  */
 const CATALOG: ModelSeedTree[] = [
   // ---------------- VW ----------------
@@ -1738,122 +2270,186 @@ const CATALOG: ModelSeedTree[] = [
   },
 ];
 
-// -------------------- Upsert utilities --------------------
+// -------------------- Seed utilities --------------------
 
 async function seedEngines() {
-  // chunk to avoid huge payloads
   const payloads = ENGINES.map(enginePayload);
   const chunkSize = 40;
 
   for (let i = 0; i < payloads.length; i += chunkSize) {
     const chunk = payloads.slice(i, i + chunkSize);
-    await tryPost(endpoints.enginesCreate, chunk, undefined, `Seed engines ${i + 1}-${i + chunk.length}`);
+
+    await tryPost(
+      endpoints.enginesCreate,
+      chunk,
+      undefined,
+      `Seed engines ${i + 1}-${i + chunk.length}`
+    );
   }
 }
 
+function collectRequiredTransmissionTypes() {
+  return uniq(
+    CATALOG.flatMap((tree) =>
+      tree.generations.flatMap((generation) =>
+        generation.bodyVariants.flatMap((bodyVariant) =>
+          bodyVariant.versions.flatMap((version) =>
+            version.configs.map((config) => config.transmissionType)
+          )
+        )
+      )
+    )
+  );
+}
+
+function collectRequiredDrivetrainTypes() {
+  return uniq(
+    CATALOG.flatMap((tree) =>
+      tree.generations.flatMap((generation) =>
+        generation.bodyVariants.flatMap((bodyVariant) =>
+          bodyVariant.versions.flatMap((version) =>
+            version.configs.map((config) =>
+              normalizeDrivetrainType(config.drivetrainType)
+            )
+          )
+        )
+      )
+    )
+  );
+}
+
+function convertTreeForApi(
+  tree: ModelSeedTree,
+  txByKey: Map<string, string>,
+  dtByType: Map<string, string>
+) {
+  return {
+    make: tree.make,
+    model: tree.model,
+    generations: tree.generations.map((gen) => ({
+      name: gen.name,
+      startYear: gen.startYear,
+      endYear: gen.endYear,
+      phases: gen.phases,
+      bodyVariants: gen.bodyVariants.map((bv) => ({
+        name: bv.name,
+        doors: bv.doors,
+        wheelbaseMm: bv.wheelbaseMm,
+        bodyType: { name: bv.bodyTypeName },
+        versions: bv.versions.map((ver) => ({
+          name: ver.name,
+          startYear: ver.startYear,
+          endYear: ver.endYear,
+          phaseName: ver.phaseName,
+          configs: ver.configs.map((c) => {
+            const txKey = transmissionKey(
+              c.transmissionType,
+              getTransmissionGears(c.transmissionType)
+            );
+
+            const normalizedDrivetrainType = normalizeDrivetrainType(
+              c.drivetrainType
+            );
+
+            const txId = txByKey.get(txKey);
+            const dtId = dtByType.get(normalizedDrivetrainType);
+
+            if (!txId) {
+              throw new Error(
+                `Missing transmission id for type=${c.transmissionType}, key=${txKey}`
+              );
+            }
+
+            if (!dtId) {
+              throw new Error(
+                `Missing drivetrain id for type=${c.drivetrainType}, normalized=${normalizedDrivetrainType}`
+              );
+            }
+
+            return {
+              year: c.year,
+              engine: { code: c.engineCode },
+              transmission: { id: txId },
+              drivetrain: { id: dtId },
+              spec: {
+                fuelType: c.fuelType,
+                powerPsOverride: c.powerPs,
+                torqueNmOverride: c.torqueNm,
+                zeroTo100: c.zeroTo100,
+              },
+            };
+          }),
+        })),
+      })),
+    })),
+  };
+}
+
 async function main() {
-  console.log("Seeding via API:", { BASE_URL, API_PREFIX });
+  console.log("Seeding via API:", {
+    BASE_URL,
+    API_PREFIX,
+    LEGACY_DOUBLE_MOUNT,
+  });
 
   const token = await ensureAuth();
 
-  // 1) makes (protected)
+  // 1) Makes
   await tryPost(
     endpoints.makesCreate,
-    MAKES.map((m) => ({ name: m.name, country: m.country })),
+    MAKES.map((m) => ({
+      name: m.name,
+      country: m.country,
+    })),
     token,
     `Seed makes (${MAKES.length})`
   );
 
-  // 2) transmissions + drivetrains (public, safe)
+  // 2) Transmissions + drivetrains
   await ensureTransmissions(TRANSMISSIONS);
   await ensureDrivetrains(DRIVETRAINS);
 
-  // 3) engines (public)
+  // 3) Engines
   await seedEngines();
 
-  // 4) rebuild maps (reuse IDs)
-  const txByType = await buildTransmissionMap();
+  // 4) Rebuild maps
+  const txByKey = await buildTransmissionMap();
   const dtByType = await buildDrivetrainMap();
 
-  // Ensure required tx/dt types exist (defensive)
-  const requiredTx = uniq(
-    CATALOG.flatMap((t) =>
-      t.generations.flatMap((g) =>
-        g.bodyVariants.flatMap((bv) => bv.versions.flatMap((v) => v.configs.map((c) => c.transmissionType)))
-      )
-    )
-  );
-  const requiredDt = uniq(
-    CATALOG.flatMap((t) =>
-      t.generations.flatMap((g) =>
-        g.bodyVariants.flatMap((bv) => bv.versions.flatMap((v) => v.configs.map((c) => c.drivetrainType)))
-      )
-    )
-  );
+  // 5) Defensive validation
+  const requiredTx = collectRequiredTransmissionTypes();
+  const requiredDt = collectRequiredDrivetrainTypes();
 
   for (const t of requiredTx) {
-    if (!txByType.get(t)) {
-      console.warn(`⚠️ Missing transmission type in DB: ${t} (did not find id)`);
-    }
-  }
-  for (const d of requiredDt) {
-    if (!dtByType.get(d)) {
-      console.warn(`⚠️ Missing drivetrain type in DB: ${d} (did not find id)`);
+    const key = transmissionKey(t, getTransmissionGears(t));
+
+    if (!txByKey.get(key)) {
+      console.warn(
+        `⚠️ Missing transmission in DB: type=${t}, key=${key} (did not find id)`
+      );
     }
   }
 
-  // 5) upsert catalog trees
+  for (const d of requiredDt) {
+    if (!dtByType.get(d)) {
+      console.warn(`⚠️ Missing drivetrain in DB: type=${d} (did not find id)`);
+    }
+  }
+
+  // 6) Upsert catalog trees
   let ok = 0;
   let fail = 0;
 
   for (const tree of CATALOG) {
-    // Convert ConfigSeed into your API shape (reuse IDs)
-    const fullTree: any = {
-      make: tree.make,
-      model: tree.model,
-      generations: tree.generations.map((gen) => ({
-        name: gen.name,
-        startYear: gen.startYear,
-        endYear: gen.endYear,
-        phases: gen.phases,
-        bodyVariants: gen.bodyVariants.map((bv) => ({
-          name: bv.name,
-          doors: bv.doors,
-          wheelbaseMm: bv.wheelbaseMm,
-          bodyType: { name: bv.bodyTypeName },
-          versions: bv.versions.map((ver) => ({
-            name: ver.name,
-            startYear: ver.startYear,
-            endYear: ver.endYear,
-            phaseName: ver.phaseName,
-            configs: ver.configs.map((c) => {
-              const txId = txByType.get(c.transmissionType);
-              const dtId = dtByType.get(c.drivetrainType);
-              if (!txId) throw new Error(`Missing transmission id for type=${c.transmissionType}`);
-              if (!dtId) throw new Error(`Missing drivetrain id for type=${c.drivetrainType}`);
-
-              return {
-                year: c.year,
-                engine: { code: c.engineCode },
-                transmission: { id: txId },
-                drivetrain: { id: dtId },
-                spec: {
-                  fuelType: c.fuelType,
-                  powerPsOverride: c.powerPs,
-                  torqueNmOverride: c.torqueNm,
-                  zeroTo100: c.zeroTo100,
-                },
-              };
-            }),
-          })),
-        })),
-      })),
-    };
-
     try {
+      const fullTree = convertTreeForApi(tree, txByKey, dtByType);
+
       await http("POST", endpoints.upsertFullModel, fullTree);
+
       ok++;
-      console.log(`✅ upserted: ${tree.make.name} ${tree.model.name} (${ok}/${CATALOG.length})`);
+      console.log(
+        `✅ upserted: ${tree.make.name} ${tree.model.name} (${ok}/${CATALOG.length})`
+      );
     } catch (e: any) {
       fail++;
       console.warn(`❌ upsert failed: ${tree.make.name} ${tree.model.name}`);
@@ -1865,7 +2461,7 @@ async function main() {
     makesSeeded: MAKES.length,
     modelsUpserted: ok,
     failed: fail,
-    note: "Curated pack (deterministic). Add more models/gens by extending CATALOG.",
+    note: "Curated pack deterministic. Add more models/gens by extending CATALOG.",
   });
 }
 

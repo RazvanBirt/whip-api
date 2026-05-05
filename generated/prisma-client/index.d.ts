@@ -2576,12 +2576,10 @@ export namespace Prisma {
 
   export type EngineCountOutputType = {
     versionConfigs: number
-    userCars: number
   }
 
   export type EngineCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     versionConfigs?: boolean | EngineCountOutputTypeCountVersionConfigsArgs
-    userCars?: boolean | EngineCountOutputTypeCountUserCarsArgs
   }
 
   // Custom InputTypes
@@ -2602,13 +2600,6 @@ export namespace Prisma {
     where?: VersionConfigWhereInput
   }
 
-  /**
-   * EngineCountOutputType without action
-   */
-  export type EngineCountOutputTypeCountUserCarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserCarWhereInput
-  }
-
 
   /**
    * Count Type TransmissionCountOutputType
@@ -2616,12 +2607,10 @@ export namespace Prisma {
 
   export type TransmissionCountOutputType = {
     versionConfigs: number
-    userCars: number
   }
 
   export type TransmissionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     versionConfigs?: boolean | TransmissionCountOutputTypeCountVersionConfigsArgs
-    userCars?: boolean | TransmissionCountOutputTypeCountUserCarsArgs
   }
 
   // Custom InputTypes
@@ -2642,13 +2631,6 @@ export namespace Prisma {
     where?: VersionConfigWhereInput
   }
 
-  /**
-   * TransmissionCountOutputType without action
-   */
-  export type TransmissionCountOutputTypeCountUserCarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserCarWhereInput
-  }
-
 
   /**
    * Count Type DrivetrainCountOutputType
@@ -2656,12 +2638,10 @@ export namespace Prisma {
 
   export type DrivetrainCountOutputType = {
     versionConfigs: number
-    userCars: number
   }
 
   export type DrivetrainCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     versionConfigs?: boolean | DrivetrainCountOutputTypeCountVersionConfigsArgs
-    userCars?: boolean | DrivetrainCountOutputTypeCountUserCarsArgs
   }
 
   // Custom InputTypes
@@ -2680,13 +2660,6 @@ export namespace Prisma {
    */
   export type DrivetrainCountOutputTypeCountVersionConfigsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: VersionConfigWhereInput
-  }
-
-  /**
-   * DrivetrainCountOutputType without action
-   */
-  export type DrivetrainCountOutputTypeCountUserCarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserCarWhereInput
   }
 
 
@@ -13314,7 +13287,6 @@ export namespace Prisma {
     torqueNm?: boolean
     torqueLbft?: boolean
     versionConfigs?: boolean | Engine$versionConfigsArgs<ExtArgs>
-    userCars?: boolean | Engine$userCarsArgs<ExtArgs>
     _count?: boolean | EngineCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["engine"]>
 
@@ -13366,7 +13338,6 @@ export namespace Prisma {
   export type EngineOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "configuration" | "displacementLiters" | "displacementCc" | "cylinders" | "fuelType" | "aspiration" | "powerPs" | "powerKw" | "torqueNm" | "torqueLbft", ExtArgs["result"]["engine"]>
   export type EngineInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     versionConfigs?: boolean | Engine$versionConfigsArgs<ExtArgs>
-    userCars?: boolean | Engine$userCarsArgs<ExtArgs>
     _count?: boolean | EngineCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type EngineIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -13376,7 +13347,6 @@ export namespace Prisma {
     name: "Engine"
     objects: {
       versionConfigs: Prisma.$VersionConfigPayload<ExtArgs>[]
-      userCars: Prisma.$UserCarPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13786,7 +13756,6 @@ export namespace Prisma {
   export interface Prisma__EngineClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     versionConfigs<T extends Engine$versionConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Engine$versionConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VersionConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    userCars<T extends Engine$userCarsArgs<ExtArgs> = {}>(args?: Subset<T, Engine$userCarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -14240,30 +14209,6 @@ export namespace Prisma {
   }
 
   /**
-   * Engine.userCars
-   */
-  export type Engine$userCarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserCar
-     */
-    select?: UserCarSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserCar
-     */
-    omit?: UserCarOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserCarInclude<ExtArgs> | null
-    where?: UserCarWhereInput
-    orderBy?: UserCarOrderByWithRelationInput | UserCarOrderByWithRelationInput[]
-    cursor?: UserCarWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserCarScalarFieldEnum | UserCarScalarFieldEnum[]
-  }
-
-  /**
    * Engine without action
    */
   export type EngineDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14465,7 +14410,6 @@ export namespace Prisma {
     type?: boolean
     gears?: boolean
     versionConfigs?: boolean | Transmission$versionConfigsArgs<ExtArgs>
-    userCars?: boolean | Transmission$userCarsArgs<ExtArgs>
     _count?: boolean | TransmissionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transmission"]>
 
@@ -14490,7 +14434,6 @@ export namespace Prisma {
   export type TransmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "gears", ExtArgs["result"]["transmission"]>
   export type TransmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     versionConfigs?: boolean | Transmission$versionConfigsArgs<ExtArgs>
-    userCars?: boolean | Transmission$userCarsArgs<ExtArgs>
     _count?: boolean | TransmissionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type TransmissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -14500,7 +14443,6 @@ export namespace Prisma {
     name: "Transmission"
     objects: {
       versionConfigs: Prisma.$VersionConfigPayload<ExtArgs>[]
-      userCars: Prisma.$UserCarPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -14901,7 +14843,6 @@ export namespace Prisma {
   export interface Prisma__TransmissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     versionConfigs<T extends Transmission$versionConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Transmission$versionConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VersionConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    userCars<T extends Transmission$userCarsArgs<ExtArgs> = {}>(args?: Subset<T, Transmission$userCarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15346,30 +15287,6 @@ export namespace Prisma {
   }
 
   /**
-   * Transmission.userCars
-   */
-  export type Transmission$userCarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserCar
-     */
-    select?: UserCarSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserCar
-     */
-    omit?: UserCarOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserCarInclude<ExtArgs> | null
-    where?: UserCarWhereInput
-    orderBy?: UserCarOrderByWithRelationInput | UserCarOrderByWithRelationInput[]
-    cursor?: UserCarWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserCarScalarFieldEnum | UserCarScalarFieldEnum[]
-  }
-
-  /**
    * Transmission without action
    */
   export type TransmissionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15537,7 +15454,6 @@ export namespace Prisma {
     type?: boolean
     description?: boolean
     versionConfigs?: boolean | Drivetrain$versionConfigsArgs<ExtArgs>
-    userCars?: boolean | Drivetrain$userCarsArgs<ExtArgs>
     _count?: boolean | DrivetrainCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["drivetrain"]>
 
@@ -15562,7 +15478,6 @@ export namespace Prisma {
   export type DrivetrainOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "type" | "description", ExtArgs["result"]["drivetrain"]>
   export type DrivetrainInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     versionConfigs?: boolean | Drivetrain$versionConfigsArgs<ExtArgs>
-    userCars?: boolean | Drivetrain$userCarsArgs<ExtArgs>
     _count?: boolean | DrivetrainCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DrivetrainIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -15572,7 +15487,6 @@ export namespace Prisma {
     name: "Drivetrain"
     objects: {
       versionConfigs: Prisma.$VersionConfigPayload<ExtArgs>[]
-      userCars: Prisma.$UserCarPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15973,7 +15887,6 @@ export namespace Prisma {
   export interface Prisma__DrivetrainClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     versionConfigs<T extends Drivetrain$versionConfigsArgs<ExtArgs> = {}>(args?: Subset<T, Drivetrain$versionConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VersionConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    userCars<T extends Drivetrain$userCarsArgs<ExtArgs> = {}>(args?: Subset<T, Drivetrain$userCarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16415,30 +16328,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: VersionConfigScalarFieldEnum | VersionConfigScalarFieldEnum[]
-  }
-
-  /**
-   * Drivetrain.userCars
-   */
-  export type Drivetrain$userCarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserCar
-     */
-    select?: UserCarSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserCar
-     */
-    omit?: UserCarOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserCarInclude<ExtArgs> | null
-    where?: UserCarWhereInput
-    orderBy?: UserCarOrderByWithRelationInput | UserCarOrderByWithRelationInput[]
-    cursor?: UserCarWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: UserCarScalarFieldEnum | UserCarScalarFieldEnum[]
   }
 
   /**
@@ -19798,11 +19687,9 @@ export namespace Prisma {
     licensePlate: string | null
     color: string | null
     mileageKm: number | null
+    isPrimary: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
-    engineId: string | null
-    transmissionId: string | null
-    drivetrainId: string | null
   }
 
   export type UserCarMaxAggregateOutputType = {
@@ -19814,11 +19701,9 @@ export namespace Prisma {
     licensePlate: string | null
     color: string | null
     mileageKm: number | null
+    isPrimary: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
-    engineId: string | null
-    transmissionId: string | null
-    drivetrainId: string | null
   }
 
   export type UserCarCountAggregateOutputType = {
@@ -19830,11 +19715,9 @@ export namespace Prisma {
     licensePlate: number
     color: number
     mileageKm: number
+    isPrimary: number
     createdAt: number
     updatedAt: number
-    engineId: number
-    transmissionId: number
-    drivetrainId: number
     _all: number
   }
 
@@ -19856,11 +19739,9 @@ export namespace Prisma {
     licensePlate?: true
     color?: true
     mileageKm?: true
+    isPrimary?: true
     createdAt?: true
     updatedAt?: true
-    engineId?: true
-    transmissionId?: true
-    drivetrainId?: true
   }
 
   export type UserCarMaxAggregateInputType = {
@@ -19872,11 +19753,9 @@ export namespace Prisma {
     licensePlate?: true
     color?: true
     mileageKm?: true
+    isPrimary?: true
     createdAt?: true
     updatedAt?: true
-    engineId?: true
-    transmissionId?: true
-    drivetrainId?: true
   }
 
   export type UserCarCountAggregateInputType = {
@@ -19888,11 +19767,9 @@ export namespace Prisma {
     licensePlate?: true
     color?: true
     mileageKm?: true
+    isPrimary?: true
     createdAt?: true
     updatedAt?: true
-    engineId?: true
-    transmissionId?: true
-    drivetrainId?: true
     _all?: true
   }
 
@@ -19991,11 +19868,9 @@ export namespace Prisma {
     licensePlate: string | null
     color: string | null
     mileageKm: number | null
+    isPrimary: boolean
     createdAt: Date
     updatedAt: Date
-    engineId: string | null
-    transmissionId: string | null
-    drivetrainId: string | null
     _count: UserCarCountAggregateOutputType | null
     _avg: UserCarAvgAggregateOutputType | null
     _sum: UserCarSumAggregateOutputType | null
@@ -20026,16 +19901,11 @@ export namespace Prisma {
     licensePlate?: boolean
     color?: boolean
     mileageKm?: boolean
+    isPrimary?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    engineId?: boolean
-    transmissionId?: boolean
-    drivetrainId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     versionConfig?: boolean | VersionConfigDefaultArgs<ExtArgs>
-    engine?: boolean | UserCar$engineArgs<ExtArgs>
-    transmission?: boolean | UserCar$transmissionArgs<ExtArgs>
-    drivetrain?: boolean | UserCar$drivetrainArgs<ExtArgs>
   }, ExtArgs["result"]["userCar"]>
 
   export type UserCarSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -20047,16 +19917,11 @@ export namespace Prisma {
     licensePlate?: boolean
     color?: boolean
     mileageKm?: boolean
+    isPrimary?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    engineId?: boolean
-    transmissionId?: boolean
-    drivetrainId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     versionConfig?: boolean | VersionConfigDefaultArgs<ExtArgs>
-    engine?: boolean | UserCar$engineArgs<ExtArgs>
-    transmission?: boolean | UserCar$transmissionArgs<ExtArgs>
-    drivetrain?: boolean | UserCar$drivetrainArgs<ExtArgs>
   }, ExtArgs["result"]["userCar"]>
 
   export type UserCarSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -20068,16 +19933,11 @@ export namespace Prisma {
     licensePlate?: boolean
     color?: boolean
     mileageKm?: boolean
+    isPrimary?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    engineId?: boolean
-    transmissionId?: boolean
-    drivetrainId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     versionConfig?: boolean | VersionConfigDefaultArgs<ExtArgs>
-    engine?: boolean | UserCar$engineArgs<ExtArgs>
-    transmission?: boolean | UserCar$transmissionArgs<ExtArgs>
-    drivetrain?: boolean | UserCar$drivetrainArgs<ExtArgs>
   }, ExtArgs["result"]["userCar"]>
 
   export type UserCarSelectScalar = {
@@ -20089,34 +19949,23 @@ export namespace Prisma {
     licensePlate?: boolean
     color?: boolean
     mileageKm?: boolean
+    isPrimary?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    engineId?: boolean
-    transmissionId?: boolean
-    drivetrainId?: boolean
   }
 
-  export type UserCarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "versionConfigId" | "nickname" | "vin" | "licensePlate" | "color" | "mileageKm" | "createdAt" | "updatedAt" | "engineId" | "transmissionId" | "drivetrainId", ExtArgs["result"]["userCar"]>
+  export type UserCarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "versionConfigId" | "nickname" | "vin" | "licensePlate" | "color" | "mileageKm" | "isPrimary" | "createdAt" | "updatedAt", ExtArgs["result"]["userCar"]>
   export type UserCarInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     versionConfig?: boolean | VersionConfigDefaultArgs<ExtArgs>
-    engine?: boolean | UserCar$engineArgs<ExtArgs>
-    transmission?: boolean | UserCar$transmissionArgs<ExtArgs>
-    drivetrain?: boolean | UserCar$drivetrainArgs<ExtArgs>
   }
   export type UserCarIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     versionConfig?: boolean | VersionConfigDefaultArgs<ExtArgs>
-    engine?: boolean | UserCar$engineArgs<ExtArgs>
-    transmission?: boolean | UserCar$transmissionArgs<ExtArgs>
-    drivetrain?: boolean | UserCar$drivetrainArgs<ExtArgs>
   }
   export type UserCarIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     versionConfig?: boolean | VersionConfigDefaultArgs<ExtArgs>
-    engine?: boolean | UserCar$engineArgs<ExtArgs>
-    transmission?: boolean | UserCar$transmissionArgs<ExtArgs>
-    drivetrain?: boolean | UserCar$drivetrainArgs<ExtArgs>
   }
 
   export type $UserCarPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20124,9 +19973,6 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       versionConfig: Prisma.$VersionConfigPayload<ExtArgs>
-      engine: Prisma.$EnginePayload<ExtArgs> | null
-      transmission: Prisma.$TransmissionPayload<ExtArgs> | null
-      drivetrain: Prisma.$DrivetrainPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20137,11 +19983,9 @@ export namespace Prisma {
       licensePlate: string | null
       color: string | null
       mileageKm: number | null
+      isPrimary: boolean
       createdAt: Date
       updatedAt: Date
-      engineId: string | null
-      transmissionId: string | null
-      drivetrainId: string | null
     }, ExtArgs["result"]["userCar"]>
     composites: {}
   }
@@ -20538,9 +20382,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     versionConfig<T extends VersionConfigDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VersionConfigDefaultArgs<ExtArgs>>): Prisma__VersionConfigClient<$Result.GetResult<Prisma.$VersionConfigPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    engine<T extends UserCar$engineArgs<ExtArgs> = {}>(args?: Subset<T, UserCar$engineArgs<ExtArgs>>): Prisma__EngineClient<$Result.GetResult<Prisma.$EnginePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    transmission<T extends UserCar$transmissionArgs<ExtArgs> = {}>(args?: Subset<T, UserCar$transmissionArgs<ExtArgs>>): Prisma__TransmissionClient<$Result.GetResult<Prisma.$TransmissionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    drivetrain<T extends UserCar$drivetrainArgs<ExtArgs> = {}>(args?: Subset<T, UserCar$drivetrainArgs<ExtArgs>>): Prisma__DrivetrainClient<$Result.GetResult<Prisma.$DrivetrainPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20578,11 +20419,9 @@ export namespace Prisma {
     readonly licensePlate: FieldRef<"UserCar", 'String'>
     readonly color: FieldRef<"UserCar", 'String'>
     readonly mileageKm: FieldRef<"UserCar", 'Int'>
+    readonly isPrimary: FieldRef<"UserCar", 'Boolean'>
     readonly createdAt: FieldRef<"UserCar", 'DateTime'>
     readonly updatedAt: FieldRef<"UserCar", 'DateTime'>
-    readonly engineId: FieldRef<"UserCar", 'String'>
-    readonly transmissionId: FieldRef<"UserCar", 'String'>
-    readonly drivetrainId: FieldRef<"UserCar", 'String'>
   }
     
 
@@ -20976,63 +20815,6 @@ export namespace Prisma {
      * Limit how many UserCars to delete.
      */
     limit?: number
-  }
-
-  /**
-   * UserCar.engine
-   */
-  export type UserCar$engineArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Engine
-     */
-    select?: EngineSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Engine
-     */
-    omit?: EngineOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EngineInclude<ExtArgs> | null
-    where?: EngineWhereInput
-  }
-
-  /**
-   * UserCar.transmission
-   */
-  export type UserCar$transmissionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Transmission
-     */
-    select?: TransmissionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Transmission
-     */
-    omit?: TransmissionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TransmissionInclude<ExtArgs> | null
-    where?: TransmissionWhereInput
-  }
-
-  /**
-   * UserCar.drivetrain
-   */
-  export type UserCar$drivetrainArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Drivetrain
-     */
-    select?: DrivetrainSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Drivetrain
-     */
-    omit?: DrivetrainOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DrivetrainInclude<ExtArgs> | null
-    where?: DrivetrainWhereInput
   }
 
   /**
@@ -22312,11 +22094,9 @@ export namespace Prisma {
     licensePlate: 'licensePlate',
     color: 'color',
     mileageKm: 'mileageKm',
+    isPrimary: 'isPrimary',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    engineId: 'engineId',
-    transmissionId: 'transmissionId',
-    drivetrainId: 'drivetrainId'
+    updatedAt: 'updatedAt'
   };
 
   export type UserCarScalarFieldEnum = (typeof UserCarScalarFieldEnum)[keyof typeof UserCarScalarFieldEnum]
@@ -22447,6 +22227,13 @@ export namespace Prisma {
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
   /**
    * Deep Input Types
    */
@@ -22528,15 +22315,15 @@ export namespace Prisma {
 
   export type ModelWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    name?: string
     makeId_name?: ModelMakeIdNameCompoundUniqueInput
     AND?: ModelWhereInput | ModelWhereInput[]
     OR?: ModelWhereInput[]
     NOT?: ModelWhereInput | ModelWhereInput[]
     makeId?: UuidFilter<"Model"> | string
+    name?: StringFilter<"Model"> | string
     make?: XOR<MakeScalarRelationFilter, MakeWhereInput>
     generations?: GenerationListRelationFilter
-  }, "id" | "name" | "makeId_name">
+  }, "id" | "makeId_name">
 
   export type ModelOrderByWithAggregationInput = {
     id?: SortOrder
@@ -23071,7 +22858,6 @@ export namespace Prisma {
     torqueNm?: IntNullableFilter<"Engine"> | number | null
     torqueLbft?: IntNullableFilter<"Engine"> | number | null
     versionConfigs?: VersionConfigListRelationFilter
-    userCars?: UserCarListRelationFilter
   }
 
   export type EngineOrderByWithRelationInput = {
@@ -23088,7 +22874,6 @@ export namespace Prisma {
     torqueNm?: SortOrderInput | SortOrder
     torqueLbft?: SortOrderInput | SortOrder
     versionConfigs?: VersionConfigOrderByRelationAggregateInput
-    userCars?: UserCarOrderByRelationAggregateInput
   }
 
   export type EngineWhereUniqueInput = Prisma.AtLeast<{
@@ -23108,7 +22893,6 @@ export namespace Prisma {
     torqueNm?: IntNullableFilter<"Engine"> | number | null
     torqueLbft?: IntNullableFilter<"Engine"> | number | null
     versionConfigs?: VersionConfigListRelationFilter
-    userCars?: UserCarListRelationFilter
   }, "id" | "code">
 
   export type EngineOrderByWithAggregationInput = {
@@ -23157,7 +22941,6 @@ export namespace Prisma {
     type?: StringFilter<"Transmission"> | string
     gears?: IntFilter<"Transmission"> | number
     versionConfigs?: VersionConfigListRelationFilter
-    userCars?: UserCarListRelationFilter
   }
 
   export type TransmissionOrderByWithRelationInput = {
@@ -23165,20 +22948,18 @@ export namespace Prisma {
     type?: SortOrder
     gears?: SortOrder
     versionConfigs?: VersionConfigOrderByRelationAggregateInput
-    userCars?: UserCarOrderByRelationAggregateInput
   }
 
   export type TransmissionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    type?: string
     type_gears?: TransmissionTypeGearsCompoundUniqueInput
     AND?: TransmissionWhereInput | TransmissionWhereInput[]
     OR?: TransmissionWhereInput[]
     NOT?: TransmissionWhereInput | TransmissionWhereInput[]
+    type?: StringFilter<"Transmission"> | string
     gears?: IntFilter<"Transmission"> | number
     versionConfigs?: VersionConfigListRelationFilter
-    userCars?: UserCarListRelationFilter
-  }, "id" | "type" | "type_gears">
+  }, "id" | "type_gears">
 
   export type TransmissionOrderByWithAggregationInput = {
     id?: SortOrder
@@ -23208,7 +22989,6 @@ export namespace Prisma {
     type?: StringFilter<"Drivetrain"> | string
     description?: StringNullableFilter<"Drivetrain"> | string | null
     versionConfigs?: VersionConfigListRelationFilter
-    userCars?: UserCarListRelationFilter
   }
 
   export type DrivetrainOrderByWithRelationInput = {
@@ -23216,20 +22996,17 @@ export namespace Prisma {
     type?: SortOrder
     description?: SortOrderInput | SortOrder
     versionConfigs?: VersionConfigOrderByRelationAggregateInput
-    userCars?: UserCarOrderByRelationAggregateInput
   }
 
   export type DrivetrainWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     type?: string
-    type_description?: DrivetrainTypeDescriptionCompoundUniqueInput
     AND?: DrivetrainWhereInput | DrivetrainWhereInput[]
     OR?: DrivetrainWhereInput[]
     NOT?: DrivetrainWhereInput | DrivetrainWhereInput[]
     description?: StringNullableFilter<"Drivetrain"> | string | null
     versionConfigs?: VersionConfigListRelationFilter
-    userCars?: UserCarListRelationFilter
-  }, "id" | "type" | "type_description">
+  }, "id" | "type">
 
   export type DrivetrainOrderByWithAggregationInput = {
     id?: SortOrder
@@ -23450,16 +23227,11 @@ export namespace Prisma {
     licensePlate?: StringNullableFilter<"UserCar"> | string | null
     color?: StringNullableFilter<"UserCar"> | string | null
     mileageKm?: IntNullableFilter<"UserCar"> | number | null
+    isPrimary?: BoolFilter<"UserCar"> | boolean
     createdAt?: DateTimeFilter<"UserCar"> | Date | string
     updatedAt?: DateTimeFilter<"UserCar"> | Date | string
-    engineId?: UuidNullableFilter<"UserCar"> | string | null
-    transmissionId?: UuidNullableFilter<"UserCar"> | string | null
-    drivetrainId?: UuidNullableFilter<"UserCar"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     versionConfig?: XOR<VersionConfigScalarRelationFilter, VersionConfigWhereInput>
-    engine?: XOR<EngineNullableScalarRelationFilter, EngineWhereInput> | null
-    transmission?: XOR<TransmissionNullableScalarRelationFilter, TransmissionWhereInput> | null
-    drivetrain?: XOR<DrivetrainNullableScalarRelationFilter, DrivetrainWhereInput> | null
   }
 
   export type UserCarOrderByWithRelationInput = {
@@ -23471,16 +23243,11 @@ export namespace Prisma {
     licensePlate?: SortOrderInput | SortOrder
     color?: SortOrderInput | SortOrder
     mileageKm?: SortOrderInput | SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    engineId?: SortOrderInput | SortOrder
-    transmissionId?: SortOrderInput | SortOrder
-    drivetrainId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     versionConfig?: VersionConfigOrderByWithRelationInput
-    engine?: EngineOrderByWithRelationInput
-    transmission?: TransmissionOrderByWithRelationInput
-    drivetrain?: DrivetrainOrderByWithRelationInput
   }
 
   export type UserCarWhereUniqueInput = Prisma.AtLeast<{
@@ -23495,16 +23262,11 @@ export namespace Prisma {
     licensePlate?: StringNullableFilter<"UserCar"> | string | null
     color?: StringNullableFilter<"UserCar"> | string | null
     mileageKm?: IntNullableFilter<"UserCar"> | number | null
+    isPrimary?: BoolFilter<"UserCar"> | boolean
     createdAt?: DateTimeFilter<"UserCar"> | Date | string
     updatedAt?: DateTimeFilter<"UserCar"> | Date | string
-    engineId?: UuidNullableFilter<"UserCar"> | string | null
-    transmissionId?: UuidNullableFilter<"UserCar"> | string | null
-    drivetrainId?: UuidNullableFilter<"UserCar"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     versionConfig?: XOR<VersionConfigScalarRelationFilter, VersionConfigWhereInput>
-    engine?: XOR<EngineNullableScalarRelationFilter, EngineWhereInput> | null
-    transmission?: XOR<TransmissionNullableScalarRelationFilter, TransmissionWhereInput> | null
-    drivetrain?: XOR<DrivetrainNullableScalarRelationFilter, DrivetrainWhereInput> | null
   }, "id">
 
   export type UserCarOrderByWithAggregationInput = {
@@ -23516,11 +23278,9 @@ export namespace Prisma {
     licensePlate?: SortOrderInput | SortOrder
     color?: SortOrderInput | SortOrder
     mileageKm?: SortOrderInput | SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    engineId?: SortOrderInput | SortOrder
-    transmissionId?: SortOrderInput | SortOrder
-    drivetrainId?: SortOrderInput | SortOrder
     _count?: UserCarCountOrderByAggregateInput
     _avg?: UserCarAvgOrderByAggregateInput
     _max?: UserCarMaxOrderByAggregateInput
@@ -23540,11 +23300,9 @@ export namespace Prisma {
     licensePlate?: StringNullableWithAggregatesFilter<"UserCar"> | string | null
     color?: StringNullableWithAggregatesFilter<"UserCar"> | string | null
     mileageKm?: IntNullableWithAggregatesFilter<"UserCar"> | number | null
+    isPrimary?: BoolWithAggregatesFilter<"UserCar"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"UserCar"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserCar"> | Date | string
-    engineId?: UuidNullableWithAggregatesFilter<"UserCar"> | string | null
-    transmissionId?: UuidNullableWithAggregatesFilter<"UserCar"> | string | null
-    drivetrainId?: UuidNullableWithAggregatesFilter<"UserCar"> | string | null
   }
 
   export type UserSettingWhereInput = {
@@ -24219,7 +23977,6 @@ export namespace Prisma {
     torqueNm?: number | null
     torqueLbft?: number | null
     versionConfigs?: VersionConfigCreateNestedManyWithoutEngineInput
-    userCars?: UserCarCreateNestedManyWithoutEngineInput
   }
 
   export type EngineUncheckedCreateInput = {
@@ -24236,7 +23993,6 @@ export namespace Prisma {
     torqueNm?: number | null
     torqueLbft?: number | null
     versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutEngineInput
-    userCars?: UserCarUncheckedCreateNestedManyWithoutEngineInput
   }
 
   export type EngineUpdateInput = {
@@ -24253,7 +24009,6 @@ export namespace Prisma {
     torqueNm?: NullableIntFieldUpdateOperationsInput | number | null
     torqueLbft?: NullableIntFieldUpdateOperationsInput | number | null
     versionConfigs?: VersionConfigUpdateManyWithoutEngineNestedInput
-    userCars?: UserCarUpdateManyWithoutEngineNestedInput
   }
 
   export type EngineUncheckedUpdateInput = {
@@ -24270,7 +24025,6 @@ export namespace Prisma {
     torqueNm?: NullableIntFieldUpdateOperationsInput | number | null
     torqueLbft?: NullableIntFieldUpdateOperationsInput | number | null
     versionConfigs?: VersionConfigUncheckedUpdateManyWithoutEngineNestedInput
-    userCars?: UserCarUncheckedUpdateManyWithoutEngineNestedInput
   }
 
   export type EngineCreateManyInput = {
@@ -24323,7 +24077,6 @@ export namespace Prisma {
     type: string
     gears: number
     versionConfigs?: VersionConfigCreateNestedManyWithoutTransmissionInput
-    userCars?: UserCarCreateNestedManyWithoutTransmissionInput
   }
 
   export type TransmissionUncheckedCreateInput = {
@@ -24331,7 +24084,6 @@ export namespace Prisma {
     type: string
     gears: number
     versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutTransmissionInput
-    userCars?: UserCarUncheckedCreateNestedManyWithoutTransmissionInput
   }
 
   export type TransmissionUpdateInput = {
@@ -24339,7 +24091,6 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     gears?: IntFieldUpdateOperationsInput | number
     versionConfigs?: VersionConfigUpdateManyWithoutTransmissionNestedInput
-    userCars?: UserCarUpdateManyWithoutTransmissionNestedInput
   }
 
   export type TransmissionUncheckedUpdateInput = {
@@ -24347,7 +24098,6 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     gears?: IntFieldUpdateOperationsInput | number
     versionConfigs?: VersionConfigUncheckedUpdateManyWithoutTransmissionNestedInput
-    userCars?: UserCarUncheckedUpdateManyWithoutTransmissionNestedInput
   }
 
   export type TransmissionCreateManyInput = {
@@ -24373,7 +24123,6 @@ export namespace Prisma {
     type: string
     description?: string | null
     versionConfigs?: VersionConfigCreateNestedManyWithoutDrivetrainInput
-    userCars?: UserCarCreateNestedManyWithoutDrivetrainInput
   }
 
   export type DrivetrainUncheckedCreateInput = {
@@ -24381,7 +24130,6 @@ export namespace Prisma {
     type: string
     description?: string | null
     versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutDrivetrainInput
-    userCars?: UserCarUncheckedCreateNestedManyWithoutDrivetrainInput
   }
 
   export type DrivetrainUpdateInput = {
@@ -24389,7 +24137,6 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     versionConfigs?: VersionConfigUpdateManyWithoutDrivetrainNestedInput
-    userCars?: UserCarUpdateManyWithoutDrivetrainNestedInput
   }
 
   export type DrivetrainUncheckedUpdateInput = {
@@ -24397,7 +24144,6 @@ export namespace Prisma {
     type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     versionConfigs?: VersionConfigUncheckedUpdateManyWithoutDrivetrainNestedInput
-    userCars?: UserCarUncheckedUpdateManyWithoutDrivetrainNestedInput
   }
 
   export type DrivetrainCreateManyInput = {
@@ -24628,13 +24374,11 @@ export namespace Prisma {
     licensePlate?: string | null
     color?: string | null
     mileageKm?: number | null
+    isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCarsInput
     versionConfig: VersionConfigCreateNestedOneWithoutUserCarsInput
-    engine?: EngineCreateNestedOneWithoutUserCarsInput
-    transmission?: TransmissionCreateNestedOneWithoutUserCarsInput
-    drivetrain?: DrivetrainCreateNestedOneWithoutUserCarsInput
   }
 
   export type UserCarUncheckedCreateInput = {
@@ -24646,11 +24390,9 @@ export namespace Prisma {
     licensePlate?: string | null
     color?: string | null
     mileageKm?: number | null
+    isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    engineId?: string | null
-    transmissionId?: string | null
-    drivetrainId?: string | null
   }
 
   export type UserCarUpdateInput = {
@@ -24660,13 +24402,11 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCarsNestedInput
     versionConfig?: VersionConfigUpdateOneRequiredWithoutUserCarsNestedInput
-    engine?: EngineUpdateOneWithoutUserCarsNestedInput
-    transmission?: TransmissionUpdateOneWithoutUserCarsNestedInput
-    drivetrain?: DrivetrainUpdateOneWithoutUserCarsNestedInput
   }
 
   export type UserCarUncheckedUpdateInput = {
@@ -24678,11 +24418,9 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCarCreateManyInput = {
@@ -24694,11 +24432,9 @@ export namespace Prisma {
     licensePlate?: string | null
     color?: string | null
     mileageKm?: number | null
+    isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    engineId?: string | null
-    transmissionId?: string | null
-    drivetrainId?: string | null
   }
 
   export type UserCarUpdateManyMutationInput = {
@@ -24708,6 +24444,7 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24721,11 +24458,9 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserSettingCreateInput = {
@@ -25621,11 +25356,6 @@ export namespace Prisma {
     gears?: SortOrder
   }
 
-  export type DrivetrainTypeDescriptionCompoundUniqueInput = {
-    type: string
-    description: string
-  }
-
   export type DrivetrainCountOrderByAggregateInput = {
     id?: SortOrder
     type?: SortOrder
@@ -25810,6 +25540,11 @@ export namespace Prisma {
     expiresAt?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type UserCarCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -25819,11 +25554,9 @@ export namespace Prisma {
     licensePlate?: SortOrder
     color?: SortOrder
     mileageKm?: SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    engineId?: SortOrder
-    transmissionId?: SortOrder
-    drivetrainId?: SortOrder
   }
 
   export type UserCarAvgOrderByAggregateInput = {
@@ -25839,11 +25572,9 @@ export namespace Prisma {
     licensePlate?: SortOrder
     color?: SortOrder
     mileageKm?: SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    engineId?: SortOrder
-    transmissionId?: SortOrder
-    drivetrainId?: SortOrder
   }
 
   export type UserCarMinOrderByAggregateInput = {
@@ -25855,15 +25586,21 @@ export namespace Prisma {
     licensePlate?: SortOrder
     color?: SortOrder
     mileageKm?: SortOrder
+    isPrimary?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    engineId?: SortOrder
-    transmissionId?: SortOrder
-    drivetrainId?: SortOrder
   }
 
   export type UserCarSumOrderByAggregateInput = {
     mileageKm?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type UserSettingUserIdSettingKeyCompoundUniqueInput = {
@@ -26518,25 +26255,11 @@ export namespace Prisma {
     connect?: VersionConfigWhereUniqueInput | VersionConfigWhereUniqueInput[]
   }
 
-  export type UserCarCreateNestedManyWithoutEngineInput = {
-    create?: XOR<UserCarCreateWithoutEngineInput, UserCarUncheckedCreateWithoutEngineInput> | UserCarCreateWithoutEngineInput[] | UserCarUncheckedCreateWithoutEngineInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutEngineInput | UserCarCreateOrConnectWithoutEngineInput[]
-    createMany?: UserCarCreateManyEngineInputEnvelope
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-  }
-
   export type VersionConfigUncheckedCreateNestedManyWithoutEngineInput = {
     create?: XOR<VersionConfigCreateWithoutEngineInput, VersionConfigUncheckedCreateWithoutEngineInput> | VersionConfigCreateWithoutEngineInput[] | VersionConfigUncheckedCreateWithoutEngineInput[]
     connectOrCreate?: VersionConfigCreateOrConnectWithoutEngineInput | VersionConfigCreateOrConnectWithoutEngineInput[]
     createMany?: VersionConfigCreateManyEngineInputEnvelope
     connect?: VersionConfigWhereUniqueInput | VersionConfigWhereUniqueInput[]
-  }
-
-  export type UserCarUncheckedCreateNestedManyWithoutEngineInput = {
-    create?: XOR<UserCarCreateWithoutEngineInput, UserCarUncheckedCreateWithoutEngineInput> | UserCarCreateWithoutEngineInput[] | UserCarUncheckedCreateWithoutEngineInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutEngineInput | UserCarCreateOrConnectWithoutEngineInput[]
-    createMany?: UserCarCreateManyEngineInputEnvelope
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
   }
 
   export type VersionConfigUpdateManyWithoutEngineNestedInput = {
@@ -26553,20 +26276,6 @@ export namespace Prisma {
     deleteMany?: VersionConfigScalarWhereInput | VersionConfigScalarWhereInput[]
   }
 
-  export type UserCarUpdateManyWithoutEngineNestedInput = {
-    create?: XOR<UserCarCreateWithoutEngineInput, UserCarUncheckedCreateWithoutEngineInput> | UserCarCreateWithoutEngineInput[] | UserCarUncheckedCreateWithoutEngineInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutEngineInput | UserCarCreateOrConnectWithoutEngineInput[]
-    upsert?: UserCarUpsertWithWhereUniqueWithoutEngineInput | UserCarUpsertWithWhereUniqueWithoutEngineInput[]
-    createMany?: UserCarCreateManyEngineInputEnvelope
-    set?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    disconnect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    delete?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    update?: UserCarUpdateWithWhereUniqueWithoutEngineInput | UserCarUpdateWithWhereUniqueWithoutEngineInput[]
-    updateMany?: UserCarUpdateManyWithWhereWithoutEngineInput | UserCarUpdateManyWithWhereWithoutEngineInput[]
-    deleteMany?: UserCarScalarWhereInput | UserCarScalarWhereInput[]
-  }
-
   export type VersionConfigUncheckedUpdateManyWithoutEngineNestedInput = {
     create?: XOR<VersionConfigCreateWithoutEngineInput, VersionConfigUncheckedCreateWithoutEngineInput> | VersionConfigCreateWithoutEngineInput[] | VersionConfigUncheckedCreateWithoutEngineInput[]
     connectOrCreate?: VersionConfigCreateOrConnectWithoutEngineInput | VersionConfigCreateOrConnectWithoutEngineInput[]
@@ -26581,20 +26290,6 @@ export namespace Prisma {
     deleteMany?: VersionConfigScalarWhereInput | VersionConfigScalarWhereInput[]
   }
 
-  export type UserCarUncheckedUpdateManyWithoutEngineNestedInput = {
-    create?: XOR<UserCarCreateWithoutEngineInput, UserCarUncheckedCreateWithoutEngineInput> | UserCarCreateWithoutEngineInput[] | UserCarUncheckedCreateWithoutEngineInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutEngineInput | UserCarCreateOrConnectWithoutEngineInput[]
-    upsert?: UserCarUpsertWithWhereUniqueWithoutEngineInput | UserCarUpsertWithWhereUniqueWithoutEngineInput[]
-    createMany?: UserCarCreateManyEngineInputEnvelope
-    set?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    disconnect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    delete?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    update?: UserCarUpdateWithWhereUniqueWithoutEngineInput | UserCarUpdateWithWhereUniqueWithoutEngineInput[]
-    updateMany?: UserCarUpdateManyWithWhereWithoutEngineInput | UserCarUpdateManyWithWhereWithoutEngineInput[]
-    deleteMany?: UserCarScalarWhereInput | UserCarScalarWhereInput[]
-  }
-
   export type VersionConfigCreateNestedManyWithoutTransmissionInput = {
     create?: XOR<VersionConfigCreateWithoutTransmissionInput, VersionConfigUncheckedCreateWithoutTransmissionInput> | VersionConfigCreateWithoutTransmissionInput[] | VersionConfigUncheckedCreateWithoutTransmissionInput[]
     connectOrCreate?: VersionConfigCreateOrConnectWithoutTransmissionInput | VersionConfigCreateOrConnectWithoutTransmissionInput[]
@@ -26602,25 +26297,11 @@ export namespace Prisma {
     connect?: VersionConfigWhereUniqueInput | VersionConfigWhereUniqueInput[]
   }
 
-  export type UserCarCreateNestedManyWithoutTransmissionInput = {
-    create?: XOR<UserCarCreateWithoutTransmissionInput, UserCarUncheckedCreateWithoutTransmissionInput> | UserCarCreateWithoutTransmissionInput[] | UserCarUncheckedCreateWithoutTransmissionInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutTransmissionInput | UserCarCreateOrConnectWithoutTransmissionInput[]
-    createMany?: UserCarCreateManyTransmissionInputEnvelope
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-  }
-
   export type VersionConfigUncheckedCreateNestedManyWithoutTransmissionInput = {
     create?: XOR<VersionConfigCreateWithoutTransmissionInput, VersionConfigUncheckedCreateWithoutTransmissionInput> | VersionConfigCreateWithoutTransmissionInput[] | VersionConfigUncheckedCreateWithoutTransmissionInput[]
     connectOrCreate?: VersionConfigCreateOrConnectWithoutTransmissionInput | VersionConfigCreateOrConnectWithoutTransmissionInput[]
     createMany?: VersionConfigCreateManyTransmissionInputEnvelope
     connect?: VersionConfigWhereUniqueInput | VersionConfigWhereUniqueInput[]
-  }
-
-  export type UserCarUncheckedCreateNestedManyWithoutTransmissionInput = {
-    create?: XOR<UserCarCreateWithoutTransmissionInput, UserCarUncheckedCreateWithoutTransmissionInput> | UserCarCreateWithoutTransmissionInput[] | UserCarUncheckedCreateWithoutTransmissionInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutTransmissionInput | UserCarCreateOrConnectWithoutTransmissionInput[]
-    createMany?: UserCarCreateManyTransmissionInputEnvelope
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
   }
 
   export type VersionConfigUpdateManyWithoutTransmissionNestedInput = {
@@ -26637,20 +26318,6 @@ export namespace Prisma {
     deleteMany?: VersionConfigScalarWhereInput | VersionConfigScalarWhereInput[]
   }
 
-  export type UserCarUpdateManyWithoutTransmissionNestedInput = {
-    create?: XOR<UserCarCreateWithoutTransmissionInput, UserCarUncheckedCreateWithoutTransmissionInput> | UserCarCreateWithoutTransmissionInput[] | UserCarUncheckedCreateWithoutTransmissionInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutTransmissionInput | UserCarCreateOrConnectWithoutTransmissionInput[]
-    upsert?: UserCarUpsertWithWhereUniqueWithoutTransmissionInput | UserCarUpsertWithWhereUniqueWithoutTransmissionInput[]
-    createMany?: UserCarCreateManyTransmissionInputEnvelope
-    set?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    disconnect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    delete?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    update?: UserCarUpdateWithWhereUniqueWithoutTransmissionInput | UserCarUpdateWithWhereUniqueWithoutTransmissionInput[]
-    updateMany?: UserCarUpdateManyWithWhereWithoutTransmissionInput | UserCarUpdateManyWithWhereWithoutTransmissionInput[]
-    deleteMany?: UserCarScalarWhereInput | UserCarScalarWhereInput[]
-  }
-
   export type VersionConfigUncheckedUpdateManyWithoutTransmissionNestedInput = {
     create?: XOR<VersionConfigCreateWithoutTransmissionInput, VersionConfigUncheckedCreateWithoutTransmissionInput> | VersionConfigCreateWithoutTransmissionInput[] | VersionConfigUncheckedCreateWithoutTransmissionInput[]
     connectOrCreate?: VersionConfigCreateOrConnectWithoutTransmissionInput | VersionConfigCreateOrConnectWithoutTransmissionInput[]
@@ -26665,20 +26332,6 @@ export namespace Prisma {
     deleteMany?: VersionConfigScalarWhereInput | VersionConfigScalarWhereInput[]
   }
 
-  export type UserCarUncheckedUpdateManyWithoutTransmissionNestedInput = {
-    create?: XOR<UserCarCreateWithoutTransmissionInput, UserCarUncheckedCreateWithoutTransmissionInput> | UserCarCreateWithoutTransmissionInput[] | UserCarUncheckedCreateWithoutTransmissionInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutTransmissionInput | UserCarCreateOrConnectWithoutTransmissionInput[]
-    upsert?: UserCarUpsertWithWhereUniqueWithoutTransmissionInput | UserCarUpsertWithWhereUniqueWithoutTransmissionInput[]
-    createMany?: UserCarCreateManyTransmissionInputEnvelope
-    set?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    disconnect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    delete?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    update?: UserCarUpdateWithWhereUniqueWithoutTransmissionInput | UserCarUpdateWithWhereUniqueWithoutTransmissionInput[]
-    updateMany?: UserCarUpdateManyWithWhereWithoutTransmissionInput | UserCarUpdateManyWithWhereWithoutTransmissionInput[]
-    deleteMany?: UserCarScalarWhereInput | UserCarScalarWhereInput[]
-  }
-
   export type VersionConfigCreateNestedManyWithoutDrivetrainInput = {
     create?: XOR<VersionConfigCreateWithoutDrivetrainInput, VersionConfigUncheckedCreateWithoutDrivetrainInput> | VersionConfigCreateWithoutDrivetrainInput[] | VersionConfigUncheckedCreateWithoutDrivetrainInput[]
     connectOrCreate?: VersionConfigCreateOrConnectWithoutDrivetrainInput | VersionConfigCreateOrConnectWithoutDrivetrainInput[]
@@ -26686,25 +26339,11 @@ export namespace Prisma {
     connect?: VersionConfigWhereUniqueInput | VersionConfigWhereUniqueInput[]
   }
 
-  export type UserCarCreateNestedManyWithoutDrivetrainInput = {
-    create?: XOR<UserCarCreateWithoutDrivetrainInput, UserCarUncheckedCreateWithoutDrivetrainInput> | UserCarCreateWithoutDrivetrainInput[] | UserCarUncheckedCreateWithoutDrivetrainInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutDrivetrainInput | UserCarCreateOrConnectWithoutDrivetrainInput[]
-    createMany?: UserCarCreateManyDrivetrainInputEnvelope
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-  }
-
   export type VersionConfigUncheckedCreateNestedManyWithoutDrivetrainInput = {
     create?: XOR<VersionConfigCreateWithoutDrivetrainInput, VersionConfigUncheckedCreateWithoutDrivetrainInput> | VersionConfigCreateWithoutDrivetrainInput[] | VersionConfigUncheckedCreateWithoutDrivetrainInput[]
     connectOrCreate?: VersionConfigCreateOrConnectWithoutDrivetrainInput | VersionConfigCreateOrConnectWithoutDrivetrainInput[]
     createMany?: VersionConfigCreateManyDrivetrainInputEnvelope
     connect?: VersionConfigWhereUniqueInput | VersionConfigWhereUniqueInput[]
-  }
-
-  export type UserCarUncheckedCreateNestedManyWithoutDrivetrainInput = {
-    create?: XOR<UserCarCreateWithoutDrivetrainInput, UserCarUncheckedCreateWithoutDrivetrainInput> | UserCarCreateWithoutDrivetrainInput[] | UserCarUncheckedCreateWithoutDrivetrainInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutDrivetrainInput | UserCarCreateOrConnectWithoutDrivetrainInput[]
-    createMany?: UserCarCreateManyDrivetrainInputEnvelope
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
   }
 
   export type VersionConfigUpdateManyWithoutDrivetrainNestedInput = {
@@ -26721,20 +26360,6 @@ export namespace Prisma {
     deleteMany?: VersionConfigScalarWhereInput | VersionConfigScalarWhereInput[]
   }
 
-  export type UserCarUpdateManyWithoutDrivetrainNestedInput = {
-    create?: XOR<UserCarCreateWithoutDrivetrainInput, UserCarUncheckedCreateWithoutDrivetrainInput> | UserCarCreateWithoutDrivetrainInput[] | UserCarUncheckedCreateWithoutDrivetrainInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutDrivetrainInput | UserCarCreateOrConnectWithoutDrivetrainInput[]
-    upsert?: UserCarUpsertWithWhereUniqueWithoutDrivetrainInput | UserCarUpsertWithWhereUniqueWithoutDrivetrainInput[]
-    createMany?: UserCarCreateManyDrivetrainInputEnvelope
-    set?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    disconnect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    delete?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    update?: UserCarUpdateWithWhereUniqueWithoutDrivetrainInput | UserCarUpdateWithWhereUniqueWithoutDrivetrainInput[]
-    updateMany?: UserCarUpdateManyWithWhereWithoutDrivetrainInput | UserCarUpdateManyWithWhereWithoutDrivetrainInput[]
-    deleteMany?: UserCarScalarWhereInput | UserCarScalarWhereInput[]
-  }
-
   export type VersionConfigUncheckedUpdateManyWithoutDrivetrainNestedInput = {
     create?: XOR<VersionConfigCreateWithoutDrivetrainInput, VersionConfigUncheckedCreateWithoutDrivetrainInput> | VersionConfigCreateWithoutDrivetrainInput[] | VersionConfigUncheckedCreateWithoutDrivetrainInput[]
     connectOrCreate?: VersionConfigCreateOrConnectWithoutDrivetrainInput | VersionConfigCreateOrConnectWithoutDrivetrainInput[]
@@ -26747,20 +26372,6 @@ export namespace Prisma {
     update?: VersionConfigUpdateWithWhereUniqueWithoutDrivetrainInput | VersionConfigUpdateWithWhereUniqueWithoutDrivetrainInput[]
     updateMany?: VersionConfigUpdateManyWithWhereWithoutDrivetrainInput | VersionConfigUpdateManyWithWhereWithoutDrivetrainInput[]
     deleteMany?: VersionConfigScalarWhereInput | VersionConfigScalarWhereInput[]
-  }
-
-  export type UserCarUncheckedUpdateManyWithoutDrivetrainNestedInput = {
-    create?: XOR<UserCarCreateWithoutDrivetrainInput, UserCarUncheckedCreateWithoutDrivetrainInput> | UserCarCreateWithoutDrivetrainInput[] | UserCarUncheckedCreateWithoutDrivetrainInput[]
-    connectOrCreate?: UserCarCreateOrConnectWithoutDrivetrainInput | UserCarCreateOrConnectWithoutDrivetrainInput[]
-    upsert?: UserCarUpsertWithWhereUniqueWithoutDrivetrainInput | UserCarUpsertWithWhereUniqueWithoutDrivetrainInput[]
-    createMany?: UserCarCreateManyDrivetrainInputEnvelope
-    set?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    disconnect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    delete?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    connect?: UserCarWhereUniqueInput | UserCarWhereUniqueInput[]
-    update?: UserCarUpdateWithWhereUniqueWithoutDrivetrainInput | UserCarUpdateWithWhereUniqueWithoutDrivetrainInput[]
-    updateMany?: UserCarUpdateManyWithWhereWithoutDrivetrainInput | UserCarUpdateManyWithWhereWithoutDrivetrainInput[]
-    deleteMany?: UserCarScalarWhereInput | UserCarScalarWhereInput[]
   }
 
   export type UserCarCreateNestedManyWithoutUserInput = {
@@ -26979,22 +26590,8 @@ export namespace Prisma {
     connect?: VersionConfigWhereUniqueInput
   }
 
-  export type EngineCreateNestedOneWithoutUserCarsInput = {
-    create?: XOR<EngineCreateWithoutUserCarsInput, EngineUncheckedCreateWithoutUserCarsInput>
-    connectOrCreate?: EngineCreateOrConnectWithoutUserCarsInput
-    connect?: EngineWhereUniqueInput
-  }
-
-  export type TransmissionCreateNestedOneWithoutUserCarsInput = {
-    create?: XOR<TransmissionCreateWithoutUserCarsInput, TransmissionUncheckedCreateWithoutUserCarsInput>
-    connectOrCreate?: TransmissionCreateOrConnectWithoutUserCarsInput
-    connect?: TransmissionWhereUniqueInput
-  }
-
-  export type DrivetrainCreateNestedOneWithoutUserCarsInput = {
-    create?: XOR<DrivetrainCreateWithoutUserCarsInput, DrivetrainUncheckedCreateWithoutUserCarsInput>
-    connectOrCreate?: DrivetrainCreateOrConnectWithoutUserCarsInput
-    connect?: DrivetrainWhereUniqueInput
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutCarsNestedInput = {
@@ -27011,36 +26608,6 @@ export namespace Prisma {
     upsert?: VersionConfigUpsertWithoutUserCarsInput
     connect?: VersionConfigWhereUniqueInput
     update?: XOR<XOR<VersionConfigUpdateToOneWithWhereWithoutUserCarsInput, VersionConfigUpdateWithoutUserCarsInput>, VersionConfigUncheckedUpdateWithoutUserCarsInput>
-  }
-
-  export type EngineUpdateOneWithoutUserCarsNestedInput = {
-    create?: XOR<EngineCreateWithoutUserCarsInput, EngineUncheckedCreateWithoutUserCarsInput>
-    connectOrCreate?: EngineCreateOrConnectWithoutUserCarsInput
-    upsert?: EngineUpsertWithoutUserCarsInput
-    disconnect?: EngineWhereInput | boolean
-    delete?: EngineWhereInput | boolean
-    connect?: EngineWhereUniqueInput
-    update?: XOR<XOR<EngineUpdateToOneWithWhereWithoutUserCarsInput, EngineUpdateWithoutUserCarsInput>, EngineUncheckedUpdateWithoutUserCarsInput>
-  }
-
-  export type TransmissionUpdateOneWithoutUserCarsNestedInput = {
-    create?: XOR<TransmissionCreateWithoutUserCarsInput, TransmissionUncheckedCreateWithoutUserCarsInput>
-    connectOrCreate?: TransmissionCreateOrConnectWithoutUserCarsInput
-    upsert?: TransmissionUpsertWithoutUserCarsInput
-    disconnect?: TransmissionWhereInput | boolean
-    delete?: TransmissionWhereInput | boolean
-    connect?: TransmissionWhereUniqueInput
-    update?: XOR<XOR<TransmissionUpdateToOneWithWhereWithoutUserCarsInput, TransmissionUpdateWithoutUserCarsInput>, TransmissionUncheckedUpdateWithoutUserCarsInput>
-  }
-
-  export type DrivetrainUpdateOneWithoutUserCarsNestedInput = {
-    create?: XOR<DrivetrainCreateWithoutUserCarsInput, DrivetrainUncheckedCreateWithoutUserCarsInput>
-    connectOrCreate?: DrivetrainCreateOrConnectWithoutUserCarsInput
-    upsert?: DrivetrainUpsertWithoutUserCarsInput
-    disconnect?: DrivetrainWhereInput | boolean
-    delete?: DrivetrainWhereInput | boolean
-    connect?: DrivetrainWhereUniqueInput
-    update?: XOR<XOR<DrivetrainUpdateToOneWithWhereWithoutUserCarsInput, DrivetrainUpdateWithoutUserCarsInput>, DrivetrainUncheckedUpdateWithoutUserCarsInput>
   }
 
   export type UserCreateNestedOneWithoutSettingsInput = {
@@ -27332,6 +26899,19 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ModelCreateWithoutMakeInput = {
@@ -28120,7 +27700,6 @@ export namespace Prisma {
     powerKw?: number | null
     torqueNm?: number | null
     torqueLbft?: number | null
-    userCars?: UserCarCreateNestedManyWithoutEngineInput
   }
 
   export type EngineUncheckedCreateWithoutVersionConfigsInput = {
@@ -28136,7 +27715,6 @@ export namespace Prisma {
     powerKw?: number | null
     torqueNm?: number | null
     torqueLbft?: number | null
-    userCars?: UserCarUncheckedCreateNestedManyWithoutEngineInput
   }
 
   export type EngineCreateOrConnectWithoutVersionConfigsInput = {
@@ -28148,14 +27726,12 @@ export namespace Prisma {
     id?: string
     type: string
     gears: number
-    userCars?: UserCarCreateNestedManyWithoutTransmissionInput
   }
 
   export type TransmissionUncheckedCreateWithoutVersionConfigsInput = {
     id?: string
     type: string
     gears: number
-    userCars?: UserCarUncheckedCreateNestedManyWithoutTransmissionInput
   }
 
   export type TransmissionCreateOrConnectWithoutVersionConfigsInput = {
@@ -28167,14 +27743,12 @@ export namespace Prisma {
     id?: string
     type: string
     description?: string | null
-    userCars?: UserCarCreateNestedManyWithoutDrivetrainInput
   }
 
   export type DrivetrainUncheckedCreateWithoutVersionConfigsInput = {
     id?: string
     type: string
     description?: string | null
-    userCars?: UserCarUncheckedCreateNestedManyWithoutDrivetrainInput
   }
 
   export type DrivetrainCreateOrConnectWithoutVersionConfigsInput = {
@@ -28230,12 +27804,10 @@ export namespace Prisma {
     licensePlate?: string | null
     color?: string | null
     mileageKm?: number | null
+    isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCarsInput
-    engine?: EngineCreateNestedOneWithoutUserCarsInput
-    transmission?: TransmissionCreateNestedOneWithoutUserCarsInput
-    drivetrain?: DrivetrainCreateNestedOneWithoutUserCarsInput
   }
 
   export type UserCarUncheckedCreateWithoutVersionConfigInput = {
@@ -28246,11 +27818,9 @@ export namespace Prisma {
     licensePlate?: string | null
     color?: string | null
     mileageKm?: number | null
+    isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    engineId?: string | null
-    transmissionId?: string | null
-    drivetrainId?: string | null
   }
 
   export type UserCarCreateOrConnectWithoutVersionConfigInput = {
@@ -28316,7 +27886,6 @@ export namespace Prisma {
     powerKw?: NullableIntFieldUpdateOperationsInput | number | null
     torqueNm?: NullableIntFieldUpdateOperationsInput | number | null
     torqueLbft?: NullableIntFieldUpdateOperationsInput | number | null
-    userCars?: UserCarUpdateManyWithoutEngineNestedInput
   }
 
   export type EngineUncheckedUpdateWithoutVersionConfigsInput = {
@@ -28332,7 +27901,6 @@ export namespace Prisma {
     powerKw?: NullableIntFieldUpdateOperationsInput | number | null
     torqueNm?: NullableIntFieldUpdateOperationsInput | number | null
     torqueLbft?: NullableIntFieldUpdateOperationsInput | number | null
-    userCars?: UserCarUncheckedUpdateManyWithoutEngineNestedInput
   }
 
   export type TransmissionUpsertWithoutVersionConfigsInput = {
@@ -28350,14 +27918,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     gears?: IntFieldUpdateOperationsInput | number
-    userCars?: UserCarUpdateManyWithoutTransmissionNestedInput
   }
 
   export type TransmissionUncheckedUpdateWithoutVersionConfigsInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     gears?: IntFieldUpdateOperationsInput | number
-    userCars?: UserCarUncheckedUpdateManyWithoutTransmissionNestedInput
   }
 
   export type DrivetrainUpsertWithoutVersionConfigsInput = {
@@ -28375,14 +27941,12 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    userCars?: UserCarUpdateManyWithoutDrivetrainNestedInput
   }
 
   export type DrivetrainUncheckedUpdateWithoutVersionConfigsInput = {
     id?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    userCars?: UserCarUncheckedUpdateManyWithoutDrivetrainNestedInput
   }
 
   export type SpecSheetUpsertWithoutVersionConfigInput = {
@@ -28460,11 +28024,9 @@ export namespace Prisma {
     licensePlate?: StringNullableFilter<"UserCar"> | string | null
     color?: StringNullableFilter<"UserCar"> | string | null
     mileageKm?: IntNullableFilter<"UserCar"> | number | null
+    isPrimary?: BoolFilter<"UserCar"> | boolean
     createdAt?: DateTimeFilter<"UserCar"> | Date | string
     updatedAt?: DateTimeFilter<"UserCar"> | Date | string
-    engineId?: UuidNullableFilter<"UserCar"> | string | null
-    transmissionId?: UuidNullableFilter<"UserCar"> | string | null
-    drivetrainId?: UuidNullableFilter<"UserCar"> | string | null
   }
 
   export type VersionConfigCreateWithoutSpecInput = {
@@ -28553,46 +28115,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserCarCreateWithoutEngineInput = {
-    id?: string
-    nickname?: string | null
-    vin?: string | null
-    licensePlate?: string | null
-    color?: string | null
-    mileageKm?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutCarsInput
-    versionConfig: VersionConfigCreateNestedOneWithoutUserCarsInput
-    transmission?: TransmissionCreateNestedOneWithoutUserCarsInput
-    drivetrain?: DrivetrainCreateNestedOneWithoutUserCarsInput
-  }
-
-  export type UserCarUncheckedCreateWithoutEngineInput = {
-    id?: string
-    userId: string
-    versionConfigId: string
-    nickname?: string | null
-    vin?: string | null
-    licensePlate?: string | null
-    color?: string | null
-    mileageKm?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    transmissionId?: string | null
-    drivetrainId?: string | null
-  }
-
-  export type UserCarCreateOrConnectWithoutEngineInput = {
-    where: UserCarWhereUniqueInput
-    create: XOR<UserCarCreateWithoutEngineInput, UserCarUncheckedCreateWithoutEngineInput>
-  }
-
-  export type UserCarCreateManyEngineInputEnvelope = {
-    data: UserCarCreateManyEngineInput | UserCarCreateManyEngineInput[]
-    skipDuplicates?: boolean
-  }
-
   export type VersionConfigUpsertWithWhereUniqueWithoutEngineInput = {
     where: VersionConfigWhereUniqueInput
     update: XOR<VersionConfigUpdateWithoutEngineInput, VersionConfigUncheckedUpdateWithoutEngineInput>
@@ -28607,22 +28129,6 @@ export namespace Prisma {
   export type VersionConfigUpdateManyWithWhereWithoutEngineInput = {
     where: VersionConfigScalarWhereInput
     data: XOR<VersionConfigUpdateManyMutationInput, VersionConfigUncheckedUpdateManyWithoutEngineInput>
-  }
-
-  export type UserCarUpsertWithWhereUniqueWithoutEngineInput = {
-    where: UserCarWhereUniqueInput
-    update: XOR<UserCarUpdateWithoutEngineInput, UserCarUncheckedUpdateWithoutEngineInput>
-    create: XOR<UserCarCreateWithoutEngineInput, UserCarUncheckedCreateWithoutEngineInput>
-  }
-
-  export type UserCarUpdateWithWhereUniqueWithoutEngineInput = {
-    where: UserCarWhereUniqueInput
-    data: XOR<UserCarUpdateWithoutEngineInput, UserCarUncheckedUpdateWithoutEngineInput>
-  }
-
-  export type UserCarUpdateManyWithWhereWithoutEngineInput = {
-    where: UserCarScalarWhereInput
-    data: XOR<UserCarUpdateManyMutationInput, UserCarUncheckedUpdateManyWithoutEngineInput>
   }
 
   export type VersionConfigCreateWithoutTransmissionInput = {
@@ -28655,46 +28161,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserCarCreateWithoutTransmissionInput = {
-    id?: string
-    nickname?: string | null
-    vin?: string | null
-    licensePlate?: string | null
-    color?: string | null
-    mileageKm?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutCarsInput
-    versionConfig: VersionConfigCreateNestedOneWithoutUserCarsInput
-    engine?: EngineCreateNestedOneWithoutUserCarsInput
-    drivetrain?: DrivetrainCreateNestedOneWithoutUserCarsInput
-  }
-
-  export type UserCarUncheckedCreateWithoutTransmissionInput = {
-    id?: string
-    userId: string
-    versionConfigId: string
-    nickname?: string | null
-    vin?: string | null
-    licensePlate?: string | null
-    color?: string | null
-    mileageKm?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    engineId?: string | null
-    drivetrainId?: string | null
-  }
-
-  export type UserCarCreateOrConnectWithoutTransmissionInput = {
-    where: UserCarWhereUniqueInput
-    create: XOR<UserCarCreateWithoutTransmissionInput, UserCarUncheckedCreateWithoutTransmissionInput>
-  }
-
-  export type UserCarCreateManyTransmissionInputEnvelope = {
-    data: UserCarCreateManyTransmissionInput | UserCarCreateManyTransmissionInput[]
-    skipDuplicates?: boolean
-  }
-
   export type VersionConfigUpsertWithWhereUniqueWithoutTransmissionInput = {
     where: VersionConfigWhereUniqueInput
     update: XOR<VersionConfigUpdateWithoutTransmissionInput, VersionConfigUncheckedUpdateWithoutTransmissionInput>
@@ -28709,22 +28175,6 @@ export namespace Prisma {
   export type VersionConfigUpdateManyWithWhereWithoutTransmissionInput = {
     where: VersionConfigScalarWhereInput
     data: XOR<VersionConfigUpdateManyMutationInput, VersionConfigUncheckedUpdateManyWithoutTransmissionInput>
-  }
-
-  export type UserCarUpsertWithWhereUniqueWithoutTransmissionInput = {
-    where: UserCarWhereUniqueInput
-    update: XOR<UserCarUpdateWithoutTransmissionInput, UserCarUncheckedUpdateWithoutTransmissionInput>
-    create: XOR<UserCarCreateWithoutTransmissionInput, UserCarUncheckedCreateWithoutTransmissionInput>
-  }
-
-  export type UserCarUpdateWithWhereUniqueWithoutTransmissionInput = {
-    where: UserCarWhereUniqueInput
-    data: XOR<UserCarUpdateWithoutTransmissionInput, UserCarUncheckedUpdateWithoutTransmissionInput>
-  }
-
-  export type UserCarUpdateManyWithWhereWithoutTransmissionInput = {
-    where: UserCarScalarWhereInput
-    data: XOR<UserCarUpdateManyMutationInput, UserCarUncheckedUpdateManyWithoutTransmissionInput>
   }
 
   export type VersionConfigCreateWithoutDrivetrainInput = {
@@ -28757,46 +28207,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserCarCreateWithoutDrivetrainInput = {
-    id?: string
-    nickname?: string | null
-    vin?: string | null
-    licensePlate?: string | null
-    color?: string | null
-    mileageKm?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutCarsInput
-    versionConfig: VersionConfigCreateNestedOneWithoutUserCarsInput
-    engine?: EngineCreateNestedOneWithoutUserCarsInput
-    transmission?: TransmissionCreateNestedOneWithoutUserCarsInput
-  }
-
-  export type UserCarUncheckedCreateWithoutDrivetrainInput = {
-    id?: string
-    userId: string
-    versionConfigId: string
-    nickname?: string | null
-    vin?: string | null
-    licensePlate?: string | null
-    color?: string | null
-    mileageKm?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    engineId?: string | null
-    transmissionId?: string | null
-  }
-
-  export type UserCarCreateOrConnectWithoutDrivetrainInput = {
-    where: UserCarWhereUniqueInput
-    create: XOR<UserCarCreateWithoutDrivetrainInput, UserCarUncheckedCreateWithoutDrivetrainInput>
-  }
-
-  export type UserCarCreateManyDrivetrainInputEnvelope = {
-    data: UserCarCreateManyDrivetrainInput | UserCarCreateManyDrivetrainInput[]
-    skipDuplicates?: boolean
-  }
-
   export type VersionConfigUpsertWithWhereUniqueWithoutDrivetrainInput = {
     where: VersionConfigWhereUniqueInput
     update: XOR<VersionConfigUpdateWithoutDrivetrainInput, VersionConfigUncheckedUpdateWithoutDrivetrainInput>
@@ -28813,22 +28223,6 @@ export namespace Prisma {
     data: XOR<VersionConfigUpdateManyMutationInput, VersionConfigUncheckedUpdateManyWithoutDrivetrainInput>
   }
 
-  export type UserCarUpsertWithWhereUniqueWithoutDrivetrainInput = {
-    where: UserCarWhereUniqueInput
-    update: XOR<UserCarUpdateWithoutDrivetrainInput, UserCarUncheckedUpdateWithoutDrivetrainInput>
-    create: XOR<UserCarCreateWithoutDrivetrainInput, UserCarUncheckedCreateWithoutDrivetrainInput>
-  }
-
-  export type UserCarUpdateWithWhereUniqueWithoutDrivetrainInput = {
-    where: UserCarWhereUniqueInput
-    data: XOR<UserCarUpdateWithoutDrivetrainInput, UserCarUncheckedUpdateWithoutDrivetrainInput>
-  }
-
-  export type UserCarUpdateManyWithWhereWithoutDrivetrainInput = {
-    where: UserCarScalarWhereInput
-    data: XOR<UserCarUpdateManyMutationInput, UserCarUncheckedUpdateManyWithoutDrivetrainInput>
-  }
-
   export type UserCarCreateWithoutUserInput = {
     id?: string
     nickname?: string | null
@@ -28836,12 +28230,10 @@ export namespace Prisma {
     licensePlate?: string | null
     color?: string | null
     mileageKm?: number | null
+    isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     versionConfig: VersionConfigCreateNestedOneWithoutUserCarsInput
-    engine?: EngineCreateNestedOneWithoutUserCarsInput
-    transmission?: TransmissionCreateNestedOneWithoutUserCarsInput
-    drivetrain?: DrivetrainCreateNestedOneWithoutUserCarsInput
   }
 
   export type UserCarUncheckedCreateWithoutUserInput = {
@@ -28852,11 +28244,9 @@ export namespace Prisma {
     licensePlate?: string | null
     color?: string | null
     mileageKm?: number | null
+    isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    engineId?: string | null
-    transmissionId?: string | null
-    drivetrainId?: string | null
   }
 
   export type UserCarCreateOrConnectWithoutUserInput = {
@@ -29226,81 +28616,6 @@ export namespace Prisma {
     create: XOR<VersionConfigCreateWithoutUserCarsInput, VersionConfigUncheckedCreateWithoutUserCarsInput>
   }
 
-  export type EngineCreateWithoutUserCarsInput = {
-    id?: string
-    code: string
-    configuration?: string | null
-    displacementLiters?: number | null
-    displacementCc?: number | null
-    cylinders?: number | null
-    fuelType?: string | null
-    aspiration?: string | null
-    powerPs?: number | null
-    powerKw?: number | null
-    torqueNm?: number | null
-    torqueLbft?: number | null
-    versionConfigs?: VersionConfigCreateNestedManyWithoutEngineInput
-  }
-
-  export type EngineUncheckedCreateWithoutUserCarsInput = {
-    id?: string
-    code: string
-    configuration?: string | null
-    displacementLiters?: number | null
-    displacementCc?: number | null
-    cylinders?: number | null
-    fuelType?: string | null
-    aspiration?: string | null
-    powerPs?: number | null
-    powerKw?: number | null
-    torqueNm?: number | null
-    torqueLbft?: number | null
-    versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutEngineInput
-  }
-
-  export type EngineCreateOrConnectWithoutUserCarsInput = {
-    where: EngineWhereUniqueInput
-    create: XOR<EngineCreateWithoutUserCarsInput, EngineUncheckedCreateWithoutUserCarsInput>
-  }
-
-  export type TransmissionCreateWithoutUserCarsInput = {
-    id?: string
-    type: string
-    gears: number
-    versionConfigs?: VersionConfigCreateNestedManyWithoutTransmissionInput
-  }
-
-  export type TransmissionUncheckedCreateWithoutUserCarsInput = {
-    id?: string
-    type: string
-    gears: number
-    versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutTransmissionInput
-  }
-
-  export type TransmissionCreateOrConnectWithoutUserCarsInput = {
-    where: TransmissionWhereUniqueInput
-    create: XOR<TransmissionCreateWithoutUserCarsInput, TransmissionUncheckedCreateWithoutUserCarsInput>
-  }
-
-  export type DrivetrainCreateWithoutUserCarsInput = {
-    id?: string
-    type: string
-    description?: string | null
-    versionConfigs?: VersionConfigCreateNestedManyWithoutDrivetrainInput
-  }
-
-  export type DrivetrainUncheckedCreateWithoutUserCarsInput = {
-    id?: string
-    type: string
-    description?: string | null
-    versionConfigs?: VersionConfigUncheckedCreateNestedManyWithoutDrivetrainInput
-  }
-
-  export type DrivetrainCreateOrConnectWithoutUserCarsInput = {
-    where: DrivetrainWhereUniqueInput
-    create: XOR<DrivetrainCreateWithoutUserCarsInput, DrivetrainUncheckedCreateWithoutUserCarsInput>
-  }
-
   export type UserUpsertWithoutCarsInput = {
     update: XOR<UserUpdateWithoutCarsInput, UserUncheckedUpdateWithoutCarsInput>
     create: XOR<UserCreateWithoutCarsInput, UserUncheckedCreateWithoutCarsInput>
@@ -29365,99 +28680,6 @@ export namespace Prisma {
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
     spec?: SpecSheetUncheckedUpdateOneWithoutVersionConfigNestedInput
-  }
-
-  export type EngineUpsertWithoutUserCarsInput = {
-    update: XOR<EngineUpdateWithoutUserCarsInput, EngineUncheckedUpdateWithoutUserCarsInput>
-    create: XOR<EngineCreateWithoutUserCarsInput, EngineUncheckedCreateWithoutUserCarsInput>
-    where?: EngineWhereInput
-  }
-
-  export type EngineUpdateToOneWithWhereWithoutUserCarsInput = {
-    where?: EngineWhereInput
-    data: XOR<EngineUpdateWithoutUserCarsInput, EngineUncheckedUpdateWithoutUserCarsInput>
-  }
-
-  export type EngineUpdateWithoutUserCarsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    configuration?: NullableStringFieldUpdateOperationsInput | string | null
-    displacementLiters?: NullableFloatFieldUpdateOperationsInput | number | null
-    displacementCc?: NullableIntFieldUpdateOperationsInput | number | null
-    cylinders?: NullableIntFieldUpdateOperationsInput | number | null
-    fuelType?: NullableStringFieldUpdateOperationsInput | string | null
-    aspiration?: NullableStringFieldUpdateOperationsInput | string | null
-    powerPs?: NullableIntFieldUpdateOperationsInput | number | null
-    powerKw?: NullableIntFieldUpdateOperationsInput | number | null
-    torqueNm?: NullableIntFieldUpdateOperationsInput | number | null
-    torqueLbft?: NullableIntFieldUpdateOperationsInput | number | null
-    versionConfigs?: VersionConfigUpdateManyWithoutEngineNestedInput
-  }
-
-  export type EngineUncheckedUpdateWithoutUserCarsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
-    configuration?: NullableStringFieldUpdateOperationsInput | string | null
-    displacementLiters?: NullableFloatFieldUpdateOperationsInput | number | null
-    displacementCc?: NullableIntFieldUpdateOperationsInput | number | null
-    cylinders?: NullableIntFieldUpdateOperationsInput | number | null
-    fuelType?: NullableStringFieldUpdateOperationsInput | string | null
-    aspiration?: NullableStringFieldUpdateOperationsInput | string | null
-    powerPs?: NullableIntFieldUpdateOperationsInput | number | null
-    powerKw?: NullableIntFieldUpdateOperationsInput | number | null
-    torqueNm?: NullableIntFieldUpdateOperationsInput | number | null
-    torqueLbft?: NullableIntFieldUpdateOperationsInput | number | null
-    versionConfigs?: VersionConfigUncheckedUpdateManyWithoutEngineNestedInput
-  }
-
-  export type TransmissionUpsertWithoutUserCarsInput = {
-    update: XOR<TransmissionUpdateWithoutUserCarsInput, TransmissionUncheckedUpdateWithoutUserCarsInput>
-    create: XOR<TransmissionCreateWithoutUserCarsInput, TransmissionUncheckedCreateWithoutUserCarsInput>
-    where?: TransmissionWhereInput
-  }
-
-  export type TransmissionUpdateToOneWithWhereWithoutUserCarsInput = {
-    where?: TransmissionWhereInput
-    data: XOR<TransmissionUpdateWithoutUserCarsInput, TransmissionUncheckedUpdateWithoutUserCarsInput>
-  }
-
-  export type TransmissionUpdateWithoutUserCarsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    gears?: IntFieldUpdateOperationsInput | number
-    versionConfigs?: VersionConfigUpdateManyWithoutTransmissionNestedInput
-  }
-
-  export type TransmissionUncheckedUpdateWithoutUserCarsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    gears?: IntFieldUpdateOperationsInput | number
-    versionConfigs?: VersionConfigUncheckedUpdateManyWithoutTransmissionNestedInput
-  }
-
-  export type DrivetrainUpsertWithoutUserCarsInput = {
-    update: XOR<DrivetrainUpdateWithoutUserCarsInput, DrivetrainUncheckedUpdateWithoutUserCarsInput>
-    create: XOR<DrivetrainCreateWithoutUserCarsInput, DrivetrainUncheckedCreateWithoutUserCarsInput>
-    where?: DrivetrainWhereInput
-  }
-
-  export type DrivetrainUpdateToOneWithWhereWithoutUserCarsInput = {
-    where?: DrivetrainWhereInput
-    data: XOR<DrivetrainUpdateWithoutUserCarsInput, DrivetrainUncheckedUpdateWithoutUserCarsInput>
-  }
-
-  export type DrivetrainUpdateWithoutUserCarsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    versionConfigs?: VersionConfigUpdateManyWithoutDrivetrainNestedInput
-  }
-
-  export type DrivetrainUncheckedUpdateWithoutUserCarsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    versionConfigs?: VersionConfigUncheckedUpdateManyWithoutDrivetrainNestedInput
   }
 
   export type UserCreateWithoutSettingsInput = {
@@ -29796,11 +29018,9 @@ export namespace Prisma {
     licensePlate?: string | null
     color?: string | null
     mileageKm?: number | null
+    isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    engineId?: string | null
-    transmissionId?: string | null
-    drivetrainId?: string | null
   }
 
   export type UserCarUpdateWithoutVersionConfigInput = {
@@ -29810,12 +29030,10 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutCarsNestedInput
-    engine?: EngineUpdateOneWithoutUserCarsNestedInput
-    transmission?: TransmissionUpdateOneWithoutUserCarsNestedInput
-    drivetrain?: DrivetrainUpdateOneWithoutUserCarsNestedInput
   }
 
   export type UserCarUncheckedUpdateWithoutVersionConfigInput = {
@@ -29826,11 +29044,9 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCarUncheckedUpdateManyWithoutVersionConfigInput = {
@@ -29841,32 +29057,15 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type VersionConfigCreateManyEngineInput = {
     id?: string
     versionId: string
     year: number
-    transmissionId?: string | null
-    drivetrainId?: string | null
-  }
-
-  export type UserCarCreateManyEngineInput = {
-    id?: string
-    userId: string
-    versionConfigId: string
-    nickname?: string | null
-    vin?: string | null
-    licensePlate?: string | null
-    color?: string | null
-    mileageKm?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     transmissionId?: string | null
     drivetrainId?: string | null
   }
@@ -29899,70 +29098,10 @@ export namespace Prisma {
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type UserCarUpdateWithoutEngineInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nickname?: NullableStringFieldUpdateOperationsInput | string | null
-    vin?: NullableStringFieldUpdateOperationsInput | string | null
-    licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCarsNestedInput
-    versionConfig?: VersionConfigUpdateOneRequiredWithoutUserCarsNestedInput
-    transmission?: TransmissionUpdateOneWithoutUserCarsNestedInput
-    drivetrain?: DrivetrainUpdateOneWithoutUserCarsNestedInput
-  }
-
-  export type UserCarUncheckedUpdateWithoutEngineInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    versionConfigId?: StringFieldUpdateOperationsInput | string
-    nickname?: NullableStringFieldUpdateOperationsInput | string | null
-    vin?: NullableStringFieldUpdateOperationsInput | string | null
-    licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type UserCarUncheckedUpdateManyWithoutEngineInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    versionConfigId?: StringFieldUpdateOperationsInput | string
-    nickname?: NullableStringFieldUpdateOperationsInput | string | null
-    vin?: NullableStringFieldUpdateOperationsInput | string | null
-    licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type VersionConfigCreateManyTransmissionInput = {
     id?: string
     versionId: string
     year: number
-    engineId?: string | null
-    drivetrainId?: string | null
-  }
-
-  export type UserCarCreateManyTransmissionInput = {
-    id?: string
-    userId: string
-    versionConfigId: string
-    nickname?: string | null
-    vin?: string | null
-    licensePlate?: string | null
-    color?: string | null
-    mileageKm?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     engineId?: string | null
     drivetrainId?: string | null
   }
@@ -29995,70 +29134,10 @@ export namespace Prisma {
     drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type UserCarUpdateWithoutTransmissionInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nickname?: NullableStringFieldUpdateOperationsInput | string | null
-    vin?: NullableStringFieldUpdateOperationsInput | string | null
-    licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCarsNestedInput
-    versionConfig?: VersionConfigUpdateOneRequiredWithoutUserCarsNestedInput
-    engine?: EngineUpdateOneWithoutUserCarsNestedInput
-    drivetrain?: DrivetrainUpdateOneWithoutUserCarsNestedInput
-  }
-
-  export type UserCarUncheckedUpdateWithoutTransmissionInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    versionConfigId?: StringFieldUpdateOperationsInput | string
-    nickname?: NullableStringFieldUpdateOperationsInput | string | null
-    vin?: NullableStringFieldUpdateOperationsInput | string | null
-    licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type UserCarUncheckedUpdateManyWithoutTransmissionInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    versionConfigId?: StringFieldUpdateOperationsInput | string
-    nickname?: NullableStringFieldUpdateOperationsInput | string | null
-    vin?: NullableStringFieldUpdateOperationsInput | string | null
-    licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type VersionConfigCreateManyDrivetrainInput = {
     id?: string
     versionId: string
     year: number
-    engineId?: string | null
-    transmissionId?: string | null
-  }
-
-  export type UserCarCreateManyDrivetrainInput = {
-    id?: string
-    userId: string
-    versionConfigId: string
-    nickname?: string | null
-    vin?: string | null
-    licensePlate?: string | null
-    color?: string | null
-    mileageKm?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
     engineId?: string | null
     transmissionId?: string | null
   }
@@ -30091,51 +29170,6 @@ export namespace Prisma {
     transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type UserCarUpdateWithoutDrivetrainInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    nickname?: NullableStringFieldUpdateOperationsInput | string | null
-    vin?: NullableStringFieldUpdateOperationsInput | string | null
-    licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutCarsNestedInput
-    versionConfig?: VersionConfigUpdateOneRequiredWithoutUserCarsNestedInput
-    engine?: EngineUpdateOneWithoutUserCarsNestedInput
-    transmission?: TransmissionUpdateOneWithoutUserCarsNestedInput
-  }
-
-  export type UserCarUncheckedUpdateWithoutDrivetrainInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    versionConfigId?: StringFieldUpdateOperationsInput | string
-    nickname?: NullableStringFieldUpdateOperationsInput | string | null
-    vin?: NullableStringFieldUpdateOperationsInput | string | null
-    licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type UserCarUncheckedUpdateManyWithoutDrivetrainInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    versionConfigId?: StringFieldUpdateOperationsInput | string
-    nickname?: NullableStringFieldUpdateOperationsInput | string | null
-    vin?: NullableStringFieldUpdateOperationsInput | string | null
-    licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
   export type UserCarCreateManyUserInput = {
     id?: string
     versionConfigId: string
@@ -30144,11 +29178,9 @@ export namespace Prisma {
     licensePlate?: string | null
     color?: string | null
     mileageKm?: number | null
+    isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    engineId?: string | null
-    transmissionId?: string | null
-    drivetrainId?: string | null
   }
 
   export type UserSettingCreateManyUserInput = {
@@ -30181,12 +29213,10 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     versionConfig?: VersionConfigUpdateOneRequiredWithoutUserCarsNestedInput
-    engine?: EngineUpdateOneWithoutUserCarsNestedInput
-    transmission?: TransmissionUpdateOneWithoutUserCarsNestedInput
-    drivetrain?: DrivetrainUpdateOneWithoutUserCarsNestedInput
   }
 
   export type UserCarUncheckedUpdateWithoutUserInput = {
@@ -30197,11 +29227,9 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCarUncheckedUpdateManyWithoutUserInput = {
@@ -30212,11 +29240,9 @@ export namespace Prisma {
     licensePlate?: NullableStringFieldUpdateOperationsInput | string | null
     color?: NullableStringFieldUpdateOperationsInput | string | null
     mileageKm?: NullableIntFieldUpdateOperationsInput | number | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    engineId?: NullableStringFieldUpdateOperationsInput | string | null
-    transmissionId?: NullableStringFieldUpdateOperationsInput | string | null
-    drivetrainId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserSettingUpdateWithoutUserInput = {

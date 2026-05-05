@@ -25,7 +25,7 @@ model Make {
 model Model {
   id     String @id @default(uuid()) @db.Uuid
   makeId String @db.Uuid
-  name   String @unique
+  name   String
 
   make Make @relation(fields: [makeId], references: [id], onDelete: Cascade)
 
@@ -192,18 +192,16 @@ model Engine {
 
   // used by version configs and user cars
   versionConfigs VersionConfig[]
-  userCars       UserCar[]
 
   @@index([code])
 }
 
 model Transmission {
   id    String @id @default(uuid()) @db.Uuid
-  type  String @unique
+  type  String
   gears Int
 
   versionConfigs VersionConfig[]
-  userCars       UserCar[]
 
   @@unique([type, gears])
 }
@@ -214,9 +212,6 @@ model Drivetrain {
   description String?
 
   versionConfigs VersionConfig[]
-  userCars       UserCar[]
-
-  @@unique([type, description])
 }
 
 // =========================
@@ -274,14 +269,14 @@ model UserCar {
   id     String @id @default(uuid()) @db.Uuid
   userId String @db.Uuid
 
-  // Chosen exact catalog config (version + engine/transmission/drivetrain + optional year)
   versionConfigId String @db.Uuid
 
   nickname     String?
-  vin          String?
+  vin          String? @db.VarChar(17)
   licensePlate String?
   color        String?
   mileageKm    Int?
+  isPrimary    Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -289,20 +284,9 @@ model UserCar {
   user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   versionConfig VersionConfig @relation(fields: [versionConfigId], references: [id], onDelete: Restrict)
 
-  // Optional convenience links (denormalized access); keep if you want quick filtering:
-  engineId       String? @db.Uuid
-  transmissionId String? @db.Uuid
-  drivetrainId   String? @db.Uuid
-
-  engine       Engine?       @relation(fields: [engineId], references: [id], onDelete: Restrict)
-  transmission Transmission? @relation(fields: [transmissionId], references: [id], onDelete: Restrict)
-  drivetrain   Drivetrain?   @relation(fields: [drivetrainId], references: [id], onDelete: Restrict)
-
   @@index([userId])
   @@index([versionConfigId])
-  @@index([engineId])
-  @@index([transmissionId])
-  @@index([drivetrainId])
+  @@index([userId, versionConfigId])
 }
 
 model UserSetting {

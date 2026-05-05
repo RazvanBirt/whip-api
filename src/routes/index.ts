@@ -7,6 +7,7 @@ import bodyTypesRoutes from '../modules/bodyTypes/bodyTypes.routes';
 import engineRoutes from '../modules/engines/engine.routes';
 import transmissionRoutes from '../modules/transmissions/transmission.routes';
 import drivetrainRoutes from '../modules/drivetrains/drivetrain.routes';
+import garageRoutes from '../modules/garage/garage.routes';
 
 const router = Router();
 
@@ -17,4 +18,5 @@ router.use('/body-types', bodyTypesRoutes)
 router.use('/engines', engineRoutes)
 router.use('/transmissions', transmissionRoutes)
 router.use('/drivetrains', drivetrainRoutes)
+router.use('/garage', garageRoutes);
 export default router;

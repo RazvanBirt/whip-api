@@ -265,11 +265,9 @@ exports.Prisma.UserCarScalarFieldEnum = {
   licensePlate: 'licensePlate',
   color: 'color',
   mileageKm: 'mileageKm',
+  isPrimary: 'isPrimary',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  engineId: 'engineId',
-  transmissionId: 'transmissionId',
-  drivetrainId: 'drivetrainId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.UserSettingScalarFieldEnum = {
