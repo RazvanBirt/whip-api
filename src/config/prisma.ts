@@ -1,13 +1,36 @@
-import 'dotenv/config'; // make sure env vars are loaded
-
+import 'dotenv/config';
 import { PrismaClient } from '../../generated/prisma-client/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 const connectionString = process.env.DATABASE_URL;
+
+export let prisma: PrismaClient | null = null;
+export let isDatabaseConnected = false;
+
 if (!connectionString) {
-    throw new Error('DATABASE_URL is not set');
+    console.warn(
+        '[DATABASE WARNING] DATABASE_URL is not set. API will start, but database routes will not work.'
+    );
+} else {
+    const adapter = new PrismaPg({ connectionString });
+    prisma = new PrismaClient({ adapter });
 }
 
-const adapter = new PrismaPg({ connectionString });
+export async function checkDatabaseConnection() {
+    if (!prisma) {
+        isDatabaseConnected = false;
+        return false;
+    }
 
-export const prisma = new PrismaClient({ adapter });
+    try {
+        await prisma.$queryRaw`SELECT 1`;
+        isDatabaseConnected = true;
+        console.log('[DATABASE] Connected successfully.');
+        return true;
+    } catch (error) {
+        isDatabaseConnected = false;
+        console.error('[DATABASE WARNING] Could not connect to database.');
+        console.error(error);
+        return false;
+    }
+}
