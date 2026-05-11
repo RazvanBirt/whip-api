@@ -1,38 +1,69 @@
 ## API Endpoints
 
-| Method | Endpoint                | Auth Required? |
-| ------ | ----------------------- | -------------- |
-| POST   | `/auth/register`        | No             |
-| POST   | `/auth/login`           | No             |
-| POST   | `/auth/refresh`         | No             |
-| POST   | `/auth/logout`          | No             |
-| POST   | `/auth/forgot-password` | No             |
-| POST   | `/auth/reset-password`  | No             |
-| POST   | `/auth/change-password` | Yes            |
-| POST   | `/makes`                | Yes            |
-| POST   | `/makes/with-image`     | Yes            |
-| GET    | `/makes`                | No             |
-| GET    | `/makes/:id`            | No             |
-| PATCH  | `/makes/:id`            | Yes            |
-| DELETE | `/makes`                | Yes            |
-| POST   | `/models`               | No             |
-| GET    | `/models`               | No             |
-| GET    | `/models/:id`           | No             |
-| PATCH  | `/models/:id`           | No             |
-| DELETE | `/models`               | No             |
-| POST   | `/models/catalog/full`  | No             |
-| POST   | `/body-types`           | Yes            |
-| GET    | `/body-types`           | No             |
-| GET    | `/body-types/:id`       | No             |
-| PATCH  | `/body-types/:id`       | Yes            |
-| DELETE | `/body-types`           | Yes            |
-| POST   | `/engines`              | No             |
-| GET    | `/engines`              | No             |
-| GET    | `/engines/:id`          | No             |
-| PATCH  | `/engines/:id`          | No             |
-| DELETE | `/engines`              | No             |
-| POST   | `/transmissions`        | No             |
-| GET    | `/transmissions`        | No             |
-| GET    | `/transmissions/:id`    | No             |
-| PATCH  | `/transmissions/:id`    | No             |
-| DELETE | `/transmissions`        | No             |
+| Method | Endpoint                    | Auth Required |
+| ------ | --------------------------- | ------------- |
+| POST   | `/api/auth/register`        | No            |
+| POST   | `/api/auth/login`           | No            |
+| POST   | `/api/auth/refresh`         | No            |
+| POST   | `/api/auth/logout`          | No            |
+| POST   | `/api/auth/forgot-password` | No            |
+| POST   | `/api/auth/reset-password`  | No            |
+| POST   | `/api/auth/change-password` | Yes           |
+
+| Method | Endpoint                | Auth Required |
+| ------ | ----------------------- | ------------- |
+| POST   | `/api/makes`            | Yes           |
+| POST   | `/api/makes/with-image` | Yes           |
+| GET    | `/api/makes`            | No            |
+| GET    | `/api/makes/:id`        | No            |
+| PATCH  | `/api/makes/:id`        | Yes           |
+| DELETE | `/api/makes`            | Yes           |
+
+| Method | Endpoint                   | Auth Required            |
+| ------ | -------------------------- | ------------------------ |
+| POST   | `/api/models`              | No auth middleware shown |
+| GET    | `/api/models`              | No                       |
+| GET    | `/api/models/:id`          | No                       |
+| PATCH  | `/api/models/:id`          | No auth middleware shown |
+| DELETE | `/api/models`              | No auth middleware shown |
+| POST   | `/api/models/catalog/full` | No auth middleware shown |
+
+| Method | Endpoint              | Auth Required |
+| ------ | --------------------- | ------------- |
+| POST   | `/api/body-types`     | Yes           |
+| GET    | `/api/body-types`     | No            |
+| GET    | `/api/body-types/:id` | No            |
+| PATCH  | `/api/body-types/:id` | Yes           |
+| DELETE | `/api/body-types`     | Yes           |
+
+| Method | Endpoint           | Auth Required            |
+| ------ | ------------------ | ------------------------ |
+| POST   | `/api/engines`     | No auth middleware shown |
+| GET    | `/api/engines`     | No                       |
+| GET    | `/api/engines/:id` | No                       |
+| PATCH  | `/api/engines/:id` | No auth middleware shown |
+| DELETE | `/api/engines`     | No auth middleware shown |
+
+| Method | Endpoint                 | Auth Required            |
+| ------ | ------------------------ | ------------------------ |
+| POST   | `/api/transmissions`     | No auth middleware shown |
+| GET    | `/api/transmissions`     | No                       |
+| GET    | `/api/transmissions/:id` | No                       |
+| PATCH  | `/api/transmissions/:id` | No auth middleware shown |
+| DELETE | `/api/transmissions`     | No auth middleware shown |
+
+| Method | Endpoint               | Auth Required            |
+| ------ | ---------------------- | ------------------------ |
+| POST   | `/api/drivetrains`     | No auth middleware shown |
+| GET    | `/api/drivetrains`     | No                       |
+| GET    | `/api/drivetrains/:id` | No                       |
+| PATCH  | `/api/drivetrains/:id` | No auth middleware shown |
+| DELETE | `/api/drivetrains`     | No auth middleware shown |
+
+| Method | Endpoint          | Auth Required |
+| ------ | ----------------- | ------------- |
+| GET    | `/api/garage`     | Yes           |
+| POST   | `/api/garage`     | Yes           |
+| GET    | `/api/garage/:id` | Yes           |
+| PATCH  | `/api/garage/:id` | Yes           |
+| DELETE | `/api/garage/:id` | Yes           |
