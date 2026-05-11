@@ -9,10 +9,10 @@ import {
 
 const router = Router();
 
-router.post("/transmissions", createTransmission);
-router.get("/transmissions", getTransmissions);
-router.get("/transmissions/:id", getTransmission);
-router.patch("/transmissions/:id", updateTransmission);
-router.delete("/transmissions", deleteTransmissions);
+router.post("/", createTransmission);
+router.get("/", getTransmissions);
+router.get("/:id", getTransmission);
+router.patch("/:id", updateTransmission);
+router.delete("/", deleteTransmissions);
 
 export default router;

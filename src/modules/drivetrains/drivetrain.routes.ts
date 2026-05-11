@@ -9,10 +9,10 @@ import {
 
 const router = Router();
 
-router.post("/drivetrains", createDrivetrain);
-router.get("/drivetrains", getDrivetrains);
-router.get("/drivetrains/:id", getDrivetrain);
-router.patch("/drivetrains/:id", updateDrivetrain);
-router.delete("/drivetrains", deleteDrivetrains);
+router.post("/", createDrivetrain);
+router.get("/", getDrivetrains);
+router.get("/:id", getDrivetrain);
+router.patch("/:id", updateDrivetrain);
+router.delete("/", deleteDrivetrains);
 
 export default router;

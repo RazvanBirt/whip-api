@@ -12,11 +12,11 @@ import { requireAuth } from "../auth/auth.middleware";
 
 const router = Router();
 
-router.post("/makes", requireAuth, createMake);
-router.post("/makes/with-image", upload.single("image"), requireAuth, createMakeWithImage);
-router.get("/makes", getMakes);
-router.get("/makes/:id", getMake);
-router.patch("/makes/:id", upload.single("image"), requireAuth, updateMake);
-router.delete("/makes", requireAuth, deleteMakes);
+router.post("", requireAuth, createMake);
+router.post("/with-image", upload.single("image"), requireAuth, createMakeWithImage);
+router.get("", getMakes);
+router.get("/:id", getMake);
+router.patch("/:id", upload.single("image"), requireAuth, updateMake);
+router.delete("", requireAuth, deleteMakes);
 
 export default router;
