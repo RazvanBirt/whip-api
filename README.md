@@ -1,9 +1,4 @@
-And if you want the **cleaned/fixed route version** for the README instead, use this:
-
-```md
 ## API Endpoints
-
-Base URL:
 
 | Method | Endpoint                | Auth Required? |
 | ------ | ----------------------- | -------------- |
@@ -41,4 +36,3 @@ Base URL:
 | GET    | `/transmissions/:id`    | No             |
 | PATCH  | `/transmissions/:id`    | No             |
 | DELETE | `/transmissions`        | No             |
-```
