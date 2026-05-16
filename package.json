@@ -6,7 +6,7 @@
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint . --ext .ts,.js --fix",
     "start": "node -r ts-node/register/transpile-only src/app.ts",
-    "dev": "nodemon --watch src --ext ts --exec \"node -r ts-node/register/transpile-only\" src/app.ts",
+    "dev": "nodemon --watch src --ext ts --exec \"node -r ts-node/register/transpile-only\" src/server.ts",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
@@ -23,6 +23,7 @@
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
     "multer": "^2.0.2",
+    "nodemailer": "^8.0.7",
     "pg": "^8.16.3",
     "redis": "^5.5.6",
     "socket.io": "^4.8.1"
@@ -36,6 +37,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.0.10",
+    "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.15.6",
     "@types/socket.io-client": "^1.4.36",
     "@types/supertest": "^6.0.3",

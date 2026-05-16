@@ -16,18 +16,37 @@ import type { AuthedRequest } from "./auth.middleware";
 
 // Reuse your shared helper instead of res.status(...) here
 // TODO: maybe add to Guard.ts instead of keeping it here
-const guardFail = (res: any, argumentName?: string) =>
-    badRequest(res, "Missing required field", { field: argumentName });
+const guardFail = (res: any, argumentName?: string) => badRequest(res, "Missing required field", { field: argumentName });
+
+const isValidEmail = (email: string): boolean => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+const isStrongPassword = (password: string): boolean => {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/.test(password);
+};
 
 export const register: RequestHandler = async (req: any, res: any) => {
     const { UserName, Email, Password } = req.body;
 
     const guard = Guard.againstNullOrUndefinedBulk([
+        //TODO: actually add username to the registration process
         // { argument: UserName, argumentName: "UserName" },
         { argument: Email, argumentName: "Email" },
         { argument: Password, argumentName: "Password" },
     ]);
     if (!guard.succeeded) return guardFail(res, guard.argumentName);
+
+    if (!isValidEmail(Email)) {
+        return badRequest(res, "Invalid email address");
+    }
+
+    if (!isStrongPassword(Password)) {
+        return badRequest(
+            res,
+            "Password must be at least 8 characters long and contain uppercase, lowercase, number, and special character"
+        );
+    }
 
     try {
         const result = await registerUser(UserName, Email, Password);
@@ -36,8 +55,8 @@ export const register: RequestHandler = async (req: any, res: any) => {
         return success(res, {
             success: result.success,
             user: result.user,
-            accessToken: (result as any).accessToken ?? (result as any).token,
-            refreshToken: (result as any).refreshToken,
+            accessToken: result.accessToken,
+            refreshToken: result.refreshToken,
         });
     } catch (err) {
         return serverError(res, err);
@@ -60,8 +79,8 @@ export const login: RequestHandler = async (req: any, res: any) => {
         return success(res, {
             success: result.success,
             user: result.user,
-            accessToken: (result as any).accessToken ?? (result as any).token,
-            refreshToken: (result as any).refreshToken,
+            accessToken: result.accessToken,
+            refreshToken: result.refreshToken,
         });
     } catch (err) {
         return serverError(res, err);
@@ -103,13 +122,15 @@ export const logout: RequestHandler = async (req: any, res: any) => {
 };
 
 export const forgotPasswordController: RequestHandler = async (req: any, res: any) => {
-    const { email } = req.body;
+    const { Email } = req.body;
 
-    const guard = Guard.againstNullOrUndefined(email, "email");
+    const guard = Guard.againstNullOrUndefinedBulk([
+        { argument: Email, argumentName: "Email" },
+    ]);
     if (!guard.succeeded) return guardFail(res, guard.argumentName);
 
     try {
-        await forgotPassword(email);
+        await forgotPassword(Email);
         return success(res, { success: true });
     } catch (err) {
         return serverError(res, err);
@@ -117,16 +138,16 @@ export const forgotPasswordController: RequestHandler = async (req: any, res: an
 };
 
 export const resetPasswordController: RequestHandler = async (req: any, res: any) => {
-    const { token, newPassword } = req.body;
+    const { Token, NewPassword } = req.body;
 
     const guard = Guard.againstNullOrUndefinedBulk([
-        { argument: token, argumentName: "token" },
-        { argument: newPassword, argumentName: "newPassword" },
+        { argument: Token, argumentName: "Token" },
+        { argument: NewPassword, argumentName: "NewPassword" },
     ]);
     if (!guard.succeeded) return guardFail(res, guard.argumentName);
 
     try {
-        const result = await resetPassword(token, newPassword);
+        const result = await resetPassword(Token, NewPassword);
         if (!result.success) return badRequest(res, result.error ?? "Invalid or expired token");
 
         return success(res, { success: true });

@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { prisma } from "../../config/prisma";
 import { addDays, addMinutes, generateOpaqueToken, sha256, signAccessToken } from "./auth.utils";
+import { sendPasswordResetEmail } from "../../infra/mailer";
 
 const SALT_ROUNDS = 10;
 
@@ -119,30 +120,39 @@ export const logoutUser = async (refreshToken: string) => {
   return { success: true as const };
 };
 
-/**
- * Forgot password:
- * - always return success
- * - if user exists: create a PasswordReset row with hashed token
- * - you email the raw token to user (stubbed here)
- */
 export const forgotPassword = async (email: string) => {
+
   const user = await prisma.user.findUnique({ where: { email } });
 
-  if (user) {
-    const rawToken = generateOpaqueToken(32);
-    const tokenHash = sha256(rawToken);
+  if (!user) {
+    return { success: true as const };
+  }
 
-    await prisma.passwordReset.create({
-      data: {
-        userId: user.id,
-        tokenHash,
-        expiresAt: addMinutes(RESET_TTL_MINUTES),
-      },
+  console.log("User found:", user.id);
+
+  const rawToken = generateOpaqueToken(32);
+  const tokenHash = sha256(rawToken);
+
+  await prisma.passwordReset.create({
+    data: {
+      userId: user.id,
+      tokenHash,
+      expiresAt: addMinutes(RESET_TTL_MINUTES),
+    },
+  });
+
+  const resetUrl = `${process.env.APP_URL}/auth/reset-password?token=${encodeURIComponent(
+    rawToken
+  )}`;
+  console.log("Generated reset URL:", resetUrl);
+  try {
+    await sendPasswordResetEmail({
+      to: user.email,
+      resetUrl,
     });
-
-    // TODO: send email with rawToken (or a link containing it)
-    // e.g. https://yourapp.com/reset-password?token=RAW
-    console.log("[forgotPassword] send token:", rawToken);
+  } catch (error) {
+    console.error("Failed to send password reset email:", error);
+    throw error;
   }
 
   return { success: true as const };

@@ -4,7 +4,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 
 const connectionString = process.env.DATABASE_URL;
 
-export let prisma: PrismaClient | null = null;
+export let prisma: PrismaClient;
 export let isDatabaseConnected = false;
 
 if (!connectionString) {
