@@ -7,13 +7,14 @@ import {
     deleteBodyTypes,
 } from "./bodyTypes.controller";
 import { requireAuth } from "../auth/auth.middleware";
+import { requireAdmin } from "../auth/admin.middleware";
 
 const router = Router();
 
-router.post("/", requireAuth, createBodyType);
+router.post("/", requireAuth, requireAdmin, createBodyType);
 router.get("/", getBodyTypes);
 router.get("/:id", getBodyType);
-router.patch("/:id", requireAuth, updateBodyType);
-router.delete("/", requireAuth, deleteBodyTypes);
+router.patch("/:id", requireAuth, requireAdmin, updateBodyType);
+router.delete("/", requireAuth, requireAdmin, deleteBodyTypes);
 
 export default router;

@@ -16364,6 +16364,7 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     displayName: string | null
+    isAdmin: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -16373,6 +16374,7 @@ export namespace Prisma {
     email: string | null
     passwordHash: string | null
     displayName: string | null
+    isAdmin: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -16382,6 +16384,7 @@ export namespace Prisma {
     email: number
     passwordHash: number
     displayName: number
+    isAdmin: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -16393,6 +16396,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     displayName?: true
+    isAdmin?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -16402,6 +16406,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     displayName?: true
+    isAdmin?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -16411,6 +16416,7 @@ export namespace Prisma {
     email?: true
     passwordHash?: true
     displayName?: true
+    isAdmin?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -16493,6 +16499,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName: string | null
+    isAdmin: boolean
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -16519,6 +16526,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     displayName?: boolean
+    isAdmin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     cars?: boolean | User$carsArgs<ExtArgs>
@@ -16533,6 +16541,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     displayName?: boolean
+    isAdmin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -16542,6 +16551,7 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     displayName?: boolean
+    isAdmin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -16551,11 +16561,12 @@ export namespace Prisma {
     email?: boolean
     passwordHash?: boolean
     displayName?: boolean
+    isAdmin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "displayName" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "displayName" | "isAdmin" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cars?: boolean | User$carsArgs<ExtArgs>
     settings?: boolean | User$settingsArgs<ExtArgs>
@@ -16579,6 +16590,7 @@ export namespace Prisma {
       email: string
       passwordHash: string
       displayName: string | null
+      isAdmin: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -17012,6 +17024,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly displayName: FieldRef<"User", 'String'>
+    readonly isAdmin: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -22054,6 +22067,7 @@ export namespace Prisma {
     email: 'email',
     passwordHash: 'passwordHash',
     displayName: 'displayName',
+    isAdmin: 'isAdmin',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -22216,6 +22230,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -22226,13 +22247,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
   /**
    * Deep Input Types
@@ -23034,6 +23048,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
     displayName?: StringNullableFilter<"User"> | string | null
+    isAdmin?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     cars?: UserCarListRelationFilter
@@ -23047,6 +23062,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     displayName?: SortOrderInput | SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     cars?: UserCarOrderByRelationAggregateInput
@@ -23063,6 +23079,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     passwordHash?: StringFilter<"User"> | string
     displayName?: StringNullableFilter<"User"> | string | null
+    isAdmin?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     cars?: UserCarListRelationFilter
@@ -23076,6 +23093,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     displayName?: SortOrderInput | SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -23091,6 +23109,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     passwordHash?: StringWithAggregatesFilter<"User"> | string
     displayName?: StringNullableWithAggregatesFilter<"User"> | string | null
+    isAdmin?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -24169,6 +24188,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cars?: UserCarCreateNestedManyWithoutUserInput
@@ -24182,6 +24202,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cars?: UserCarUncheckedCreateNestedManyWithoutUserInput
@@ -24195,6 +24216,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cars?: UserCarUpdateManyWithoutUserNestedInput
@@ -24208,6 +24230,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cars?: UserCarUncheckedUpdateManyWithoutUserNestedInput
@@ -24221,6 +24244,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24230,6 +24254,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24239,6 +24264,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25374,6 +25400,11 @@ export namespace Prisma {
     description?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -25420,6 +25451,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     displayName?: SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -25429,6 +25461,7 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     displayName?: SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -25438,8 +25471,17 @@ export namespace Prisma {
     email?: SortOrder
     passwordHash?: SortOrder
     displayName?: SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -25540,11 +25582,6 @@ export namespace Prisma {
     expiresAt?: SortOrder
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type UserCarCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -25593,14 +25630,6 @@ export namespace Prisma {
 
   export type UserCarSumOrderByAggregateInput = {
     mileageKm?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type UserSettingUserIdSettingKeyCompoundUniqueInput = {
@@ -26430,6 +26459,10 @@ export namespace Prisma {
     connect?: PasswordResetWhereUniqueInput | PasswordResetWhereUniqueInput[]
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -26588,10 +26621,6 @@ export namespace Prisma {
     create?: XOR<VersionConfigCreateWithoutUserCarsInput, VersionConfigUncheckedCreateWithoutUserCarsInput>
     connectOrCreate?: VersionConfigCreateOrConnectWithoutUserCarsInput
     connect?: VersionConfigWhereUniqueInput
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type UserUpdateOneRequiredWithoutCarsNestedInput = {
@@ -26851,6 +26880,11 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -26860,6 +26894,14 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -26899,19 +26941,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ModelCreateWithoutMakeInput = {
@@ -28439,6 +28468,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cars?: UserCarCreateNestedManyWithoutUserInput
@@ -28451,6 +28481,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cars?: UserCarUncheckedCreateNestedManyWithoutUserInput
@@ -28479,6 +28510,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cars?: UserCarUpdateManyWithoutUserNestedInput
@@ -28491,6 +28523,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cars?: UserCarUncheckedUpdateManyWithoutUserNestedInput
@@ -28503,6 +28536,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cars?: UserCarCreateNestedManyWithoutUserInput
@@ -28515,6 +28549,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cars?: UserCarUncheckedCreateNestedManyWithoutUserInput
@@ -28543,6 +28578,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cars?: UserCarUpdateManyWithoutUserNestedInput
@@ -28555,6 +28591,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cars?: UserCarUncheckedUpdateManyWithoutUserNestedInput
@@ -28567,6 +28604,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     settings?: UserSettingCreateNestedManyWithoutUserInput
@@ -28579,6 +28617,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     settings?: UserSettingUncheckedCreateNestedManyWithoutUserInput
@@ -28632,6 +28671,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: UserSettingUpdateManyWithoutUserNestedInput
@@ -28644,6 +28684,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settings?: UserSettingUncheckedUpdateManyWithoutUserNestedInput
@@ -28687,6 +28728,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cars?: UserCarCreateNestedManyWithoutUserInput
@@ -28699,6 +28741,7 @@ export namespace Prisma {
     email: string
     passwordHash: string
     displayName?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cars?: UserCarUncheckedCreateNestedManyWithoutUserInput
@@ -28727,6 +28770,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cars?: UserCarUpdateManyWithoutUserNestedInput
@@ -28739,6 +28783,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
     displayName?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cars?: UserCarUncheckedUpdateManyWithoutUserNestedInput

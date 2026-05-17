@@ -9,14 +9,15 @@ import {
     createMakeWithImage
 } from "./make.controller";
 import { requireAuth } from "../auth/auth.middleware";
+import { requireAdmin } from "../auth/admin.middleware";
 
 const router = Router();
 
-router.post("/", requireAuth, createMake);
-router.post("/with-image", upload.single("image"), requireAuth, createMakeWithImage);
+router.post("/", requireAuth, requireAdmin, createMake);
+router.post("/with-image", upload.single("image"), requireAuth, requireAdmin, createMakeWithImage);
 router.get("/", getMakes);
 router.get("/:id", getMake);
-router.patch("/:id", upload.single("image"), requireAuth, updateMake);
-router.delete("/", requireAuth, deleteMakes);
+router.patch("/:id", upload.single("image"), requireAuth, requireAdmin, updateMake);
+router.delete("/:id", requireAuth, requireAdmin, deleteMakes);
 
 export default router;
