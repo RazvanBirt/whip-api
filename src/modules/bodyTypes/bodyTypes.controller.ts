@@ -20,7 +20,6 @@ const BUCKET = process.env.SUPABASE_BUCKET || 'whip_images'
 
 export const createBodyType: RequestHandler = async (req: any, res: any) => {
     const body = req.body;
-    console.log('createMake body:', body);
     // Accept single object or array
     const items = Array.isArray(body) ? body : [body];
 

@@ -1,6 +1,17 @@
 import type { RequestHandler } from "express";
 import { Guard } from "../../utils/Guard";
-import { badRequest, serverError, success, unauthorized } from "../../utils/https";
+
+import {
+    badRequest,
+    conflict,
+    created,
+    noContent,
+    ok,
+    serverError,
+    unauthorized,
+    validationError,
+    notFound,
+} from "../../utils/https";
 
 import {
     changePassword,
@@ -50,10 +61,16 @@ export const register: RequestHandler = async (req: any, res: any) => {
 
     try {
         const result = await registerUser(UserName, Email, Password);
-        if (!result.success) return badRequest(res, result.error ?? "Bad request");
+        if (!result.success) {
+            if (result.error === "Email already registered") {
+                return conflict(res, result.error);
+            }
 
-        return success(res, {
-            success: result.success,
+            return badRequest(res, result.error ?? "Bad request");
+        }
+
+        return created(res, {
+            success: true,
             user: result.user,
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
@@ -74,10 +91,12 @@ export const login: RequestHandler = async (req: any, res: any) => {
 
     try {
         const result = await loginUser(Email, Password);
-        if (!result.success) return badRequest(res, result.error ?? "Invalid credentials");
+        if (!result.success) {
+            return unauthorized(res, result.error ?? "Invalid credentials");
+        }
 
-        return success(res, {
-            success: result.success,
+        return ok(res, {
+            success: true,
             user: result.user,
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
@@ -97,7 +116,7 @@ export const refresh: RequestHandler = async (req: any, res: any) => {
         const result = await refreshAuth(refreshToken);
         if (!result.success) return unauthorized(res, result.error ?? "Invalid refresh token");
 
-        return success(res, {
+        return ok(res, {
             success: result.success,
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
@@ -115,7 +134,7 @@ export const logout: RequestHandler = async (req: any, res: any) => {
 
     try {
         await logoutUser(refreshToken);
-        return success(res, { success: true }); // or success(res, null)
+        return noContent(res);
     } catch (err) {
         return serverError(res, err);
     }
@@ -131,7 +150,7 @@ export const forgotPasswordController: RequestHandler = async (req: any, res: an
 
     try {
         await forgotPassword(Email);
-        return success(res, { success: true });
+        return ok(res, { success: true });
     } catch (err) {
         return serverError(res, err);
     }
@@ -148,9 +167,9 @@ export const resetPasswordController: RequestHandler = async (req: any, res: any
 
     try {
         const result = await resetPassword(Token, NewPassword);
-        if (!result.success) return badRequest(res, result.error ?? "Invalid or expired token");
+        if (!result.success) return validationError(res, result.error ?? "Invalid or expired token");
 
-        return success(res, { success: true });
+        return ok(res, { success: true });
     } catch (err) {
         return serverError(res, err);
     }
@@ -168,10 +187,30 @@ export const changePasswordController: RequestHandler = async (req: AuthedReques
     if (!guard.succeeded) return guardFail(res, guard.argumentName);
 
     try {
-        const result = await changePassword(req.user.id, currentPassword, newPassword);
-        if (!result.success) return badRequest(res, result.error ?? "Could not change password");
+        const result = await changePassword(
+            req.user.id,
+            currentPassword,
+            newPassword
+        );
 
-        return success(res, { success: true });
+        if (!result.success) {
+            switch (result.error) {
+                case "Invalid current password":
+                    return unauthorized(res, result.error);
+
+                case "User not found":
+                    return notFound(res, result.error);
+
+                // case "New password is too weak":
+                // case "New password must be different from current password":
+                //   return validationError(res, result.error);
+
+                default:
+                    return badRequest(res, result.error ?? "Could not change password");
+            }
+        }
+
+        return ok(res, { success: true });
     } catch (err) {
         return serverError(res, err);
     }
