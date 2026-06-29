@@ -1,16 +1,16 @@
-import type { RequestHandler } from "express";
+import type { RequestHandler, Response } from "express";
 import { Guard } from "../../utils/Guard";
 import { badRequest, serverError, success } from "../../utils/https";
 import { create, update, removeMany, getAll, getById } from "./drivetrain.service";
 
-const guardFail = (res: any, argumentName?: string) =>
+const guardFail = (res: Response, argumentName?: string) =>
     badRequest(res, "Missing required field", { field: argumentName });
 
-export const createDrivetrain: RequestHandler = async (req: any, res: any) => {
+export const createDrivetrain: RequestHandler = async (req, res) => {
     const body = req.body;
     const items = Array.isArray(body) ? body : [body];
 
-    const payload = items.map((x: any) => ({
+    const payload = items.map((x) => ({
         type: x.type ?? null,
         description: x.description ?? null,
     }));
@@ -24,7 +24,7 @@ export const createDrivetrain: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const updateDrivetrain: RequestHandler = async (req: any, res: any) => {
+export const updateDrivetrain: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const body = req.body;
 
@@ -51,7 +51,7 @@ export const updateDrivetrain: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const deleteDrivetrains: RequestHandler = async (req: any, res: any) => {
+export const deleteDrivetrains: RequestHandler = async (req, res) => {
     const body = req.body;
 
     let ids: string[] = [];
@@ -77,7 +77,7 @@ export const deleteDrivetrains: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const getDrivetrains: RequestHandler = async (req: any, res: any) => {
+export const getDrivetrains: RequestHandler = async (req, res) => {
     const search = typeof req.query.search === "string" ? req.query.search : undefined;
 
     try {
@@ -88,7 +88,7 @@ export const getDrivetrains: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const getDrivetrain: RequestHandler = async (req: any, res: any) => {
+export const getDrivetrain: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
 
     const guard = Guard.againstNullOrUndefined(id, "id");

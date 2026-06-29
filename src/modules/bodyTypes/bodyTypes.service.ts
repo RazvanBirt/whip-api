@@ -112,7 +112,7 @@ export const update = async (id: string, data: { name?: string; country?: string
         });
 
         return { success: true as const, bodyType };
-    } catch (e) {
+    } catch {
         return { success: false as const, error: "BodyType not found" };
     }
 };

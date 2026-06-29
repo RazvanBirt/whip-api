@@ -130,7 +130,7 @@ export const update = async (id: string, data: { name?: string; country?: string
     });
 
     return { success: true as const, make };
-  } catch (e) {
+  } catch {
     return { success: false as const, error: "Make not found" };
   }
 };

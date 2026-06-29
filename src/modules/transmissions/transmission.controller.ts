@@ -1,18 +1,18 @@
-import type { RequestHandler } from "express";
+import type { RequestHandler, Response } from "express";
 import { Guard } from "../../utils/Guard";
 import { badRequest, serverError, success } from "../../utils/https";
 import { create, update, removeMany, getAll, getById } from "./transmission.service";
 
-const guardFail = (res: any, argumentName?: string) =>
+const guardFail = (res: Response, argumentName?: string) =>
     badRequest(res, "Missing required field", { field: argumentName });
 
-export const createTransmission: RequestHandler = async (req: any, res: any) => {
+export const createTransmission: RequestHandler = async (req, res) => {
     const body = req.body;
     const items = Array.isArray(body) ? body : [body];
 
     // no required fields for Transmission in schema, so no bulk guard here
 
-    const payload = items.map((x: any) => ({
+    const payload = items.map((x) => ({
         type: x.type ?? null,
         gears: x.gears ?? null,
     }));
@@ -26,7 +26,7 @@ export const createTransmission: RequestHandler = async (req: any, res: any) => 
     }
 };
 
-export const updateTransmission: RequestHandler = async (req: any, res: any) => {
+export const updateTransmission: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const body = req.body;
 
@@ -64,7 +64,7 @@ export const updateTransmission: RequestHandler = async (req: any, res: any) => 
     }
 };
 
-export const deleteTransmissions: RequestHandler = async (req: any, res: any) => {
+export const deleteTransmissions: RequestHandler = async (req, res) => {
     const body = req.body;
 
     let ids: string[] = [];
@@ -90,7 +90,7 @@ export const deleteTransmissions: RequestHandler = async (req: any, res: any) =>
     }
 };
 
-export const getTransmissions: RequestHandler = async (req: any, res: any) => {
+export const getTransmissions: RequestHandler = async (req, res) => {
     const search = typeof req.query.search === "string" ? req.query.search : undefined;
 
     try {
@@ -101,7 +101,7 @@ export const getTransmissions: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const getTransmission: RequestHandler = async (req: any, res: any) => {
+export const getTransmission: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
 
     const guard = Guard.againstNullOrUndefined(id, "id");

@@ -29,18 +29,19 @@ export const update = async (
       data,
     });
     return { success: true as const, transmission };
-  } catch (e: any) {
+  } catch (e: unknown) {
+    const error = e as { code?: unknown; message?: unknown; meta?: unknown };
     console.error("Prisma update error:", {
-      code: e?.code,
-      message: e?.message,
-      meta: e?.meta,
+      code: error.code,
+      message: error.message,
+      meta: error.meta,
     });
 
-    if (e?.code === "P2025") {
+    if (error.code === "P2025") {
       return { success: false as const, error: "Transmission not found" };
     }
 
-    if (e?.code === "P2002") {
+    if (error.code === "P2002") {
       return {
         success: false as const,
         error: "Transmission with same type/gears already exists",

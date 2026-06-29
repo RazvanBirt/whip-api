@@ -1,6 +1,6 @@
-import type { RequestHandler } from "express";
+import type { RequestHandler, Response } from "express";
 import { Guard } from "../../utils/Guard";
-import { badRequest, serverError, success, unauthorized } from "../../utils/https";
+import { badRequest, serverError, success } from "../../utils/https";
 import { supabaseAdmin } from "../../lib/supabase"; // service role client
 
 import { prisma } from "../../config/prisma";
@@ -14,12 +14,12 @@ import {
     remove
 } from "./make.service";
 
-const guardFail = (res: any, argumentName?: string) =>
+const guardFail = (res: Response, argumentName?: string) =>
     badRequest(res, "Missing required field", { field: argumentName });
 
 const BUCKET = process.env.SUPABASE_BUCKET || 'whip_images'
 
-export const createMake: RequestHandler = async (req: any, res: any) => {
+export const createMake: RequestHandler = async (req, res) => {
     const body = req.body;
     console.log('createMake body:', body);
     // Accept single object or array
@@ -39,7 +39,7 @@ export const createMake: RequestHandler = async (req: any, res: any) => {
     }
 
     try {
-        const payload = items.map((x: any) => {
+        const payload = items.map((x) => {
             return {
                 name: x.name,
                 country: x.country,
@@ -56,7 +56,7 @@ export const createMake: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const createMakeWithImage: RequestHandler = async (req: any, res: any) => {
+export const createMakeWithImage: RequestHandler = async (req, res) => {
     const body = req.body;
     const file = req.file as Express.Multer.File | undefined;
 
@@ -105,14 +105,14 @@ export const createMakeWithImage: RequestHandler = async (req: any, res: any) =>
     }
 };
 
-export const getMakes: RequestHandler = async (req: any, res: any) => {
+export const getMakes: RequestHandler = async (req, res) => {
     const search =
         typeof req.query.search === "string" ? req.query.search : undefined;
 
     const page = Number(req.query.page ?? 1);
     const limit = Number(req.query.limit ?? 10);
 
-    const sortField = typeof req.query.sortField === "string" ? req.query.sortField : "name";
+    const sortField = req.query.sortField === "country" ? "country" : "name";
     const sortOrder = String(req.query.sortOrder ?? "asc").toLowerCase() === "desc" ? "desc" : "asc";
 
 
@@ -124,7 +124,7 @@ export const getMakes: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const getMake: RequestHandler = async (req: any, res: any) => {
+export const getMake: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
 
     const guard = Guard.againstNullOrUndefined(id, "id");
@@ -141,7 +141,7 @@ export const getMake: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const updateMake: RequestHandler = async (req: any, res: any) => {
+export const updateMake: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const body = req.body;
     const file = req.file as Express.Multer.File | undefined;
@@ -216,7 +216,7 @@ export const updateMake: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const deleteMakes: RequestHandler = async (req: any, res: any) => {
+export const deleteMakes: RequestHandler = async (req, res) => {
     const body = req.body;
 
     let ids: string[] = [];
@@ -261,4 +261,3 @@ export const deleteMakes: RequestHandler = async (req: any, res: any) => {
         return serverError(res, err);
     }
 };
-

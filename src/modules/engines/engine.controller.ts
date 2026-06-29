@@ -1,12 +1,12 @@
-import type { RequestHandler } from "express";
+import type { RequestHandler, Response } from "express";
 import { Guard } from "../../utils/Guard";
 import { badRequest, serverError, success } from "../../utils/https";
 import { create, update, removeMany, getAll, getById } from "./engine.service";
 
-const guardFail = (res: any, argumentName?: string) =>
+const guardFail = (res: Response, argumentName?: string) =>
     badRequest(res, "Missing required field", { field: argumentName });
 
-export const createEngine: RequestHandler = async (req: any, res: any) => {
+export const createEngine: RequestHandler = async (req, res) => {
     const body = req.body;
     const items = Array.isArray(body) ? body : [body];
 
@@ -17,7 +17,7 @@ export const createEngine: RequestHandler = async (req: any, res: any) => {
         if (!guard.succeeded) return guardFail(res, guard.argumentName);
     }
 
-    const payload = items.map((x: any) => ({
+    const payload = items.map((x) => ({
         code: x.code,
         configuration: x.configuration ?? null,
         displacementLiters: x.displacementLiters ?? null,
@@ -40,7 +40,7 @@ export const createEngine: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const updateEngine: RequestHandler = async (req: any, res: any) => {
+export const updateEngine: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const body = req.body;
 
@@ -97,7 +97,7 @@ export const updateEngine: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const deleteEngines: RequestHandler = async (req: any, res: any) => {
+export const deleteEngines: RequestHandler = async (req, res) => {
     const body = req.body;
 
     let ids: string[] = [];
@@ -123,7 +123,7 @@ export const deleteEngines: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const getEngines: RequestHandler = async (req: any, res: any) => {
+export const getEngines: RequestHandler = async (req, res) => {
     const search = typeof req.query.search === "string" ? req.query.search : undefined;
 
     try {
@@ -134,7 +134,7 @@ export const getEngines: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const getEngine: RequestHandler = async (req: any, res: any) => {
+export const getEngine: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
 
     const guard = Guard.againstNullOrUndefined(id, "id");

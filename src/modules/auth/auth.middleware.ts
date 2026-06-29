@@ -16,7 +16,15 @@ export function requireAuth(req: AuthedRequest, res: Response, next: NextFunctio
     }
 
     const token = header.slice("Bearer ".length);
-    const payload = jwt.verify(token, ACCESS_SECRET) as any;
+    const payload = jwt.verify(token, ACCESS_SECRET);
+
+    if (
+      typeof payload === "string" ||
+      typeof payload.id !== "string" ||
+      typeof payload.email !== "string"
+    ) {
+      throw new Error("Invalid access token payload");
+    }
 
     req.user = { id: payload.id, email: payload.email };
     next();

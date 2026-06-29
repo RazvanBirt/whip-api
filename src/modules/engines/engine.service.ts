@@ -70,7 +70,7 @@ export const update = async (
         });
 
         return { success: true as const, engine };
-    } catch (e) {
+    } catch {
         return { success: false as const, error: "Engine not found" };
     }
 };

@@ -1,4 +1,5 @@
-import type { RequestHandler } from "express";
+import type { RequestHandler, Response } from "express";
+import type { Prisma } from "../../../generated/prisma-client/client";
 import { Guard } from "../../utils/Guard";
 import { badRequest, serverError, success } from "../../utils/https";
 
@@ -12,10 +13,10 @@ import {
     getById
 } from "./model.service";
 
-const guardFail = (res: any, argumentName?: string) =>
+const guardFail = (res: Response, argumentName?: string) =>
     badRequest(res, "Missing required field", { field: argumentName });
 
-export const createModel: RequestHandler = async (req: any, res: any) => {
+export const createModel: RequestHandler = async (req, res) => {
     const body = req.body;
 
     const items = Array.isArray(body) ? body : [body];
@@ -29,7 +30,7 @@ export const createModel: RequestHandler = async (req: any, res: any) => {
         if (!guard.succeeded) return guardFail(res, guard.argumentName);
     }
 
-    const payload = items.map((x: any) => ({
+    const payload = items.map((x) => ({
         makeId: x.makeId,
         name: x.name,
         bodyStyle: x.bodyStyle ?? null,
@@ -44,7 +45,7 @@ export const createModel: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const updateModel: RequestHandler = async (req: any, res: any) => {
+export const updateModel: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const body = req.body;
 
@@ -71,7 +72,7 @@ export const updateModel: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const deleteModels: RequestHandler = async (req: any, res: any) => {
+export const deleteModels: RequestHandler = async (req, res) => {
     const body = req.body;
 
     let ids: string[] = [];
@@ -99,7 +100,7 @@ export const deleteModels: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const getModels: RequestHandler = async (req: any, res: any) => {
+export const getModels: RequestHandler = async (req, res) => {
     const makeId = typeof req.query.makeId === "string" ? req.query.makeId : undefined;
     const search = typeof req.query.search === "string" ? req.query.search : undefined;
 
@@ -123,7 +124,7 @@ export const getModels: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const getModel: RequestHandler = async (req: any, res: any) => {
+export const getModel: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
 
     const guard = Guard.againstNullOrUndefined(id, "id");
@@ -138,8 +139,90 @@ export const getModel: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const upsertFullModelCatalog = async (req: any, res: any) => {
-    const input = req.body;
+type MakeInput = {
+    id?: string;
+    name?: string;
+    country?: string;
+    imageURL?: string | null;
+    imagePath?: string | null;
+};
+
+type ModelInput = { id?: string; name?: string };
+type PhaseInput = { id?: string; name?: string; startYear?: number | null; endYear?: number | null };
+type EngineInput = {
+    id?: string;
+    code?: string;
+    configuration?: string | null;
+    displacementLiters?: number | null;
+    displacementCc?: number | null;
+    cylinders?: number | null;
+    fuelType?: string | null;
+    aspiration?: string | null;
+    powerPs?: number | null;
+    powerKw?: number | null;
+    torqueNm?: number | null;
+    torqueLbft?: number | null;
+};
+type TransmissionInput = { id?: string; type?: string; gears?: number };
+type DrivetrainInput = { id?: string; type?: string; description?: string | null };
+type SpecInput = {
+    fuelType?: string | null;
+    powerPsOverride?: number | null;
+    powerKwOverride?: number | null;
+    torqueNmOverride?: number | null;
+    torqueLbftOverride?: number | null;
+    topSpeedKmh?: number | null;
+    zeroTo100?: number | null;
+    lengthMm?: number | null;
+    widthMm?: number | null;
+    heightMm?: number | null;
+    wheelbaseMm?: number | null;
+    curbWeightKg?: number | null;
+    trunkLiters?: number | null;
+    data?: Prisma.InputJsonValue;
+};
+type ConfigInput = {
+    id?: string;
+    year?: number;
+    engine?: EngineInput;
+    transmission?: TransmissionInput;
+    drivetrain?: DrivetrainInput;
+    spec?: SpecInput;
+};
+type VersionInput = {
+    id?: string;
+    name?: string;
+    phaseName?: string;
+    phaseId?: string | null;
+    startYear?: number | null;
+    endYear?: number | null;
+    configs?: ConfigInput[];
+};
+type BodyVariantInput = {
+    id?: string;
+    name?: string;
+    bodyType?: { name?: string };
+    doors?: number;
+    wheelbaseMm?: number | null;
+    notes?: string | null;
+    versions?: VersionInput[];
+};
+type GenerationInput = {
+    id?: string;
+    name?: string;
+    startYear?: number;
+    endYear?: number | null;
+    phases?: PhaseInput[];
+    bodyVariants?: BodyVariantInput[];
+};
+type CatalogInput = {
+    make: MakeInput;
+    model: ModelInput;
+    generations?: GenerationInput[];
+};
+
+export const upsertFullModelCatalog: RequestHandler = async (req, res) => {
+    const input = req.body as CatalogInput;
 
     try {
         const result = await prisma.$transaction(async (tx) => {
@@ -197,15 +280,16 @@ export const upsertFullModelCatalog = async (req: any, res: any) => {
         });
 
         return res.status(200).json({ model: result });
-    } catch (e: any) {
+    } catch (e: unknown) {
         console.error(e);
-        return res.status(500).json({ error: "Upsert catalog tree failed", details: e?.message });
+        const details = e instanceof Error ? e.message : String(e);
+        return res.status(500).json({ error: "Upsert catalog tree failed", details });
     }
 };
 
 // ---------------- UPSERT HELPERS ----------------
 
-async function upsertMake(tx: any, makeIn: any) {
+async function upsertMake(tx: Prisma.TransactionClient, makeIn: MakeInput) {
     // supports: { id } OR { name, ... }
     if (makeIn?.id) {
         return tx.make.update({
@@ -220,6 +304,7 @@ async function upsertMake(tx: any, makeIn: any) {
     }
 
     if (!makeIn?.name) throw new Error("make.name is required");
+    if (!makeIn.country) throw new Error("make.country is required");
 
     return tx.make.upsert({
         where: { name: makeIn.name },
@@ -230,14 +315,14 @@ async function upsertMake(tx: any, makeIn: any) {
         }),
         create: {
             name: makeIn.name,
-            country: makeIn.country ?? null,
+            country: makeIn.country,
             imageURL: makeIn.imageURL ?? null,
             imagePath: makeIn.imagePath ?? null,
         },
     });
 }
 
-async function upsertModel(tx: any, makeId: string, modelIn: any) {
+async function upsertModel(tx: Prisma.TransactionClient, makeId: string, modelIn: ModelInput) {
     // unique is @@unique([makeId, name])
     if (modelIn?.id) {
         return tx.model.update({
@@ -258,7 +343,7 @@ async function upsertModel(tx: any, makeId: string, modelIn: any) {
     });
 }
 
-async function upsertGeneration(tx: any, modelId: string, genIn: any) {
+async function upsertGeneration(tx: Prisma.TransactionClient, modelId: string, genIn: GenerationInput) {
     if (genIn?.id) {
         return tx.generation.update({
             where: { id: genIn.id },
@@ -272,6 +357,7 @@ async function upsertGeneration(tx: any, modelId: string, genIn: any) {
     }
 
     if (!genIn?.name) throw new Error("generation.name is required");
+    if (genIn.startYear === undefined) throw new Error("generation.startYear is required");
 
     return tx.generation.upsert({
         where: { modelId_name: { modelId, name: genIn.name } },
@@ -282,13 +368,13 @@ async function upsertGeneration(tx: any, modelId: string, genIn: any) {
         create: {
             modelId,
             name: genIn.name,
-            startYear: genIn.startYear ?? null,
+            startYear: genIn.startYear,
             endYear: genIn.endYear ?? null,
         },
     });
 }
 
-async function upsertPhase(tx: any, generationId: string, phIn: any) {
+async function upsertPhase(tx: Prisma.TransactionClient, generationId: string, phIn: PhaseInput) {
     if (phIn?.id) {
         return tx.phase.update({
             where: { id: phIn.id },
@@ -318,12 +404,15 @@ async function upsertPhase(tx: any, generationId: string, phIn: any) {
     });
 }
 
-async function upsertBodyVariant(tx: any, generationId: string, bvIn: any) {
+async function upsertBodyVariant(tx: Prisma.TransactionClient, generationId: string, bvIn: BodyVariantInput) {
     // needs bodyTypeId, we upsert bodytype by name
+    const bodyTypeName = bvIn.bodyType?.name;
+    if (!bodyTypeName) throw new Error("bodyVariant.bodyType.name is required");
+
     const bt = await tx.bodyType.upsert({
-        where: { name: bvIn.bodyType?.name },
+        where: { name: bodyTypeName },
         update: {},
-        create: { name: bvIn.bodyType?.name },
+        create: { name: bodyTypeName },
     });
 
     if (bvIn?.id) {
@@ -341,6 +430,7 @@ async function upsertBodyVariant(tx: any, generationId: string, bvIn: any) {
     }
 
     if (!bvIn?.name) throw new Error("bodyVariant.name is required");
+    if (bvIn.doors === undefined) throw new Error("bodyVariant.doors is required");
     // unique: @@unique([generationId, bodyTypeId, name])
     return tx.bodyVariant.upsert({
         where: {
@@ -355,14 +445,14 @@ async function upsertBodyVariant(tx: any, generationId: string, bvIn: any) {
             generationId,
             bodyTypeId: bt.id,
             name: bvIn.name,
-            doors: bvIn.doors ?? null,
+            doors: bvIn.doors,
             wheelbaseMm: bvIn.wheelbaseMm ?? null,
             notes: bvIn.notes ?? null,
         },
     });
 }
 
-async function upsertVersion(tx: any, bodyVariantId: string, phaseId: string | null, vIn: any) {
+async function upsertVersion(tx: Prisma.TransactionClient, bodyVariantId: string, phaseId: string | null, vIn: VersionInput) {
     if (vIn?.id) {
         return tx.version.update({
             where: { id: vIn.id },
@@ -378,27 +468,38 @@ async function upsertVersion(tx: any, bodyVariantId: string, phaseId: string | n
 
     if (!vIn?.name) throw new Error("version.name is required");
 
-    return tx.version.upsert({
-        where: { bodyVariantId_phaseId_name: { bodyVariantId, phaseId, name: vIn.name } },
-        update: stripUndefined({
-            startYear: vIn.startYear,
-            endYear: vIn.endYear,
-        }),
-        create: {
+    const existing = await tx.version.findFirst({
+        where: { bodyVariantId, phaseId, name: vIn.name },
+    });
+
+    if (existing) {
+        return tx.version.update({
+            where: { id: existing.id },
+            data: stripUndefined({
+                startYear: vIn.startYear,
+                endYear: vIn.endYear,
+            }),
+        });
+    }
+
+    return tx.version.create({
+        data: {
             bodyVariantId,
             phaseId,
             name: vIn.name,
-            startYear: vIn.startYear ?? null,
-            endYear: vIn.endYear ?? null,
+            startYear: vIn.startYear,
+            endYear: vIn.endYear,
         },
     });
 }
 
 async function upsertVersionConfig(
-    tx: any,
+    tx: Prisma.TransactionClient,
     versionId: string,
     cfg: { id?: string; year: number | null; engineId: string | null; transmissionId: string | null; drivetrainId: string | null }
 ) {
+    if (cfg.year === null) throw new Error("version config year is required");
+
     if (cfg.id) {
         return tx.versionConfig.update({
             where: { id: cfg.id },
@@ -412,19 +513,20 @@ async function upsertVersionConfig(
         });
     }
 
-    // unique: @@unique([versionId, year, engineId, transmissionId, drivetrainId])
-    return tx.versionConfig.upsert({
+    const existing = await tx.versionConfig.findFirst({
         where: {
-            versionId_year_engineId_transmissionId_drivetrainId: {
-                versionId,
-                year: cfg.year,
-                engineId: cfg.engineId,
-                transmissionId: cfg.transmissionId,
-                drivetrainId: cfg.drivetrainId,
-            },
+            versionId,
+            year: cfg.year,
+            engineId: cfg.engineId,
+            transmissionId: cfg.transmissionId,
+            drivetrainId: cfg.drivetrainId,
         },
-        update: {},
-        create: {
+    });
+
+    if (existing) return existing;
+
+    return tx.versionConfig.create({
+        data: {
             versionId,
             year: cfg.year,
             engineId: cfg.engineId,
@@ -434,7 +536,7 @@ async function upsertVersionConfig(
     });
 }
 
-async function upsertSpecSheet(tx: any, versionConfigId: string, specIn: any) {
+async function upsertSpecSheet(tx: Prisma.TransactionClient, versionConfigId: string, specIn: SpecInput) {
     // SpecSheet unique is versionConfigId
     return tx.specSheet.upsert({
         where: { versionConfigId },
@@ -476,7 +578,7 @@ async function upsertSpecSheet(tx: any, versionConfigId: string, specIn: any) {
 
 // ---------- resolves for catalog tables ----------
 
-async function resolveEngineId(tx: any, engineIn: any) {
+async function resolveEngineId(tx: Prisma.TransactionClient, engineIn?: EngineInput) {
     if (!engineIn) return null;
     if (engineIn.id) return engineIn.id;
     if (engineIn.code) {
@@ -513,31 +615,35 @@ async function resolveEngineId(tx: any, engineIn: any) {
     return null;
 }
 
-async function resolveTransmissionId(tx: any, tIn: any) {
+async function resolveTransmissionId(tx: Prisma.TransactionClient, tIn?: TransmissionInput) {
     if (!tIn) return null;
     if (tIn.id) return tIn.id;
+    if (!tIn.type || tIn.gears === undefined) {
+        throw new Error("transmission.type and transmission.gears are required");
+    }
 
     // If you add @@unique([type, gears]) you can upsert here.
     const t = await tx.transmission.create({
-        data: { type: tIn.type ?? null, gears: tIn.gears ?? null },
+        data: { type: tIn.type, gears: tIn.gears },
     });
     return t.id;
 }
 
-async function resolveDrivetrainId(tx: any, dIn: any) {
+async function resolveDrivetrainId(tx: Prisma.TransactionClient, dIn?: DrivetrainInput) {
     if (!dIn) return null;
     if (dIn.id) return dIn.id;
+    if (!dIn.type) throw new Error("drivetrain.type is required");
 
     // If you add @@unique([type, description]) you can upsert here.
     const d = await tx.drivetrain.create({
-        data: { type: dIn.type ?? null, description: dIn.description ?? null },
+        data: { type: dIn.type, description: dIn.description ?? null },
     });
     return d.id;
 }
 
 // util: Prisma hates undefined in data
-function stripUndefined<T extends Record<string, any>>(obj: T): T {
-    const out: any = {};
-    for (const [k, v] of Object.entries(obj)) if (v !== undefined) out[k] = v;
-    return out;
+function stripUndefined<T extends object>(obj: T): T {
+    return Object.fromEntries(
+        Object.entries(obj).filter(([, value]) => value !== undefined)
+    ) as T;
 }

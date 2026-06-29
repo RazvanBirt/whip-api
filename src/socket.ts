@@ -1,5 +1,4 @@
 import { Server } from 'socket.io';
-import jwt from 'jsonwebtoken';
 import { Server as HTTPServer } from 'http';
 import { verifyToken } from './utils/verifyToken';
 
@@ -23,7 +22,7 @@ export function setupSocketIO(server: HTTPServer) {
             const decoded = verifyToken(token);
             socket.data.user = decoded;
             return next();
-        } catch (err) {
+        } catch {
             console.warn('Socket connection rejected: Invalid token');
             return next(new Error('Unauthorized: Invalid token'));
         }

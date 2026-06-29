@@ -22,7 +22,7 @@ export const update = async (id: string, data: { type?: string | null; descripti
         });
 
         return { success: true as const, drivetrain };
-    } catch (e) {
+    } catch {
         return { success: false as const, error: "Drivetrain not found" };
     }
 };

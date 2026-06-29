@@ -22,8 +22,6 @@
  *   SEED_USERNAME="Seeder"
  */
 
-type Json = Record<string, any>;
-
 const BASE_URL = process.env.BASE_URL ?? "http://localhost:3000";
 const API_PREFIX = process.env.API_PREFIX ?? "/api";
 
@@ -43,7 +41,7 @@ function url(path: string) {
   return `${BASE_URL}${pfx}${p}`;
 }
 
-async function http(method: string, path: string, body?: any, token?: string) {
+async function http(method: string, path: string, body?: unknown, token?: string): Promise<unknown> {
   const res = await fetch(url(path), {
     method,
     headers: {
@@ -55,7 +53,7 @@ async function http(method: string, path: string, body?: any, token?: string) {
 
   const text = await res.text();
 
-  let data: any = null;
+  let data: unknown = null;
   try {
     data = text ? JSON.parse(text) : null;
   } catch {
@@ -71,38 +69,47 @@ async function http(method: string, path: string, body?: any, token?: string) {
   return data;
 }
 
-function unwrapArray<T>(res: any, keys: string[]): T[] {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function unwrapArray<T>(res: unknown, keys: string[]): T[] {
   if (Array.isArray(res)) return res;
 
+  if (!isRecord(res)) return [];
+
   for (const key of keys) {
-    if (Array.isArray(res?.[key])) return res[key];
-    if (Array.isArray(res?.data?.[key])) return res.data[key];
+    if (Array.isArray(res[key])) return res[key] as T[];
+    if (isRecord(res.data) && Array.isArray(res.data[key])) {
+      return res.data[key] as T[];
+    }
   }
 
-  if (Array.isArray(res?.data)) return res.data;
+  if (Array.isArray(res.data)) return res.data as T[];
 
   return [];
 }
 
-function unwrapToken(res: any) {
-  return (
-    res?.data?.accessToken ??
-    res?.accessToken ??
-    res?.token ??
-    res?.data?.token ??
-    null
-  );
+function unwrapToken(res: unknown): string | null {
+  if (!isRecord(res)) return null;
+  const data = isRecord(res.data) ? res.data : undefined;
+  const token = data?.accessToken ?? res.accessToken ?? res.token ?? data?.token;
+  return typeof token === "string" ? token : null;
 }
 
 /** best-effort create; logs and continues on error */
-async function tryPost(path: string, body: any, token?: string, label?: string) {
+async function tryPost(path: string, body: unknown, token?: string, label?: string) {
   try {
     const out = await http("POST", path, body, token);
     console.log(`✅ ${label ?? path}`);
     return out;
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.warn(`⚠️  ${label ?? path} failed (continuing)`);
-    console.warn(String(e?.message ?? e));
+    console.warn(errorMessage(e));
     return null;
   }
 }
@@ -278,11 +285,11 @@ async function ensureTransmissions(desired: { type: string; gears: number }[]) {
 
       console.log(`✅ seeded transmission ${t.type} ${t.gears}`);
       seen.add(key);
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.warn(
         `⚠️ transmission ${t.type} ${t.gears} create failed (continuing)`
       );
-      console.warn(String(e?.message ?? e));
+      console.warn(errorMessage(e));
     }
   }
 }
@@ -307,9 +314,9 @@ async function ensureDrivetrains(
 
       console.log(`✅ seeded drivetrain ${d.type}`);
       seen.add(d.type);
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.warn(`⚠️ drivetrain ${d.type} create failed (continuing)`);
-      console.warn(String(e?.message ?? e));
+      console.warn(errorMessage(e));
     }
   }
 }
@@ -2450,10 +2457,10 @@ async function main() {
       console.log(
         `✅ upserted: ${tree.make.name} ${tree.model.name} (${ok}/${CATALOG.length})`
       );
-    } catch (e: any) {
+    } catch (e: unknown) {
       fail++;
       console.warn(`❌ upsert failed: ${tree.make.name} ${tree.model.name}`);
-      console.warn(String(e?.message ?? e));
+      console.warn(errorMessage(e));
     }
   }
 

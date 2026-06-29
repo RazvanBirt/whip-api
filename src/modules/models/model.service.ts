@@ -1,4 +1,5 @@
 import { prisma } from "../../config/prisma";
+import type { Prisma } from "../../../generated/prisma-client/client";
 
 export const create = async (
     //TODO: correct this service
@@ -68,7 +69,7 @@ export const update = async (
         });
 
         return { success: true as const, model };
-    } catch (e) {
+    } catch {
         return { success: false as const, error: "Model not found" };
     }
 };
@@ -102,7 +103,7 @@ export const getAll = async (params?: {
 
     const skip = (page - 1) * limit;
 
-    const where: any = {
+    const where: Prisma.ModelWhereInput = {
         ...(makeId ? { makeId } : {}),
         ...(search
             ? {
@@ -209,4 +210,3 @@ export const getById = async (id: string) => {
         model,
     };
 };
-

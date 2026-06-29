@@ -1,6 +1,17 @@
-import type { RequestHandler } from "express";
+import type { RequestHandler, Response } from "express";
 import { Guard } from "../../utils/Guard";
-import { badRequest, serverError, success, unauthorized } from "../../utils/https";
+
+import {
+    badRequest,
+    conflict,
+    created,
+    noContent,
+    ok,
+    serverError,
+    unauthorized,
+    validationError,
+    notFound,
+} from "../../utils/https";
 
 import {
     changePassword,
@@ -16,7 +27,7 @@ import type { AuthedRequest } from "./auth.middleware";
 
 // Reuse your shared helper instead of res.status(...) here
 // TODO: maybe add to Guard.ts instead of keeping it here
-const guardFail = (res: any, argumentName?: string) => badRequest(res, "Missing required field", { field: argumentName });
+const guardFail = (res: Response, argumentName?: string) => badRequest(res, "Missing required field", { field: argumentName });
 
 const isValidEmail = (email: string): boolean => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -26,7 +37,7 @@ const isStrongPassword = (password: string): boolean => {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/.test(password);
 };
 
-export const register: RequestHandler = async (req: any, res: any) => {
+export const register: RequestHandler = async (req, res) => {
     const { UserName, Email, Password } = req.body;
 
     const guard = Guard.againstNullOrUndefinedBulk([
@@ -50,10 +61,16 @@ export const register: RequestHandler = async (req: any, res: any) => {
 
     try {
         const result = await registerUser(UserName, Email, Password);
-        if (!result.success) return badRequest(res, result.error ?? "Bad request");
+        if (!result.success) {
+            if (result.error === "Email already registered") {
+                return conflict(res, result.error);
+            }
 
-        return success(res, {
-            success: result.success,
+            return badRequest(res, result.error ?? "Bad request");
+        }
+
+        return created(res, {
+            success: true,
             user: result.user,
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
@@ -63,7 +80,7 @@ export const register: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const login: RequestHandler = async (req: any, res: any) => {
+export const login: RequestHandler = async (req, res) => {
     const { Email, Password } = req.body;
 
     const guard = Guard.againstNullOrUndefinedBulk([
@@ -74,10 +91,12 @@ export const login: RequestHandler = async (req: any, res: any) => {
 
     try {
         const result = await loginUser(Email, Password);
-        if (!result.success) return badRequest(res, result.error ?? "Invalid credentials");
+        if (!result.success) {
+            return unauthorized(res, result.error ?? "Invalid credentials");
+        }
 
-        return success(res, {
-            success: result.success,
+        return ok(res, {
+            success: true,
             user: result.user,
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
@@ -87,7 +106,7 @@ export const login: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const refresh: RequestHandler = async (req: any, res: any) => {
+export const refresh: RequestHandler = async (req, res) => {
     const { refreshToken } = req.body;
 
     const guard = Guard.againstNullOrUndefined(refreshToken, "refreshToken");
@@ -97,7 +116,7 @@ export const refresh: RequestHandler = async (req: any, res: any) => {
         const result = await refreshAuth(refreshToken);
         if (!result.success) return unauthorized(res, result.error ?? "Invalid refresh token");
 
-        return success(res, {
+        return ok(res, {
             success: result.success,
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
@@ -107,7 +126,7 @@ export const refresh: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const logout: RequestHandler = async (req: any, res: any) => {
+export const logout: RequestHandler = async (req, res) => {
     const { refreshToken } = req.body;
 
     const guard = Guard.againstNullOrUndefined(refreshToken, "refreshToken");
@@ -115,13 +134,13 @@ export const logout: RequestHandler = async (req: any, res: any) => {
 
     try {
         await logoutUser(refreshToken);
-        return success(res, { success: true }); // or success(res, null)
+        return noContent(res);
     } catch (err) {
         return serverError(res, err);
     }
 };
 
-export const forgotPasswordController: RequestHandler = async (req: any, res: any) => {
+export const forgotPasswordController: RequestHandler = async (req, res) => {
     const { Email } = req.body;
 
     const guard = Guard.againstNullOrUndefinedBulk([
@@ -131,13 +150,13 @@ export const forgotPasswordController: RequestHandler = async (req: any, res: an
 
     try {
         await forgotPassword(Email);
-        return success(res, { success: true });
+        return ok(res, { success: true });
     } catch (err) {
         return serverError(res, err);
     }
 };
 
-export const resetPasswordController: RequestHandler = async (req: any, res: any) => {
+export const resetPasswordController: RequestHandler = async (req, res) => {
     const { Token, NewPassword } = req.body;
 
     const guard = Guard.againstNullOrUndefinedBulk([
@@ -148,15 +167,15 @@ export const resetPasswordController: RequestHandler = async (req: any, res: any
 
     try {
         const result = await resetPassword(Token, NewPassword);
-        if (!result.success) return badRequest(res, result.error ?? "Invalid or expired token");
+        if (!result.success) return validationError(res, result.error ?? "Invalid or expired token");
 
-        return success(res, { success: true });
+        return ok(res, { success: true });
     } catch (err) {
         return serverError(res, err);
     }
 };
 
-export const changePasswordController: RequestHandler = async (req: AuthedRequest, res: any) => {
+export const changePasswordController: RequestHandler = async (req: AuthedRequest, res: Response) => {
     const { currentPassword, newPassword } = req.body;
 
     if (!req.user) return unauthorized(res);
@@ -168,10 +187,30 @@ export const changePasswordController: RequestHandler = async (req: AuthedReques
     if (!guard.succeeded) return guardFail(res, guard.argumentName);
 
     try {
-        const result = await changePassword(req.user.id, currentPassword, newPassword);
-        if (!result.success) return badRequest(res, result.error ?? "Could not change password");
+        const result = await changePassword(
+            req.user.id,
+            currentPassword,
+            newPassword
+        );
 
-        return success(res, { success: true });
+        if (!result.success) {
+            switch (result.error) {
+                case "Invalid current password":
+                    return unauthorized(res, result.error);
+
+                case "User not found":
+                    return notFound(res, result.error);
+
+                // case "New password is too weak":
+                // case "New password must be different from current password":
+                //   return validationError(res, result.error);
+
+                default:
+                    return badRequest(res, result.error ?? "Could not change password");
+            }
+        }
+
+        return ok(res, { success: true });
     } catch (err) {
         return serverError(res, err);
     }

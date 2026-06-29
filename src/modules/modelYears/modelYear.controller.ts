@@ -1,4 +1,4 @@
-import type { RequestHandler } from "express";
+import type { RequestHandler, Response } from "express";
 import { Guard } from "../../utils/Guard";
 import { badRequest, serverError, success } from "../../utils/https";
 import {
@@ -12,10 +12,10 @@ import {
     detachDrivetrains,
 } from "./modelYear.service";
 
-const guardFail = (res: any, argumentName?: string) =>
+const guardFail = (res: Response, argumentName?: string) =>
     badRequest(res, "Missing required field", { field: argumentName });
 
-export const createModelYear: RequestHandler = async (req: any, res: any) => {
+export const createModelYear: RequestHandler = async (req, res) => {
     const body = req.body;
 
     const guard = Guard.againstNullOrUndefinedBulk([
@@ -33,7 +33,7 @@ export const createModelYear: RequestHandler = async (req: any, res: any) => {
     }
 };
 
-export const getModelYear: RequestHandler = async (req: any, res: any) => {
+export const getModelYear: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
 
     const guard = Guard.againstNullOrUndefined(id, "id");
@@ -49,23 +49,28 @@ export const getModelYear: RequestHandler = async (req: any, res: any) => {
 };
 
 // attach/detach use same ids parsing style as you used for deleteMakes
-const readIds = (body: any) => {
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+    typeof value === "object" && value !== null;
+
+const readIds = (body: unknown) => {
     let ids: string[] = [];
 
     if (Array.isArray(body)) {
         for (const item of body) {
             if (typeof item === "string") ids.push(item);
-            else if (item?.id) ids.push(item.id);
+            else if (isRecord(item) && typeof item.id === "string") ids.push(item.id);
         }
     } else {
-        if (Array.isArray(body?.ids)) ids = body.ids;
-        if (body?.id) ids.push(body.id);
+        if (isRecord(body) && Array.isArray(body.ids)) {
+            ids = body.ids.filter((id): id is string => typeof id === "string");
+        }
+        if (isRecord(body) && typeof body.id === "string") ids.push(body.id);
     }
 
     return ids;
 };
 
-export const addEnginesToModelYear: RequestHandler = async (req: any, res: any) => {
+export const addEnginesToModelYear: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const ids = readIds(req.body);
 
@@ -83,7 +88,7 @@ export const addEnginesToModelYear: RequestHandler = async (req: any, res: any) 
     }
 };
 
-export const removeEnginesFromModelYear: RequestHandler = async (req: any, res: any) => {
+export const removeEnginesFromModelYear: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const ids = readIds(req.body);
 
@@ -102,7 +107,7 @@ export const removeEnginesFromModelYear: RequestHandler = async (req: any, res: 
 };
 
 // transmissions
-export const addTransmissionsToModelYear: RequestHandler = async (req: any, res: any) => {
+export const addTransmissionsToModelYear: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const ids = readIds(req.body);
 
@@ -120,7 +125,7 @@ export const addTransmissionsToModelYear: RequestHandler = async (req: any, res:
     }
 };
 
-export const removeTransmissionsFromModelYear: RequestHandler = async (req: any, res: any) => {
+export const removeTransmissionsFromModelYear: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const ids = readIds(req.body);
 
@@ -139,7 +144,7 @@ export const removeTransmissionsFromModelYear: RequestHandler = async (req: any,
 };
 
 // drivetrains
-export const addDrivetrainsToModelYear: RequestHandler = async (req: any, res: any) => {
+export const addDrivetrainsToModelYear: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const ids = readIds(req.body);
 
@@ -157,7 +162,7 @@ export const addDrivetrainsToModelYear: RequestHandler = async (req: any, res: a
     }
 };
 
-export const removeDrivetrainsFromModelYear: RequestHandler = async (req: any, res: any) => {
+export const removeDrivetrainsFromModelYear: RequestHandler<{ id: string }> = async (req, res) => {
     const { id } = req.params;
     const ids = readIds(req.body);
 
