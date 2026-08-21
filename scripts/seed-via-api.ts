@@ -1,5 +1,3 @@
-// API_PREFIX="/api" BASE_URL="http://localhost:3000" node --loader ts-node/esm scripts/seed-via-api.ts
-
 /**
  * Curated “realistic” seed script (via API) — NO randomness.
  *
@@ -11,10 +9,7 @@
  * - Safer API response unwrapping
  *
  * Run:
- *   API_PREFIX="/api" BASE_URL="http://localhost:4000" node --loader ts-node/esm scripts/seed-via-api.ts
- *
- * If your API still runs on 3000:
- *   API_PREFIX="/api" BASE_URL="http://localhost:3000" node --loader ts-node/esm scripts/seed-via-api.ts
+ *   API_PREFIX="/api" BASE_URL="http://localhost:3000" npx tsx scripts/seed-via-api.ts
  *
  * Optional env:
  *   SEED_EMAIL="seed@local.dev"
@@ -33,7 +28,7 @@ const API_PREFIX = process.env.API_PREFIX ?? "/api";
  *
  * Change to false after cleaning your route mounting.
  */
-const LEGACY_DOUBLE_MOUNT = process.env.LEGACY_DOUBLE_MOUNT !== "false";
+const LEGACY_DOUBLE_MOUNT = "false";
 
 function url(path: string) {
   const pfx = API_PREFIX.endsWith("/") ? API_PREFIX.slice(0, -1) : API_PREFIX;
@@ -167,12 +162,12 @@ function uniq<T>(arr: T[]) {
 
 const endpoints = LEGACY_DOUBLE_MOUNT
   ? {
-    makesCreate: "/makes/makes",
-    enginesCreate: "/engines/engines",
-    transmissionsCreate: "/transmissions/transmissions",
-    transmissionsGetAll: "/transmissions/transmissions",
-    drivetrainsCreate: "/drivetrains/drivetrains",
-    drivetrainsGetAll: "/drivetrains/drivetrains",
+    makesCreate: "/makes",
+    enginesCreate: "/engines",
+    transmissionsCreate: "/transmissions",
+    transmissionsGetAll: "/transmissions",
+    drivetrainsCreate: "/drivetrains",
+    drivetrainsGetAll: "/drivetrains",
     upsertFullModel: "/models/catalog/models/full",
   }
   : {
